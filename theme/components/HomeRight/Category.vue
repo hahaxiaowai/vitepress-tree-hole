@@ -1,0 +1,77 @@
+<script setup lang="ts">
+import { getRandomThemeColor } from '../../utils/common'
+import { useRouter } from 'vitepress';
+const props = defineProps<{
+  everyCategoryCount: {},
+  count: number,
+}>()
+const router = useRouter();
+const toCategory = (value: string) => {
+  router.go(`/category?category=${value}`)
+}
+
+</script>
+
+<template>
+  <div class="category-box">
+    <div class="title">分类</div>
+    <div class="flex" v-for="(value, key) in props.everyCategoryCount" :key="key" @click="toCategory(key)">
+      <div class="name">{{ key }}</div>
+      <div class="count" :style="{ backgroundColor: getRandomThemeColor() }">{{ value }}</div>
+    </div>
+  </div>
+</template>
+
+<style scoped>
+.category-box {
+  /* width: 100%; */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+
+  .title {
+    width: 90%;
+    text-align: left;
+    font-size: 1.2rem;
+  }
+
+  .flex {
+    width: 100%;
+    display: flex;
+    margin: 8px auto 8px;
+    justify-content: space-between;
+    font-size: 1.1rem;
+    line-height: 2.5rem;
+    overflow: hidden;
+    border-radius: 0.25rem;
+    box-shadow: var(--vp-shadow);
+    box-sizing: border-box;
+    transition: all 0.3s;
+    background-color: var(--vp-c-bg);
+    cursor: pointer;
+
+    .name {
+      padding: 0rem 1rem;
+    }
+
+    .count {
+      margin-top: 0.45rem;
+      margin-right: 1rem;
+      text-align: center;
+      width: 1.6rem;
+      height: 1.6rem;
+      line-height: 1.6rem;
+      border-radius: 0.25rem;
+      background: #4bbd8d;
+    }
+  }
+
+  .flex:hover {
+    box-shadow: var(--vp-shadow-hover);
+    border: 1px solid var(--vp-c-indigo-1);
+  }
+
+}
+</style>
