@@ -11,6 +11,9 @@
     "vitepress",
     "theme"
   ],
+  "files": [
+    "theme"
+  ],
   "publishConfig": {
     "access": "public"
   },
