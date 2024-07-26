@@ -15,7 +15,7 @@ watch(() => route.path, () => {
   <div :class="frontmatter.type === 'widen' ? 'comment-box-widen' : 'comment-box'">
     <giscus :key="timeStamp" v-if="theme.comment && show" id="comments" :repo="theme.comment.repo"
       :repo-id="theme.comment.repoId" category="Announcements" :category-id="theme.comment.categoryId" mapping="title"
-      strict="0" :reactions-enabled="theme.comment.reactionsEnabled" emit-metadata="0" input-position="top"
+      strict="0" :reactions-enabled="theme.comment.reactionsEnabled || '1'" emit-metadata="0" input-position="top"
       :theme="isDark ? 'dark' : 'light'" lang="zh-CN" crossorigin="anonymous" />
   </div>
 

@@ -1,23 +1,17 @@
 import request from "../utils/request";
-export function login() {
-  return request({
-    url: `/api/auth/login`,
-    method: "post",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    data: JSON.stringify({
-      username: import.meta.env.VITE_USERNAME,
-      password: import.meta.env.VITE_PASSWORD,
-    }),
-  });
-}
+
 export function getStats(
+  id: string,
+  url: string,
   token: string,
-  startAt: string | number = "1718648303000"
+  startAt: string | number
 ): Promise<{ pageviews: { value: number }; visitors: { value: number } }> {
+  const uri =
+    process.env.NODE_ENV === "production"
+      ? url + `/api/websites/${id}/stats`
+      : `/api/websites/${id}/stats`;
   return request({
-    url: `/api/websites/f5a8ac77-caa7-4c9e-b100-c6e030ea77a7/stats`,
+    url: uri,
     method: "get",
     headers: {
       Authorization: "Bearer " + token,
@@ -30,9 +24,17 @@ export function getStats(
     },
   });
 }
-export function getActive(token: string): Promise<{ x: number }> {
+export function getActive(
+  id: string,
+  url: string,
+  token: string
+): Promise<{ x: number }> {
+  const uri =
+    process.env.NODE_ENV === "production"
+      ? url + `/api/websites/${id}/active`
+      : `/api/websites/${id}/active`;
   return request({
-    url: `/api/websites/f5a8ac77-caa7-4c9e-b100-c6e030ea77a7/active`,
+    url: uri,
     method: "get",
     headers: {
       Authorization: "Bearer " + token,

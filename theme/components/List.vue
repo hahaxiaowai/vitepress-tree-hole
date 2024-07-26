@@ -28,7 +28,7 @@ const posts: ComputedRef<Post[]> = computed(() => {
   }
   return data.posts
 })
-const docCount: number = theme.value.docCount; // 每页展示文章数量
+const docCount: number = theme.value.docCount || 10; // 每页展示文章数量
 const totalPage: ComputedRef<number> = computed(() => { return Math.ceil(posts.value.length / docCount) });
 const pageIndex: Ref<number> = ref(1);
 const maxCount: ComputedRef<number> = computed(() => {

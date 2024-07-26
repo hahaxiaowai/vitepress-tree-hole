@@ -3,20 +3,25 @@ import { ref } from 'vue';
 import { useData } from 'vitepress'
 const { theme, isDark } = useData()
 import { getStats } from '../api/statistics';
+const { umamiToken, umamiUrl, umamiId } = theme.value.umami
 const count = ref(0);
+const year = ref((new Date()).getFullYear())
 const getData = async () => {
-  const total = await getStats(theme.value.umamiToken);
+  const start = theme.value.startYear ? new Date(theme.value.startYear).getTime() : new Date(year.value).getTime()
+  const total = await getStats(umamiId, umamiUrl, umamiToken, start,);
   if (total?.pageviews) count.value = total.pageviews.value;
 }
-if (theme.value.umamiToken) {
+if (umamiToken && umamiUrl && umamiId) {
   getData()
 }
-const year = ref((new Date()).getFullYear())
+const jumpTo = () => {
+  window.open("https://github.com/hahaxiaowai/vitepress-tree-hole", '_blank')
+}
 </script>
 
 <template>
   <div class="home-footer">
-    <div class="flex">
+    <div class="flex" @click="jumpTo">
       <svg t="1718900204155" class="icon" :fill="isDark ? '#8B8B8B' : '#7F7F7F'" viewBox="0 0 1024 1024" version="1.1"
         xmlns="http://www.w3.org/2000/svg" p-id="6638" width="20" height="20">
         <path
@@ -32,9 +37,9 @@ const year = ref((new Date()).getFullYear())
           d="M516.224 42.666667a469.333333 469.333333 0 1 0 469.333333 469.333333 467.968 467.968 0 0 0-469.333333-469.333333z m4.266667 678.4a133.290667 133.290667 0 0 0 136.533333-98.133334h72.533333a203.776 203.776 0 0 1-213.333333 157.866667c-157.866667 0-238.933333-119.466667-238.933333-273.066667 0-145.066667 81.066667-277.333333 243.2-277.333333 128 0 196.266667 72.533333 209.066666 162.133333h-72.533333a133.205333 133.205333 0 0 0-140.8-102.4c-119.466667 0-166.4 106.666667-166.4 213.333334s46.933333 217.6 170.666667 217.6z"
           p-id="5450"></path>
       </svg>
-      {{ theme.author }} {{ theme.startYear || year }} ~ {{ year }}
+      {{ theme.author || '' }} {{ theme.startYear || year }} ~ {{ year }}
     </div>
-    <div class="flex">
+    <div class="flex" v-if="count">
       <svg t="1718899204675" class="icon" :fill="isDark ? '#8B8B8B' : '#7F7F7F'" viewBox="0 0 1024 1024" version="1.1"
         xmlns="http://www.w3.org/2000/svg" p-id="4263" width="20" height="20">
         <path d="M508 512m-112 0a112 112 0 1 0 224 0 112 112 0 1 0-224 0Z" p-id="4264"></path>
@@ -48,35 +53,20 @@ const year = ref((new Date()).getFullYear())
 </template>
 
 <style scoped>
-.home-footer {
-  color: var(--vp-c-indigo-1);
-  padding-top: 2rem;
-  height: 5rem;
-  line-height: 20px;
-
-  display: flex;
-  justify-content: center;
-  font-size: .9rem;
-
-  .flex {
-    display: flex;
-    align-items: center;
-
-    svg {
-      margin-right: 0.2rem;
-    }
-  }
-
-  div {
-    padding: 0rem 1rem;
-  }
-}
-@media screen and (width<768px) {
   .home-footer {
-    font-size: .8rem;
+    color: var(--vp-c-indigo-1);
+    padding-top: 2rem;
+    height: 5rem;
+    line-height: 20px;
+
+    display: flex;
+    justify-content: center;
+    font-size: .9rem;
 
     .flex {
       display: flex;
+      align-items: center;
+      cursor: pointer;
 
       svg {
         margin-right: 0.2rem;
@@ -84,8 +74,25 @@ const year = ref((new Date()).getFullYear())
     }
 
     div {
-      padding: 0rem 0.4rem;
+      padding: 0rem 1rem;
     }
   }
-}
+
+  @media screen and (width<768px) {
+    .home-footer {
+      font-size: .8rem;
+
+      .flex {
+        display: flex;
+
+        svg {
+          margin-right: 0.2rem;
+        }
+      }
+
+      div {
+        padding: 0rem 0.4rem;
+      }
+    }
+  }
 </style>

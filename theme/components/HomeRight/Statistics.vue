@@ -3,13 +3,14 @@ import { ref, onMounted } from 'vue';
 import { getStats, getActive } from '../../api/statistics';
 import { useData } from 'vitepress';
 const { theme } = useData()
+const { umamiToken, umamiUrl, umamiId } = theme.value.umami
 const isShow = ref(false);
-if (theme.value.umamiToken) {
+if (umamiToken && umamiUrl && umamiId) {
   isShow.value = true
 }
 // 获取token后展示
 
-const data = [
+const data = ref([
   {
     title: "总浏览量",
     value: 0,
@@ -18,8 +19,8 @@ const data = [
     title: "今日浏览量",
     value: 0,
   },
-]
-const data2 = [
+])
+const data2 = ref([
   {
     title: "今日访客",
     value: 0,
@@ -28,7 +29,7 @@ const data2 = [
     title: "当前在线",
     value: 0,
   },
-]
+])
 const frontDegree = ref('0deg');
 const backDegree = ref('180deg');
 const switchCard = () => {
@@ -46,21 +47,22 @@ onMounted(() => {
 
 })
 const getData = async () => {
-  const total = await getStats(theme.value.umamiToken);
-  if (total?.pageviews) data[0].value = total.pageviews.value;
+  const year = ref((new Date()).getFullYear())
+  const start = theme.value.startYear ? new Date(theme.value.startYear).getTime() : new Date(year.value).getTime()
+  const total = await getStats(umamiId, umamiUrl, umamiToken, start);
+  if (total?.pageviews) data.value[0].value = total.pageviews.value;
   const date = new Date();
-  const date2 = new Date(`${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`)
-  const day = await getStats(theme.value.umamiToken, date2.getTime() - 0);
+  const date2 = new Date(`${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`)
+  const day = await getStats(umamiId, umamiUrl, umamiToken, date2.getTime() - 0);
   if (day?.pageviews) {
-    data[1].value = day.pageviews.value;
-    data2[0].value = day.visitors.value;
+    data.value[1].value = day.pageviews.value;
+    data2.value[0].value = day.visitors.value;
   }
-  const active = await getActive(theme.value.umamiToken);
-  data2[1].value = active.x || 1;
+  const active = await getActive(umamiId, umamiUrl, umamiToken);
+  data2.value[1].value = active.x || 1;
   isShow.value = true;
 }
-if (theme.value.umamiToken) {
-  isShow.value = true
+if (isShow.value) {
   getData()
 }
 // login().then(async (res: any) => {

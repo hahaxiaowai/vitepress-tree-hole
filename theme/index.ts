@@ -1,5 +1,5 @@
 // https://vitepress.dev/guide/custom-theme
-import { h, defineAsyncComponent, defineComponent } from "vue";
+import { h } from "vue";
 import type { Theme, DefaultTheme } from "vitepress";
 import theme from "vitepress/theme";
 import Blog from "./components/Blog.vue";
@@ -9,7 +9,7 @@ import Comment from "./components/Comment.vue";
 import WebList from "./components/WebList.vue";
 import HomeRight from "./components/HomeRight/index.vue";
 import "./style.css";
-
+// import theme from "@night-tea/vitepress-tree-hole";
 export interface ThemeConfig extends DefaultTheme.Config {
   author?: string;
   /**
@@ -27,7 +27,11 @@ export interface ThemeConfig extends DefaultTheme.Config {
   headImage?: string;
   headStyle?: any;
   authorImage?: string;
-  umamiToken?: string;
+  umami?: {
+    umamiId: string;
+    umamiToken: string;
+    umamiUrl: string;
+  };
   comment?: {
     repo: string;
     repoId: string;
