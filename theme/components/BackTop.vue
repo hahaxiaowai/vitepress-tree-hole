@@ -13,7 +13,6 @@ const backTop = () => {
   }, 1000)
 }
 window.addEventListener('scrollend', () => {
-  console.log(window.scrollY, window.innerHeight)
   if (window.scrollY > (window.innerHeight * 0.9)) {
     show.value = true
   } else {

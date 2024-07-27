@@ -3,6 +3,7 @@ import HomeFooter from "./HomeFooter.vue";
 import BackTop from "./BackTop.vue";
 import { data, Post } from "../posts.data";
 import { useRouter } from "vitepress";
+import Fall from './Fall/index.vue';
 const posts: Post[] = [];
 data.posts.forEach((post) => {
   if (
@@ -45,6 +46,7 @@ const showYear = (index: number) => {
       </div>
     </div>
   </div>
+  <fall />
   <back-top />
   <home-footer />
   <content />

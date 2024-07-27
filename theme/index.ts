@@ -9,8 +9,8 @@ import Comment from "./components/Comment.vue";
 import WebList from "./components/WebList.vue";
 import HomeRight from "./components/HomeRight/index.vue";
 import BackTop from "./components/BackTop.vue";
+import Fall from "./components/Fall/index.vue";
 import "./style.css";
-// import theme from "@night-tea/vitepress-tree-hole";
 export interface ThemeConfig extends DefaultTheme.Config {
   author?: string;
   /**
@@ -42,6 +42,10 @@ export interface ThemeConfig extends DefaultTheme.Config {
      */
     reactionsEnabled?: "1" | "0";
   };
+  fall?: {
+    image: "season" | "leaf" | "pop" | "sakura" | "snow";
+    count?: number;
+  };
 }
 export default {
   extends: theme,
@@ -51,6 +55,7 @@ export default {
       "doc-after": () => h(Comment),
       "nav-screen-content-after": () => h(HomeRight),
       "doc-bottom": () => h(BackTop),
+      "doc-before": () => h(Fall),
     });
   },
   enhanceApp({ app, router, siteData }) {

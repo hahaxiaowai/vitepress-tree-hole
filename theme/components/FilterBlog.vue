@@ -6,6 +6,7 @@ import List from './List.vue'
 import HomeFooter from './HomeFooter.vue';
 import Filter from './Filter.vue';
 import { data } from '../posts.data'
+import Fall from './Fall/index.vue';
 const { frontmatter } = useData();
 const { tags, categories } = data;
 const filterValue = ref('');
@@ -31,6 +32,7 @@ if (params.category) {
       :filter="filterValue" />
     <list :filterValue="filterValue" :filterType="filterType" />
   </div>
+  <fall />
   <home-footer />
 
   <content />

@@ -3,7 +3,7 @@ import HomeTop from './HomeTop.vue'
 import List from './List.vue'
 import HomeRight from './HomeRight/index.vue';
 import HomeFooter from './HomeFooter.vue';
-
+import Fall from './Fall/index.vue';
 const width = window.outerWidth
 
 </script>
@@ -15,6 +15,7 @@ const width = window.outerWidth
 
     <home-right v-if="width >= 768" />
   </div>
+  <fall />
   <home-footer />
   <content />
 </template>
