@@ -8,6 +8,7 @@ import TimeLine from "./components/TimeLine.vue";
 import Comment from "./components/Comment.vue";
 import WebList from "./components/WebList.vue";
 import HomeRight from "./components/HomeRight/index.vue";
+import BackTop from "./components/BackTop.vue";
 import "./style.css";
 // import theme from "@night-tea/vitepress-tree-hole";
 export interface ThemeConfig extends DefaultTheme.Config {
@@ -49,6 +50,7 @@ export default {
       // https://vitepress.dev/guide/extending-default-theme#layout-slots
       "doc-after": () => h(Comment),
       "nav-screen-content-after": () => h(HomeRight),
+      "doc-bottom": () => h(BackTop),
     });
   },
   enhanceApp({ app, router, siteData }) {

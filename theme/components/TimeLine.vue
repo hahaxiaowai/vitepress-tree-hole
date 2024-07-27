@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import HomeFooter from "./HomeFooter.vue";
+import BackTop from "./BackTop.vue";
 import { data, Post } from "../posts.data";
 import { useRouter } from "vitepress";
 const posts: Post[] = [];
@@ -44,7 +45,7 @@ const showYear = (index: number) => {
       </div>
     </div>
   </div>
-
+  <back-top />
   <home-footer />
   <content />
 </template>
