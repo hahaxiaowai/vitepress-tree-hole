@@ -3,16 +3,19 @@ import { ref } from 'vue';
 import { useData } from 'vitepress'
 const { theme, isDark } = useData()
 import { getStats } from '../api/statistics';
-const { umamiToken, umamiUrl, umamiId } = theme.value.umami
+
 const count = ref(0);
 const year = ref((new Date()).getFullYear())
-const getData = async () => {
-  const start = theme.value.startYear ? new Date(theme.value.startYear).getTime() : new Date(year.value).getTime()
-  const total = await getStats(umamiId, umamiUrl, umamiToken, start,);
-  if (total?.pageviews) count.value = total.pageviews.value;
-}
-if (umamiToken && umamiUrl && umamiId) {
-  getData()
+if (theme.value.umami) {
+  const { umamiToken, umamiUrl, umamiId } = theme.value.umami
+  const getData = async () => {
+    const start = theme.value.startYear ? new Date(theme.value.startYear).getTime() : new Date(year.value).getTime()
+    const total = await getStats(umamiId, umamiUrl, umamiToken, start,);
+    if (total?.pageviews) count.value = total.pageviews.value;
+  }
+  if (umamiToken && umamiUrl && umamiId) {
+    getData()
+  }
 }
 const jumpTo = () => {
   window.open("https://github.com/hahaxiaowai/vitepress-tree-hole", '_blank')

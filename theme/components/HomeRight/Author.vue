@@ -15,11 +15,11 @@ const props = defineProps<{
     </div>
     <div v-if="props.author" class="author">{{ props.author }}</div>
     <div class="flex-count">
-      <div v-if="props.docCount" class="count-box">{{ props.docCount }} <br> 文章 </div>
+      <div v-if="props.docCount" class="count-box">{{ props.docCount || 0 }} <br> 文章 </div>
       <div class="right-border"></div>
-      <div v-if="props.tagCount" class="count-box">{{ props.tagCount }} <br> 标签</div>
+      <div v-if="props.tagCount" class="count-box">{{ props.tagCount || 0 }} <br> 标签</div>
       <div class="right-border"></div>
-      <div v-if="props.categoryCount" class="count-box">{{ props.categoryCount }} <br> 分类</div>
+      <div v-if="props.categoryCount" class="count-box">{{ props.categoryCount || 0 }} <br> 分类</div>
     </div>
     <div class="bottom-border"></div>
   </div>

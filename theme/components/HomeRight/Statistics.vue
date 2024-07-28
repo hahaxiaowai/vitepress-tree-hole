@@ -3,11 +3,9 @@ import { ref, onMounted } from 'vue';
 import { getStats, getActive } from '../../api/statistics';
 import { useData } from 'vitepress';
 const { theme } = useData()
-const { umamiToken, umamiUrl, umamiId } = theme.value.umami
 const isShow = ref(false);
-if (umamiToken && umamiUrl && umamiId) {
-  isShow.value = true
-}
+
+
 // 获取token后展示
 
 const data = ref([
@@ -46,25 +44,32 @@ onMounted(() => {
   }, 5000)
 
 })
-const getData = async () => {
-  const year = ref((new Date()).getFullYear())
-  const start = theme.value.startYear ? new Date(theme.value.startYear).getTime() : new Date(year.value).getTime()
-  const total = await getStats(umamiId, umamiUrl, umamiToken, start);
-  if (total?.pageviews) data.value[0].value = total.pageviews.value;
-  const date = new Date();
-  const date2 = new Date(`${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`)
-  const day = await getStats(umamiId, umamiUrl, umamiToken, date2.getTime() - 0);
-  if (day?.pageviews) {
-    data.value[1].value = day.pageviews.value;
-    data2.value[0].value = day.visitors.value;
+if (theme.value.umami) {
+  const { umamiToken, umamiUrl, umamiId } = theme.value.umami
+  if (umamiToken && umamiUrl && umamiId) {
+    isShow.value = true
   }
-  const active = await getActive(umamiId, umamiUrl, umamiToken);
-  data2.value[1].value = active.x || 1;
-  isShow.value = true;
+  const getData = async () => {
+    const year = ref((new Date()).getFullYear())
+    const start = theme.value.startYear ? new Date(theme.value.startYear).getTime() : new Date(year.value).getTime()
+    const total = await getStats(umamiId, umamiUrl, umamiToken, start);
+    if (total?.pageviews) data.value[0].value = total.pageviews.value;
+    const date = new Date();
+    const date2 = new Date(`${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`)
+    const day = await getStats(umamiId, umamiUrl, umamiToken, date2.getTime() - 0);
+    if (day?.pageviews) {
+      data.value[1].value = day.pageviews.value;
+      data2.value[0].value = day.visitors.value;
+    }
+    const active = await getActive(umamiId, umamiUrl, umamiToken);
+    data2.value[1].value = active.x || 1;
+    isShow.value = true;
+  }
+  if (isShow.value) {
+    getData()
+  }
 }
-if (isShow.value) {
-  getData()
-}
+
 // login().then(async (res: any) => {
 //   const total = await getStats(res.token);
 //   if (total?.pageviews) data[0].value = total.pageviews.value;
@@ -102,58 +107,58 @@ if (isShow.value) {
 </template>
 
 <style scoped>
-.statistics-box {
-  position: relative;
-}
-
-.statistics {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: row;
-  flex-wrap: wrap;
-  transform-style: preserve-3d;
-  transition: transform 1s;
-  cursor: pointer;
-}
-
-.front {
-  /* transform: rotateY(0deg); */
-  backface-visibility: hidden;
-}
-
-.back {
-  margin-top: -6.0rem;
-  /* transform: rotateY(180deg); */
-  backface-visibility: hidden;
-}
-
-/* padding: 1rem; */
-.card {
-  margin: 0.5rem;
-  padding: 0.8rem 1.2rem;
-  width: 40%;
-  height: 5rem;
-  overflow: hidden;
-  border-radius: 0.25rem;
-  box-shadow: var(--vp-shadow);
-  box-sizing: border-box;
-  /* transition: all 0.3s; */
-  background-color: var(--vp-c-bg);
-
-
-  .title {
-    font-size: 0.9em;
-    color: var(--vp-c-text-2);
-    font-weight: 600;
+  .statistics-box {
+    position: relative;
   }
 
-  .number {
-    padding-top: 0.5rem;
-    padding-left: 0.5rem;
-    font-size: 1.5rem;
-    color: var(--vp-c-indigo-1);
-    font-weight: 700;
+  .statistics {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    flex-wrap: wrap;
+    transform-style: preserve-3d;
+    transition: transform 1s;
+    cursor: pointer;
   }
-}
+
+  .front {
+    /* transform: rotateY(0deg); */
+    backface-visibility: hidden;
+  }
+
+  .back {
+    margin-top: -6.0rem;
+    /* transform: rotateY(180deg); */
+    backface-visibility: hidden;
+  }
+
+  /* padding: 1rem; */
+  .card {
+    margin: 0.5rem;
+    padding: 0.8rem 1.2rem;
+    width: 40%;
+    height: 5rem;
+    overflow: hidden;
+    border-radius: 0.25rem;
+    box-shadow: var(--vp-shadow);
+    box-sizing: border-box;
+    /* transition: all 0.3s; */
+    background-color: var(--vp-c-bg);
+
+
+    .title {
+      font-size: 0.9em;
+      color: var(--vp-c-text-2);
+      font-weight: 600;
+    }
+
+    .number {
+      padding-top: 0.5rem;
+      padding-left: 0.5rem;
+      font-size: 1.5rem;
+      color: var(--vp-c-indigo-1);
+      font-weight: 700;
+    }
+  }
 </style>

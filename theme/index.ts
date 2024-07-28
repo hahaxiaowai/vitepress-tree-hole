@@ -10,6 +10,7 @@ import WebList from "./components/WebList.vue";
 import HomeRight from "./components/HomeRight/index.vue";
 import BackTop from "./components/BackTop.vue";
 import Fall from "./components/Fall/index.vue";
+// import theme from "@night-tea/vitepress-tree-hole";
 import "./style.css";
 export interface ThemeConfig extends DefaultTheme.Config {
   author?: string;
