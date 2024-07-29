@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { getRandomThemeColor } from '../../utils/common'
-import { useRouter } from 'vitepress';
+import { useRouter, useData } from 'vitepress';
+const { theme } = useData();
 const props = defineProps<{
   tags: string[],
 }>()
@@ -8,15 +9,26 @@ const router = useRouter();
 const toTag = (value: string) => {
   router.go(`/tag?tag=${value}`)
 }
+
+function badgeUrl(category: string | number | boolean) {
+  return `https://img.shields.io/badge/-${encodeURIComponent(category)}-${encodeURIComponent('#3c3c43c7')}?logo=${encodeURIComponent(category)}`
+}
 </script>
 
 <template>
   <div class="tag-box">
     <div class="title">标签</div>
     <div class="flex">
-      <div v-for="(item, index) in props.tags" :key="index" class="name" @click="toTag(item)"
-        :style="{ backgroundColor: getRandomThemeColor() }">
-        {{ item }}</div>
+      <img v-if="theme.icoTags" v-for="(item, index) in props.tags" :ket="index" :alt="item" class="tag-name" :src="badgeUrl(item)" @click="toTag(item)"> 
+      <div 
+        v-else="!theme.icoTags"
+        v-for="(item) in props.tags" 
+        class="name" 
+        @click="toTag(item)"
+        :style="{ backgroundColor: getRandomThemeColor() }"
+      >
+        {{ item }}
+      </div>
     </div>
   </div>
 </template>
@@ -53,12 +65,16 @@ const toTag = (value: string) => {
       cursor: pointer;
     }
 
-    .name:hover {
+    .name:hover,.tag-name:hover {
       transform: scale(1.04);
 
     }
+
+    .tag-name{
+      margin: 0.3rem;
+      cursor: pointer;
+      max-height: 20px;
+    }
   }
-
-
 }
 </style>
