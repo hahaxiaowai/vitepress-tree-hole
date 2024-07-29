@@ -48,6 +48,7 @@ export interface ThemeConfig extends DefaultTheme.Config {
     count?: number;
   };
   /**
+   * https://github.com/simple-icons/simple-icons/blob/master/slugs.md
    * @default false
    * @description use ico tags or not
    */
