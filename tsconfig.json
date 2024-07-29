@@ -13,6 +13,9 @@
     "types": [
 
     ],
+    "outDir": "dist/theme",
+    "declaration": true,
+    "declarationDir": "dist/theme",
     "allowJs": true,
     "strict": true,
     "strictNullChecks": true,
@@ -25,7 +28,8 @@
   "vueCompilerOptions": {
 
   },
-  "exclude": ["dist", "node_modules","eslint.config.mjs"],
+
+  "exclude": ["dist", "node_modules","eslint.config.mjs","scripts"],
   "include": ["**/*",]
 
 }

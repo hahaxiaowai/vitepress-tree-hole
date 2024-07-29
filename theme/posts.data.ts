@@ -16,8 +16,13 @@ interface BlogData {
   categories: string[];
   everyCategoryCount: {};
 }
-declare const data: BlogData;
-
+// declare const data: BlogData;
+const data:BlogData = {
+  posts: [],
+  tags: [],
+  categories: [],
+  everyCategoryCount: {},
+};
 export { data };
 
 export default createContentLoader("blogs/**/*.md", {
