@@ -53,6 +53,11 @@ export interface ThemeConfig extends DefaultTheme.Config {
    * @description use ico tags or not
    */
   icoTags?: true | false;
+  /**
+   * @default { height : 20px }
+   * @description ico tags style
+   */
+  icoTagStyle?: Object;
 }
 export default {
   extends: theme,

@@ -17,7 +17,7 @@ interface BlogData {
   everyCategoryCount: {};
 }
 // declare const data: BlogData;
-const data:BlogData = {
+const data: BlogData = {
   posts: [],
   tags: [],
   categories: [],

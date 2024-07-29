@@ -19,14 +19,10 @@ function badgeUrl(category: string | number | boolean) {
   <div class="tag-box">
     <div class="title">标签</div>
     <div class="flex">
-      <img v-if="theme.icoTags" v-for="(item, index) in props.tags" :ket="index" :alt="item" class="tag-name" :src="badgeUrl(item)" @click="toTag(item)"> 
-      <div 
-        v-else="!theme.icoTags"
-        v-for="(item) in props.tags" 
-        class="name" 
-        @click="toTag(item)"
-        :style="{ backgroundColor: getRandomThemeColor() }"
-      >
+      <img v-if="theme.icoTags" v-for="(item, index) in props.tags" :style="theme.icoTagStyle" :key="index" :alt="item"
+        class="tag-name" :src="badgeUrl(item)" @click="toTag(item)">
+      <div v-else="!theme.icoTags" v-for="(item) in props.tags" class="name" @click="toTag(item)"
+        :style="{ backgroundColor: getRandomThemeColor() }">
         {{ item }}
       </div>
     </div>
@@ -34,47 +30,47 @@ function badgeUrl(category: string | number | boolean) {
 </template>
 
 <style scoped>
-.tag-box {
-  /* width: 100%; */
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 1rem;
-
-  .title {
-    width: 90%;
-    text-align: left;
-    font-size: 1.2rem;
-  }
-
-  .flex {
-    width: 100%;
+  .tag-box {
+    /* width: 100%; */
     display: flex;
-    flex-wrap: wrap;
-    margin-top: 0.5rem;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
 
-    .name {
-      padding: 0.05rem 0.2rem;
-      margin: 0.3rem 0.3rem;
-      text-align: center;
-      line-height: 1.6rem;
-      border-radius: 0.25rem;
-      font-size: 1rem;
-      font-weight: 500;
-      cursor: pointer;
+    .title {
+      width: 90%;
+      text-align: left;
+      font-size: 1.2rem;
     }
 
-    .name:hover,.tag-name:hover {
-      transform: scale(1.04);
+    .flex {
+      width: 100%;
+      display: flex;
+      flex-wrap: wrap;
+      margin-top: 0.5rem;
 
-    }
+      .name {
+        padding: 0.05rem 0.2rem;
+        margin: 0.3rem 0.3rem;
+        text-align: center;
+        line-height: 1.6rem;
+        border-radius: 0.25rem;
+        font-size: 1rem;
+        font-weight: 500;
+        cursor: pointer;
+      }
 
-    .tag-name{
-      margin: 0.3rem;
-      cursor: pointer;
-      max-height: 20px;
+      .name:hover,
+      .tag-name:hover {
+        transform: scale(1.04);
+
+      }
+
+      .tag-name {
+        margin: 0.3rem;
+        cursor: pointer;
+      }
     }
   }
-}
 </style>
