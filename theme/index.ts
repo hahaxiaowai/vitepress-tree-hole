@@ -47,6 +47,12 @@ export interface ThemeConfig extends DefaultTheme.Config {
     image: "season" | "leaf" | "pop" | "sakura" | "snow";
     count?: number;
   };
+  /**
+   * https://github.com/simple-icons/simple-icons/blob/master/slugs.md
+   * @default false
+   * @description use ico tags or not
+   */
+  icoTags?: true | false;
 }
 export default {
   extends: theme,
