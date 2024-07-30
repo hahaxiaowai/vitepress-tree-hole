@@ -1,19 +1,20 @@
 <script setup lang="ts">
 // Copy VPDoc
-import { useRoute, useData } from 'vitepress'
-import { useSidebar } from 'vitepress/theme'
-import { computed } from 'vue'
-import VPDocAside from 'vitepress/dist/client/theme-default/components/VPDocAside.vue'
-import VPDocFooter from 'vitepress/dist/client/theme-default/components/VPDocFooter.vue'
-import '../styles/widen.css'
-const { theme, frontmatter } = useData()
-const isWiden = computed(() => { return frontmatter.value.type === 'widen' });
-const route = useRoute()
-const { hasSidebar, hasAside, leftAside } = useSidebar()
+import { useData, useRoute } from "vitepress";
+import { useSidebar } from "vitepress/theme";
+import { computed } from "vue";
+import VPDocAside from "vitepress/dist/client/theme-default/components/VPDocAside.vue";
+import VPDocFooter from "vitepress/dist/client/theme-default/components/VPDocFooter.vue";
+import "../styles/widen.css";
+
+const { theme, frontmatter } = useData();
+const isWiden = computed(() => { return frontmatter.value.type === "widen"; });
+const route = useRoute();
+const { hasSidebar, hasAside, leftAside } = useSidebar();
 
 const pageName = computed(() =>
-  route.path.replace(/[./]+/g, '_').replace(/_html$/, '')
-)
+  route.path.replace(/[./]+/g, "_").replace(/_html$/, ""),
+);
 </script>
 
 <template>
@@ -52,10 +53,12 @@ const pageName = computed(() =>
         <div :class="isWiden ? 'content-container-widen' : 'content-container'">
           <slot name="doc-before" />
           <main class="main">
-            <Content class="vp-doc" :class="[
-              pageName,
-              theme.externalLinkIcon && 'external-link-icon-enabled'
-            ]" />
+            <Content
+              class="vp-doc" :class="[
+                pageName,
+                theme.externalLinkIcon && 'external-link-icon-enabled',
+              ]"
+            />
           </main>
           <VPDocFooter>
             <template #doc-footer-before>

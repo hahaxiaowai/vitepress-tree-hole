@@ -1,22 +1,22 @@
 <script setup lang="ts">
-import HomeTop from './HomeTop.vue'
-import List from './List.vue'
-import HomeRight from './HomeRight/index.vue';
-import HomeFooter from './HomeFooter.vue';
-import Fall from './Fall/index.vue';
-const width = window.outerWidth
+import HomeTop from "./HomeTop.vue";
+import List from "./List.vue";
+import HomeRight from "./HomeRight/index.vue";
+import HomeFooter from "./HomeFooter.vue";
+import Fall from "./Fall/index.vue";
 
+const width = window.outerWidth;
 </script>
 
 <template>
-  <home-top />
+  <HomeTop />
   <div class="flex-content">
-    <list />
+    <List />
 
-    <home-right v-if="width >= 768" />
+    <HomeRight v-if="width >= 768" />
   </div>
-  <fall />
-  <home-footer />
+  <Fall />
+  <HomeFooter />
   <content />
 </template>
 

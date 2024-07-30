@@ -1,28 +1,38 @@
 <script setup lang="ts">
-import { getRandomThemeColor } from '../../utils/common'
-import { useRouter, useData } from 'vitepress';
-const { theme } = useData();
+import { useData, useRouter } from "vitepress";
+import { getRandomThemeColor } from "../../utils/common";
+
 const props = defineProps<{
-  tags: string[],
-}>()
+  tags: string[];
+}>();
+const { theme } = useData();
 const router = useRouter();
-const toTag = (value: string) => {
-  router.go(`/tag?tag=${value}`)
+function toTag(value: string) {
+  router.go(`/tag?tag=${value}`);
 }
 
 function badgeUrl(category: string | number | boolean) {
-  return `https://img.shields.io/badge/-${encodeURIComponent(category)}-${encodeURIComponent('#3c3c43c7')}?logo=${encodeURIComponent(category)}`
+  return `https://img.shields.io/badge/-${encodeURIComponent(category)}-${encodeURIComponent("#3c3c43c7")}?logo=${encodeURIComponent(category)}`;
 }
 </script>
 
 <template>
   <div class="tag-box">
-    <div class="title">标签</div>
-    <div class="flex">
-      <img v-if="theme.icoTags" v-for="(item, index) in props.tags" :style="theme.icoTagStyle" :key="index" :alt="item"
-        class="tag-name" :src="badgeUrl(item)" @click="toTag(item)">
-      <div v-else="!theme.icoTags" v-for="(item) in props.tags" class="name" @click="toTag(item)"
-        :style="{ backgroundColor: getRandomThemeColor() }">
+    <div class="title">
+      标签
+    </div>
+    <div v-if="theme.icoTags" class="flex">
+      <img
+        v-for="(item, index) in props.tags" :key="index" :style="theme.icoTagStyle" :alt="item"
+        class="tag-name" :src="badgeUrl(item)" @click="toTag(item)"
+      >
+    </div>
+    <div v-else class="flex">
+      <div
+        v-for="(item, index) in props.tags" :key="index" class="name"
+        :style="{ backgroundColor: getRandomThemeColor() }"
+        @click="toTag(item)"
+      >
         {{ item }}
       </div>
     </div>

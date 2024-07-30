@@ -1,54 +1,63 @@
 <script setup lang="ts">
+import { useRouter } from "vitepress";
+import type { Post } from "../posts.data";
+import { data } from "../posts.data";
 import HomeFooter from "./HomeFooter.vue";
 import BackTop from "./BackTop.vue";
-import { data, Post } from "../posts.data";
-import { useRouter } from "vitepress";
-import Fall from './Fall/index.vue';
+import Fall from "./Fall/index.vue";
+
 const posts: Post[] = [];
 data.posts.forEach((post) => {
   if (
-    post.frontmatter.timeline === undefined ||
-    post.frontmatter.timeline === true
+    post.frontmatter.timeline === undefined
+    || post.frontmatter.timeline === true
   ) {
     posts.push(post);
   }
 });
 const { go } = useRouter();
-const formatDate = (time: any) => {
+function formatDate(time: any) {
   const date = new Date(time);
   const month = date.getMonth() + 1;
   const d = date.getDate();
-  return `${month > 9 ? month : "0" + month}-${d > 9 ? d : "0" + d}`;
-};
-const showYear = (index: number) => {
+  return `${month > 9 ? month : `0${month}`}-${d > 9 ? d : `0${d}`}`;
+}
+function showYear(index: number) {
   const year = posts[index].date.string.substring(0, 4);
   if (index) {
     const last = posts[index - 1].date.string.substring(0, 4);
-    if (last === year) return "";
+    if (last === year)
+      return "";
   }
   return year;
-};
+}
 </script>
 
 <template>
   <div class="timeline">
     <div class="flex-content">
-      <div class="doc-box" v-for="(post, index) in posts" :key="index - 1" @click="go(post.url)">
-        <div class="dot"></div>
-        <div class="year">{{ showYear(index) }}</div>
-        <div class="time">{{ formatDate(post.date.time) }}</div>
-        <div class="title">{{ post?.title }}</div>
-        <div class="info">
-          <div v-if="post.frontmatter.tags" v-for="tag in post.frontmatter.tags">
+      <div v-for="(post, index) in posts" :key="index - 1" class="doc-box" @click="go(post.url)">
+        <div class="dot" />
+        <div class="year">
+          {{ showYear(index) }}
+        </div>
+        <div class="time">
+          {{ formatDate(post.date.time) }}
+        </div>
+        <div class="title">
+          {{ post?.title }}
+        </div>
+        <div v-if="post.frontmatter.tags" class="info">
+          <div v-for="(tag, i) in post.frontmatter.tags" :key="i">
             {{ tag }}
           </div>
         </div>
       </div>
     </div>
   </div>
-  <fall />
-  <back-top />
-  <home-footer />
+  <Fall />
+  <BackTop />
+  <HomeFooter />
   <content />
 </template>
 
@@ -186,4 +195,3 @@ const showYear = (index: number) => {
     }
   }
 </style>
-

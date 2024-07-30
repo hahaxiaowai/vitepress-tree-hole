@@ -15,13 +15,14 @@ export class Fall {
     this.ySpeed = Math.random();
     this.rotateSpeed = Math.random() * Math.PI * 0.006;
   }
+
   update() {
     this.x += this.xSpeed - 1.5;
     this.y += this.ySpeed + 0.5;
     this.rotate += this.rotateSpeed;
     if (
-      Math.abs(this.x) > window.innerWidth ||
-      Math.abs(this.y) > window.innerHeight
+      Math.abs(this.x) > window.innerWidth
+      || Math.abs(this.y) > window.innerHeight
     ) {
       this.x = Math.random() * window.innerWidth;
       this.y = 0;
@@ -47,11 +48,13 @@ export class Draw {
   stop: boolean;
   constructor(id: string, option: DrawOption) {
     this.canvas = document.getElementById("fall") as HTMLCanvasElement;
-    if (!this.canvas) throw new Error(`${id}, does this element exist?`);
+    if (!this.canvas)
+      throw new Error(`${id}, does this element exist?`);
     this.canvas.width = window.innerWidth;
     this.canvas.height = window.innerHeight;
     this.ctx = this.canvas.getContext("2d");
-    if (!this.ctx) throw new Error("can not get Context2d");
+    if (!this.ctx)
+      throw new Error("can not get Context2d");
     this.drawCount = option.drawCount || 10;
     this.fallList = [];
     this.image = option.image;
@@ -60,18 +63,22 @@ export class Draw {
     this.initFall(option);
     this.animate();
   }
-  initFall(option: DrawOption) {
+
+  initFall(_option: DrawOption) {
     for (let i = 0; i < this.drawCount; i++) {
       this.fallList.push(new Fall());
     }
   }
+
   animate() {
-    if (!this.stop)
+    if (!this.stop) {
       requestAnimationFrame(() => {
         this.drawFall();
         this.animate();
       });
+    }
   }
+
   drawFall() {
     if (this.ctx) {
       this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -85,13 +92,14 @@ export class Draw {
           0,
           0,
           this.imageSize * fall.scale,
-          this.imageSize * fall.scale
+          this.imageSize * fall.scale,
         );
         this.ctx.restore();
         fall.update();
       }
     }
   }
+
   clear() {
     this.stop = true;
   }

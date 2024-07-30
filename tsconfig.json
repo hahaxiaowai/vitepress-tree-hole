@@ -2,7 +2,7 @@
   "compilerOptions": {
     "target": "ESNext",
     "jsx": "preserve",
-    "lib": ["DOM", "ESNext",],
+    "lib": ["DOM", "ESNext"],
     "baseUrl": ".",
     "module": "ESNext",
     "moduleResolution": "node",
@@ -13,13 +13,13 @@
     "types": [
 
     ],
-    "outDir": "dist/theme",
-    "declaration": true,
-    "declarationDir": "dist/theme",
     "allowJs": true,
     "strict": true,
     "strictNullChecks": true,
     "noUnusedLocals": true,
+    "declaration": true,
+    "declarationDir": "dist/theme",
+    "outDir": "dist/theme",
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "isolatedModules": true,
@@ -29,7 +29,7 @@
 
   },
 
-  "exclude": ["dist", "node_modules","eslint.config.mjs","scripts"],
-  "include": ["**/*",]
+  "include": ["**/*"],
+  "exclude": ["dist", "node_modules", "eslint.config.mjs", "scripts", "cache"]
 
 }

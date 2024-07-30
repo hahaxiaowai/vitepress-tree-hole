@@ -1,6 +1,6 @@
 // https://vitepress.dev/guide/custom-theme
 import { h } from "vue";
-import type { Theme, DefaultTheme } from "vitepress";
+import type { DefaultTheme, Theme } from "vitepress";
 import theme from "vitepress/theme";
 import Blog from "./components/Blog.vue";
 import FilterBlog from "./components/FilterBlog.vue";
@@ -12,6 +12,7 @@ import BackTop from "./components/BackTop.vue";
 import Fall from "./components/Fall/index.vue";
 // import theme from "@night-tea/vitepress-tree-hole";
 import "./style.css";
+
 export interface ThemeConfig extends DefaultTheme.Config {
   author?: string;
   /**
@@ -52,12 +53,12 @@ export interface ThemeConfig extends DefaultTheme.Config {
    * @default false
    * @description use ico tags or not
    */
-  icoTags?: true | false;
+  iconTags?: true | false;
   /**
    * @default { height : 20px }
    * @description ico tags style
    */
-  icoTagStyle?: Object;
+  iconTagStyle?: object;
 }
 export default {
   extends: theme,
@@ -70,7 +71,7 @@ export default {
       "doc-before": () => h(Fall),
     });
   },
-  enhanceApp({ app, router, siteData }) {
+  enhanceApp({ app }) {
     app.component("blog", Blog);
     app.component("category", FilterBlog);
     app.component("tag", FilterBlog);
