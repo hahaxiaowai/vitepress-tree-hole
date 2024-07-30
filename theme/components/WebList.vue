@@ -1,42 +1,45 @@
 <script setup lang="ts">
-import defaultSvg from './Svg.vue';
-import { useRouter } from 'vitepress';
+import { useRouter } from "vitepress";
+import defaultSvg from "./Svg.vue";
 
 const props = defineProps<{
-  list: { title: string, icon?: string, desc?: string, link: string, tag: string[] }[],
-  type?: 'normal' | 'full',
-  linkType?: "blank" | 'router'
-  justifyContent?: 'center' | 'flex-start' | 'flex-end' | 'space-between' | 'space-around' | 'space-evenly'
-}>()
+  list: { title: string; icon?: string; desc?: string; link: string; tag: string[] }[];
+  type?: "normal" | "full";
+  linkType?: "blank" | "router";
+  justifyContent?: "center" | "flex-start" | "flex-end" | "space-between" | "space-around" | "space-evenly";
+}>();
 const router = useRouter();
-const defaultIcon = (url: string) => {
-  const images = ['github', 'demo'];
-  const index = images.indexOf(url)
+function defaultIcon(url: string) {
+  const images = ["github", "demo"];
+  const index = images.indexOf(url);
   if (index >= 0) {
-    return images[index]
+    return images[index];
   }
-  return false
+  return false;
 }
-const jumpTo = (website: string) => {
-  if (props.linkType === 'router') {
-    router.go(website)
-  } else {
-    window.open(website, '_blank')
+function jumpTo(website: string) {
+  if (props.linkType === "router") {
+    router.go(website);
+  }
+  else {
+    window.open(website, "_blank");
   }
 }
 </script>
 
 <template>
-  <div class="list" :style="{justifyContent: props.justifyContent}">
-    <div :class="'list-box ' + type" v-for="(item, index) in props.list" :key="index" @click="jumpTo(item.link)">
+  <div class="list" :style="{ justifyContent: props.justifyContent }">
+    <div v-for="(item, index) in props.list" :key="index" :class="`list-box ${type}`" @click="jumpTo(item.link)">
       <div class="flex-row">
         <div v-if="item.icon" class="icon-box">
           <default-svg v-if="defaultIcon(item.icon)" :name="item.icon" />
           <img v-else :src="item.icon" alt="" srcset="">
         </div>
-        <div class="title">{{ item.title }}</div>
+        <div class="title">
+          {{ item.title }}
+        </div>
       </div>
-      <div class="desc" v-html=item.desc></div>
+      <div class="desc" v-html="item.desc" />
     </div>
   </div>
 </template>

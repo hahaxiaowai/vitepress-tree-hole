@@ -11,7 +11,6 @@ const style = Object.assign({}, theme.value.headStyle || {}, theme.value.headIma
     <div class="title">{{ theme.title || title }}</div>
     <div class="description">{{ theme.description || description }}</div>
   </div>
-
 </template>
 
 <style scoped>

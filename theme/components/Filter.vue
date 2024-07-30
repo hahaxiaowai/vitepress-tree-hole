@@ -1,37 +1,52 @@
 <script setup lang="ts">
-import { getRandomThemeColor } from '../utils/common'
-import { useData } from 'vitepress';
-const { theme } = useData();
+import { useData } from "vitepress";
+import { getRandomThemeColor } from "../utils/common";
+
 const props = defineProps<{
-  tags: string[],
-  categories: string[],
-  type: string,
-  filter: string,
-}>()
+  tags: string[];
+  categories: string[];
+  type: string;
+  filter: string;
+}>();
 const emit = defineEmits<{ setFilter: [name: string, type: string] }>();
-const tagColors = props.tags.map(() => { return getRandomThemeColor() })
-const setFilter = (name: string, type: string) => {
-  emit('setFilter', name, type);
+const { theme } = useData();
+const tagColors = props.tags.map(() => { return getRandomThemeColor(); });
+function setFilter(name: string, type: string) {
+  emit("setFilter", name, type);
 }
 function badgeUrl(category: string | number | boolean) {
-  return `https://img.shields.io/badge/-${encodeURIComponent(category)}-${encodeURIComponent('#3c3c43c7')}?logo=${encodeURIComponent(category)}`
+  return `https://img.shields.io/badge/-${encodeURIComponent(category)}-${encodeURIComponent("#3c3c43c7")}?logo=${encodeURIComponent(category)}`;
 }
 </script>
 
 <template>
-  <div class="tag-box" v-if="props.type === 'tag'">
-    <img v-if="theme.icoTags" v-for="(item, index) in props.tags" :style="theme.icoTagStyle" :key="index" :alt="item"
-      :class="props.filter === item ? 'tag-name active' : 'tag-name'" :src="badgeUrl(item)"
-      @click="setFilter(item, 'tag')">
-    <div v-else v-for="(item, index) in props.tags" :class="props.filter === item ? 'name active' : 'name'" :style="{
-      backgroundColor: tagColors[index],
-      boxShadow: props.filter === item ? '0 1px 8px 0' + tagColors[index] : ''
-    }" @click="setFilter(item, 'tag')">
-      {{ item }}</div>
+  <div v-if="props.type === 'tag'" class="tag-box">
+    <div v-if="theme.icoTags" class="tag-box">
+      <img
+        v-for="(item, index) in props.tags" :key="index" :style="theme.icoTagStyle" :alt="item"
+        :class="props.filter === item ? 'tag-name active' : 'tag-name'" :src="badgeUrl(item)"
+        @click="setFilter(item, 'tag')"
+      >
+    </div>
+    <div v-else class="tag-box">
+      <div
+        v-for="(item, index) in props.tags" :key="index"
+        :class="props.filter === item ? 'name active' : 'name'" :style="{
+          backgroundColor: tagColors[index],
+          boxShadow: props.filter === item ? `0 1px 8px 0${tagColors[index]}` : '',
+        }"
+        @click="setFilter(item, 'tag')"
+      >
+        {{ item }}
+      </div>
+    </div>
   </div>
-  <div class="category-box" v-else>
-    <div :class="props.filter === value ? 'name active' : 'name'" v-for="value in props.categories"
-      @click="setFilter(value, 'category')">
+  <div v-else class="category-box">
+    <div
+      v-for="(value, index) in props.categories" :key="index"
+      :class="props.filter === value ? 'name active' : 'name'"
+      @click="setFilter(value, 'category')"
+    >
       {{ value }}
     </div>
   </div>
@@ -92,8 +107,6 @@ function badgeUrl(category: string | number | boolean) {
       border: 1px solid var(--vp-c-bg);
       cursor: pointer;
     }
-
-
 
     .name:hover {
       transition: 0.3s;

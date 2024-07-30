@@ -1,23 +1,29 @@
 <script setup lang="ts">
-import { getRandomThemeColor } from '../../utils/common'
-import { useRouter } from 'vitepress';
-const props = defineProps<{
-  everyCategoryCount: {},
-  count: number,
-}>()
-const router = useRouter();
-const toCategory = (value: string) => {
-  router.go(`/category?category=${value}`)
-}
+import { useRouter } from "vitepress";
+import { getRandomThemeColor } from "../../utils/common";
 
+const props = defineProps<{
+  everyCategoryCount: object;
+  count: number;
+}>();
+const router = useRouter();
+function toCategory(value: string) {
+  router.go(`/category?category=${value}`);
+}
 </script>
 
 <template>
   <div class="category-box">
-    <div class="title">分类</div>
-    <div class="flex" v-for="(value, key) in props.everyCategoryCount" :key="key" @click="toCategory(key)">
-      <div class="name">{{ key }}</div>
-      <div class="count" :style="{ backgroundColor: getRandomThemeColor() }">{{ value }}</div>
+    <div class="title">
+      分类
+    </div>
+    <div v-for="(value, key) in props.everyCategoryCount" :key="key" class="flex" @click="toCategory(key)">
+      <div class="name">
+        {{ key }}
+      </div>
+      <div class="count" :style="{ backgroundColor: getRandomThemeColor() }">
+        {{ value }}
+      </div>
     </div>
   </div>
 </template>

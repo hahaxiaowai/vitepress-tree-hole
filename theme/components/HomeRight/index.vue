@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import { useData } from 'vitepress';
-import Author from './Author.vue'
-import Category from './Category.vue';
-import Tag from './Tag.vue'
-import Statistics from './Statistics.vue'
-import { data } from '../../posts.data'
+import { useData } from "vitepress";
+import { data } from "../../posts.data";
+import Author from "./Author.vue";
+import Category from "./Category.vue";
+import Tag from "./Tag.vue";
+import Statistics from "./Statistics.vue";
+
 const { theme } = useData();
 const { tags, categories, everyCategoryCount } = data;
 </script>
@@ -12,11 +13,13 @@ const { tags, categories, everyCategoryCount } = data;
 <template>
   <div class="home-right">
     <div>
-      <author :author="theme.author" :authorImage="theme.authorImage" :docCount="data.posts.length"
-        :tagCount="tags.length" :categoryCount="categories.length" />
-      <statistics />
-      <category :everyCategoryCount :count="categories.length" />
-      <tag :tags="tags" />
+      <Author
+        :author="theme.author" :author-image="theme.authorImage" :doc-count="data.posts.length"
+        :tag-count="tags.length" :category-count="categories.length"
+      />
+      <Statistics />
+      <Category :every-category-count :count="categories.length" />
+      <Tag :tags="tags" />
 
       <!-- <div>
       <div>hot docs</div>
@@ -24,7 +27,6 @@ const { tags, categories, everyCategoryCount } = data;
       <div>friend link</div>
       <div>tag || group</div> -->
     </div>
-
   </div>
 </template>
 

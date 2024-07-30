@@ -1,7 +1,8 @@
-import { RawConfigExports } from "vitepress";
+import { URL, fileURLToPath } from "node:url";
+import type { RawConfigExports } from "vitepress";
 import type { ThemeConfig } from ".";
-import { fileURLToPath, URL } from "node:url";
-const isEnv = process.env.NODE_ENV !== "production";
+
+// const isEnv = process.env.NODE_ENV !== "production";
 const baseConfig = {
   lang: "zh",
   rewrites: {
@@ -13,7 +14,7 @@ const baseConfig = {
         {
           find: /^.*\/VPDoc\.vue$/,
           replacement: fileURLToPath(
-            new URL("./components/Doc.vue", import.meta.url)
+            new URL("./components/Doc.vue", import.meta.url),
           ),
         },
       ],

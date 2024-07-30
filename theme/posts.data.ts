@@ -9,12 +9,15 @@ export interface Post {
   };
   excerpt: string | undefined;
   frontmatter: any;
+  imgURL: string;
 }
 interface BlogData {
   posts: Post[];
   tags: string[];
   categories: string[];
-  everyCategoryCount: {};
+  everyCategoryCount: {
+    [key: string]: number;
+  };
 }
 // declare const data: BlogData;
 const data: BlogData = {
@@ -34,14 +37,16 @@ export default createContentLoader("blogs/**/*.md", {
       everyCategoryCount: {},
     };
     raw.forEach(({ url, frontmatter, excerpt }) => {
-      if (frontmatter.publish == undefined || frontmatter.publish) {
-        if (frontmatter.tags) blogData.tags.push(...frontmatter.tags);
+      if (frontmatter.publish === undefined || frontmatter.publish) {
+        if (frontmatter.tags)
+          blogData.tags.push(...frontmatter.tags);
         if (frontmatter.categories) {
           blogData.categories.push(...frontmatter.categories);
           frontmatter.categories.forEach((category: string) => {
             if (blogData.everyCategoryCount[category]) {
               blogData.everyCategoryCount[category]++;
-            } else {
+            }
+            else {
               blogData.everyCategoryCount[category] = 1;
             }
           });
@@ -52,6 +57,7 @@ export default createContentLoader("blogs/**/*.md", {
           excerpt,
           date: formatDate(frontmatter.date),
           frontmatter,
+          imgURL: frontmatter.imgURL,
         });
       }
     });
