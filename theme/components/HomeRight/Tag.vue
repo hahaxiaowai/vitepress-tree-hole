@@ -21,9 +21,9 @@ function badgeUrl(category: string | number | boolean) {
     <div class="title">
       标签
     </div>
-    <div v-if="theme.icoTags" class="flex">
+    <div v-if="theme.iconTags" class="flex">
       <img
-        v-for="(item, index) in props.tags" :key="index" :style="theme.icoTagStyle" :alt="item"
+        v-for="(item, index) in props.tags" :key="index" :style="theme.iconTagStyle" :alt="item"
         class="tag-name" :src="badgeUrl(item)" @click="toTag(item)"
       >
     </div>
