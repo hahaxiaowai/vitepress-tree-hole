@@ -55,10 +55,23 @@ export interface ThemeConfig extends DefaultTheme.Config {
    */
   iconTags?: true | false;
   /**
-   * @default { height : 20px }
+   * @default height:20px
    * @description ico tags style
    */
   iconTagStyle?: object;
+  /**
+   * @default isBlogImages:false
+   * @default imagesSize:medium
+   * @default imagesLocation:center
+   * @description Set blog image style
+   * @description imagesSize small : 小图｜medium : 中图｜large : 大图
+   * @description imagesLocation left : 左｜right : 右｜center : 中
+   */
+  blogList?: {
+    isBlogImages?: boolean;
+    imagesSize?: "small" | "medium" | "large";
+    imagesLocation?: "left" | "right" | "center";
+  };
 }
 export default {
   extends: theme,

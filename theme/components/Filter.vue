@@ -21,9 +21,9 @@ function badgeUrl(category: string | number | boolean) {
 
 <template>
   <div v-if="props.type === 'tag'" class="tag-box">
-    <div v-if="theme.icoTags" class="tag-box">
+    <div v-if="theme.iconTags" class="tag-box">
       <img
-        v-for="(item, index) in props.tags" :key="index" :style="theme.icoTagStyle" :alt="item"
+        v-for="(item, index) in props.tags" :key="index" :style="theme.iconTagStyle" :alt="item"
         :class="props.filter === item ? 'tag-name active' : 'tag-name'" :src="badgeUrl(item)"
         @click="setFilter(item, 'tag')"
       >

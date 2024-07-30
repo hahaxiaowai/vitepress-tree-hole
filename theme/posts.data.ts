@@ -57,7 +57,7 @@ export default createContentLoader("blogs/**/*.md", {
           excerpt,
           date: formatDate(frontmatter.date),
           frontmatter,
-          imgURL: frontmatter.imgURL,
+          imgURL: frontmatter.imgURL ? `images/${frontmatter.imgURL}` : "",
         });
       }
     });
