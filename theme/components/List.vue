@@ -42,7 +42,6 @@ const filteredPosts = computed(() => {
   const end = start + docCount;
   return posts.value.slice(start, end);
 });
-
 const morePageNumberFill: ComputedRef<number> = computed(() => {
   return Math.floor((pageIndex.value - 2) / 4) * 4 + 1;
 });
@@ -80,25 +79,20 @@ function blogListBack(item: { imgURL: string }) {
   }
   return {};
 }
+
 </script>
 
 <template>
   <div class="list">
-    <div
-      v-for="(item, index) in filteredPosts" :key="index" class="doc-box"
-      :style="blogListBack(item)"
-      @click="go(item.url)"
-    >
+    <div v-for="(item, index) in filteredPosts" :key="index" :class="theme.blogList ? 'gradient doc-box' : 'doc-box'"
+      :style="blogListBack(item)" @click="go(item.url)">
       <div class="title">
         {{ item.title }}
       </div>
       <div class="info">
         <div> {{ item.date.string }}</div>
         <div v-if="item.frontmatter.tags" class="infoTags">
-          <div
-            v-for="(tag, tagIndex) in item.frontmatter.tags"
-            :key="tagIndex"
-          >
+          <div v-for="(tag, tagIndex) in item.frontmatter.tags" :key="tagIndex">
             {{ tag }}
           </div>
         </div>
@@ -110,11 +104,8 @@ function blogListBack(item: { imgURL: string }) {
         <span>&lt;</span>
       </div>
       <div v-if="totalPage < 9" class="list-control">
-        <div
-          v-for="i in totalPage"
-          :key="i" :class="pageIndex === i ? 'page-number page-number-active' : 'page-number'"
-          @click="jump(i)"
-        >
+        <div v-for="i in totalPage" :key="i" :class="pageIndex === i ? 'page-number page-number-active' : 'page-number'"
+          @click="jump(i)">
           {{ i }}
         </div>
       </div>
@@ -126,21 +117,15 @@ function blogListBack(item: { imgURL: string }) {
           ...
         </div>
         <div v-if="pageIndex <= 5" class="list-control">
-          <div
-            v-for="i in 4 "
-            :key="i" :class="pageIndex === i + 1 ? 'page-number page-number-active' : 'page-number'"
-            @click="jump(i + 1)"
-          >
+          <div v-for="i in 4 " :key="i" :class="pageIndex === i + 1 ? 'page-number page-number-active' : 'page-number'"
+            @click="jump(i + 1)">
             {{ i + 1 }}
           </div>
         </div>
         <div v-if="pageIndex > 5" class="list-control">
-          <div
-            v-for="i in totalPage - morePageNumberFill > 4 ? 4 : totalPage - morePageNumberFill - 1 "
-            :key="i"
+          <div v-for="i in totalPage - morePageNumberFill > 4 ? 4 : totalPage - morePageNumberFill - 1 " :key="i"
             :class="pageIndex === morePageNumberFill + i ? 'page-number page-number-active' : 'page-number'"
-            @click="jump(morePageNumberFill + i)"
-          >
+            @click="jump(morePageNumberFill + i)">
             {{ morePageNumberFill + i }}
           </div>
         </div>
@@ -148,10 +133,8 @@ function blogListBack(item: { imgURL: string }) {
         <div v-if="pageIndex < totalPage - 3" class="page-ellipsis">
           ...
         </div>
-        <div
-          :class="pageIndex === totalPage ? 'page-number page-number-active' : 'page-number'"
-          @click="jump(totalPage)"
-        >
+        <div :class="pageIndex === totalPage ? 'page-number page-number-active' : 'page-number'"
+          @click="jump(totalPage)">
           {{ totalPage }}
         </div>
       </div>
@@ -170,148 +153,146 @@ function blogListBack(item: { imgURL: string }) {
 </template>
 
 <style scoped>
-.list {
-  width: 60vw;
-  max-width: 1000px;
-  min-height: 79vh;
+  .list {
+    --nt-bg-gradient: linear-gradient(to right, rgba(125, 125, 125, 1), rgba(125, 125, 125, 0.9));
+    width: 60vw;
+    max-width: 1000px;
+    min-height: 79vh;
 
-  .doc-box {
-    margin: 10px auto 20px;
-    padding: 16px 20px;
-    width: 90%;
-    overflow: hidden;
-    border-radius: 0.25rem;
-    box-shadow: var(--vp-shadow);
-    box-sizing: border-box;
-    transition: all 0.3s;
-    background-color: var(--vp-c-bg);
-    border: 1px solid var(--vp-c-bg);
-    cursor: pointer;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-
-    .info, .infoTags {
+    .doc-box {
+      margin: 10px auto 20px;
+      padding: 16px 20px;
+      width: 90%;
+      overflow: hidden;
+      border-radius: 0.25rem;
+      box-shadow: var(--vp-shadow);
+      box-sizing: border-box;
+      transition: all 0.3s;
+      background: var(--vp-c-bg);
+      /* background: linear-gradient(to right, rgba(125, 125, 125, 1), rgba(125, 125, 125, 0.5)); */
+      border: 1px solid var(--vp-c-bg);
+      cursor: pointer;
+      position: relative;
       display: flex;
-      font-size: 16px;
-      z-index: 1;
-      position: inherit;
+      flex-direction: column;
+      justify-content: center;
 
-      div {
-        margin-right: 15px;
+      .info,
+      .infoTags {
+        display: flex;
+        font-size: 16px;
+        z-index: 1;
+        position: inherit;
+
+        div {
+          margin-right: 15px;
+        }
+      }
+
+      .title {
+        /* position: relative; */
+        font-size: 1.28rem;
+        line-height: 46px;
+        z-index: 1;
+        position: inherit;
+        /* display: inline-block; */
       }
     }
 
-    .title {
-      /* position: relative; */
-      font-size: 1.28rem;
-      line-height: 46px;
-      z-index: 1;
-      position: inherit;
-      /* display: inline-block; */
+    .gradient {
+      background: var(--nt-bg-gradient);
     }
-  }
 
-  .doc-box::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(to right, rgba(125, 125, 125, 1), rgba(125, 125, 125, 0.5));
-    border-radius: inherit;
-  }
-  .doc-box:hover::before {
-    background: linear-gradient(to right, rgba(125, 125, 125, 1), rgba(125, 125, 125, 0.9));
-    transition: background 0.5s ease;
-  }
+    .gradient:hover {
+      background: var(--nt-bg-gradient);
+      transition: background 0.5s ease;
+    }
 
-  .doc-box:hover {
-    transition: 0.3s;
-    box-shadow: var(--vp-shadow-hover);
-    border: 1px solid var(--vp-c-indigo-1);
-  }
-}
-
-.list-control {
-  display: flex;
-  justify-content: center;
-  user-select: none;
-
-  div {
-    padding: 0px 5px;
-    margin: 0px 3px;
-  }
-
-  .more-page {
-    display: flex;
-    justify-content: center;
-  }
-
-  input {
-    width: 70px;
-    margin: 0 8px;
-  }
-
-  .page-number {
-    font-size: 1.1rem;
-    padding: 4px 8px;
-    border-radius: 4px;
-    cursor: pointer;
-    box-shadow: var(--vp-shadow);
-    border: 1px solid var(--vp-c-bg);
-  }
-
-  .page-ellipsis {
-    font-size: 1.1rem;
-    padding: 4px 8px;
-    border-radius: 4px;
-    cursor: default;
-    box-shadow: var(--vp-shadow);
-  }
-
-  .page-number:hover {
-    transition: 0.3s;
-    box-shadow: var(--vp-shadow-hover);
-    border: 1px solid var(--vp-c-indigo-1);
-  }
-
-  .page-number-active {
-    background-color: var(--vp-c-indigo-1);
-    cursor: default;
-  }
-}
-@media screen and (width<768px) {
-  .list {
-    width: 100vw;
+    .doc-box:hover {
+      transition: 0.3s;
+      box-shadow: var(--vp-shadow-hover);
+      border: 1px solid var(--vp-c-indigo-1);
+    }
   }
 
   .list-control {
+    display: flex;
+    justify-content: center;
+    user-select: none;
+
     div {
       padding: 0px 5px;
-      margin: 0px 2px;
+      margin: 0px 3px;
     }
 
-    .page-number {
-      padding: 1px 4px;
-    }
-
-    .page-ellipsis {
-      padding: 1px 4px;
+    .more-page {
+      display: flex;
+      justify-content: center;
     }
 
     input {
-      width: 20px;
-      margin: 0 4px;
+      width: 70px;
+      margin: 0 8px;
+    }
+
+    .page-number {
+      font-size: 1.1rem;
+      padding: 4px 8px;
+      border-radius: 4px;
+      cursor: pointer;
+      box-shadow: var(--vp-shadow);
+      border: 1px solid var(--vp-c-bg);
+    }
+
+    .page-ellipsis {
+      font-size: 1.1rem;
+      padding: 4px 8px;
+      border-radius: 4px;
+      cursor: default;
+      box-shadow: var(--vp-shadow);
+    }
+
+    .page-number:hover {
+      transition: 0.3s;
+      box-shadow: var(--vp-shadow-hover);
+      border: 1px solid var(--vp-c-indigo-1);
+    }
+
+    .page-number-active {
+      background-color: var(--vp-c-indigo-1);
+      cursor: default;
     }
   }
-}
 
-@media screen and (width<350px) {
-  .jumpDom {
-    display: none
+  @media screen and (width<768px) {
+    .list {
+      width: 100vw;
+    }
+
+    .list-control {
+      div {
+        padding: 0px 5px;
+        margin: 0px 2px;
+      }
+
+      .page-number {
+        padding: 1px 4px;
+      }
+
+      .page-ellipsis {
+        padding: 1px 4px;
+      }
+
+      input {
+        width: 20px;
+        margin: 0 4px;
+      }
+    }
   }
-}
+
+  @media screen and (width<350px) {
+    .jumpDom {
+      display: none
+    }
+  }
 </style>
