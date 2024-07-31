@@ -12,6 +12,8 @@ import BackTop from "./components/BackTop.vue";
 import Fall from "./components/Fall/index.vue";
 // import theme from "@night-tea/vitepress-tree-hole";
 import "./style.css";
+// uno.css
+import "virtual:uno.css";
 
 export interface ThemeConfig extends DefaultTheme.Config {
   author?: string;

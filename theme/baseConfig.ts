@@ -1,5 +1,6 @@
 import { URL, fileURLToPath } from "node:url";
 import type { RawConfigExports } from "vitepress";
+import UnoCSS from "unocss/vite";
 import type { ThemeConfig } from ".";
 
 // const isEnv = process.env.NODE_ENV !== "production";
@@ -19,6 +20,7 @@ const baseConfig = {
         },
       ],
     },
+    plugins: [UnoCSS()],
   },
   markdown: {
     container: {
