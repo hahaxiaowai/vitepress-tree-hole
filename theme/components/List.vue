@@ -42,7 +42,6 @@ const filteredPosts = computed(() => {
   const end = start + docCount;
   return posts.value.slice(start, end);
 });
-
 const morePageNumberFill: ComputedRef<number> = computed(() => {
   return Math.floor((pageIndex.value - 2) / 4) * 4 + 1;
 });
@@ -62,11 +61,8 @@ function jump(pIndex: number) {
         <span>&lt;</span>
       </div>
       <div v-if="totalPage < 9" class="list-control">
-        <div
-          v-for="i in totalPage"
-          :key="i" :class="pageIndex === i ? 'page-number page-number-active' : 'page-number'"
-          @click="jump(i)"
-        >
+        <div v-for="i in totalPage" :key="i" :class="pageIndex === i ? 'page-number page-number-active' : 'page-number'"
+          @click="jump(i)">
           {{ i }}
         </div>
       </div>
@@ -78,21 +74,15 @@ function jump(pIndex: number) {
           ...
         </div>
         <div v-if="pageIndex <= 5" class="list-control">
-          <div
-            v-for="i in 4 "
-            :key="i" :class="pageIndex === i + 1 ? 'page-number page-number-active' : 'page-number'"
-            @click="jump(i + 1)"
-          >
+          <div v-for="i in 4 " :key="i" :class="pageIndex === i + 1 ? 'page-number page-number-active' : 'page-number'"
+            @click="jump(i + 1)">
             {{ i + 1 }}
           </div>
         </div>
         <div v-if="pageIndex > 5" class="list-control">
-          <div
-            v-for="i in totalPage - morePageNumberFill > 4 ? 4 : totalPage - morePageNumberFill - 1 "
-            :key="i"
+          <div v-for="i in totalPage - morePageNumberFill > 4 ? 4 : totalPage - morePageNumberFill - 1 " :key="i"
             :class="pageIndex === morePageNumberFill + i ? 'page-number page-number-active' : 'page-number'"
-            @click="jump(morePageNumberFill + i)"
-          >
+            @click="jump(morePageNumberFill + i)">
             {{ morePageNumberFill + i }}
           </div>
         </div>
@@ -100,10 +90,8 @@ function jump(pIndex: number) {
         <div v-if="pageIndex < totalPage - 3" class="page-ellipsis">
           ...
         </div>
-        <div
-          :class="pageIndex === totalPage ? 'page-number page-number-active' : 'page-number'"
-          @click="jump(totalPage)"
-        >
+        <div :class="pageIndex === totalPage ? 'page-number page-number-active' : 'page-number'"
+          @click="jump(totalPage)">
           {{ totalPage }}
         </div>
       </div>
@@ -128,83 +116,84 @@ function jump(pIndex: number) {
   min-height: 79vh;
 }
 
-.list-control {
-  display: flex;
-  justify-content: center;
-  user-select: none;
-
-  div {
-    padding: 0px 5px;
-    margin: 0px 3px;
-  }
-
-  .more-page {
+  .list-control {
     display: flex;
     justify-content: center;
-  }
+    user-select: none;
 
-  input {
-    width: 70px;
-    margin: 0 8px;
-  }
-
-  .page-number {
-    font-size: 1.1rem;
-    padding: 4px 8px;
-    border-radius: 4px;
-    cursor: pointer;
-    box-shadow: var(--vp-shadow);
-    border: 1px solid var(--vp-c-bg);
-  }
-
-  .page-ellipsis {
-    font-size: 1.1rem;
-    padding: 4px 8px;
-    border-radius: 4px;
-    cursor: default;
-    box-shadow: var(--vp-shadow);
-  }
-
-  .page-number:hover {
-    transition: 0.3s;
-    box-shadow: var(--vp-shadow-hover);
-    border: 1px solid var(--vp-c-indigo-1);
-  }
-
-  .page-number-active {
-    background-color: var(--vp-c-indigo-1);
-    cursor: default;
-  }
-}
-@media screen and (width<768px) {
-  .list {
-    width: 100vw;
-  }
-
-  .list-control {
     div {
       padding: 0px 5px;
-      margin: 0px 2px;
+      margin: 0px 3px;
     }
 
-    .page-number {
-      padding: 1px 4px;
-    }
-
-    .page-ellipsis {
-      padding: 1px 4px;
+    .more-page {
+      display: flex;
+      justify-content: center;
     }
 
     input {
-      width: 20px;
-      margin: 0 4px;
+      width: 70px;
+      margin: 0 8px;
+    }
+
+    .page-number {
+      font-size: 1.1rem;
+      padding: 4px 8px;
+      border-radius: 4px;
+      cursor: pointer;
+      box-shadow: var(--vp-shadow);
+      border: 1px solid var(--vp-c-bg);
+    }
+
+    .page-ellipsis {
+      font-size: 1.1rem;
+      padding: 4px 8px;
+      border-radius: 4px;
+      cursor: default;
+      box-shadow: var(--vp-shadow);
+    }
+
+    .page-number:hover {
+      transition: 0.3s;
+      box-shadow: var(--vp-shadow-hover);
+      border: 1px solid var(--vp-c-indigo-1);
+    }
+
+    .page-number-active {
+      background-color: var(--vp-c-indigo-1);
+      cursor: default;
     }
   }
-}
 
-@media screen and (width<350px) {
-  .jumpDom {
-    display: none
+  @media screen and (width<768px) {
+    .list {
+      width: 100vw;
+    }
+
+    .list-control {
+      div {
+        padding: 0px 5px;
+        margin: 0px 2px;
+      }
+
+      .page-number {
+        padding: 1px 4px;
+      }
+
+      .page-ellipsis {
+        padding: 1px 4px;
+      }
+
+      input {
+        width: 20px;
+        margin: 0 4px;
+      }
+    }
   }
-}
+
+  @media screen and (width<350px) {
+    .jumpDom {
+      display: none
+    }
+  }
 </style>

@@ -55,7 +55,7 @@ export interface ThemeConfig extends DefaultTheme.Config {
    * @default false
    * @description use ico tags or not
    */
-  iconTags?: true | false;
+  iconTags?: boolean;
   /**
    * @default height:20px
    * @description ico tags style
