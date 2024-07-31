@@ -1,16 +1,16 @@
 <script setup lang="ts">
 import type { ComputedRef, Ref } from "vue";
 import { computed, ref } from "vue";
-import { useData, useRouter } from "vitepress";
+import { useData } from "vitepress";
 import type { Post } from "../posts.data";
 import { data } from "../posts.data";
+import ContentsList from "./ContentsList/index.vue";
 
 const props = defineProps<{
   filterValue?: string;
   filterType?: string;
 }>();
 const { theme } = useData();
-const { go } = useRouter();
 
 const posts: ComputedRef<Post[]> = computed(() => {
   if (props.filterType === "tag") {
@@ -52,59 +52,11 @@ function jump(pIndex: number) {
     return;
   pageIndex.value = pIndex;
 }
-
-function randomImages() {
-  const imgNum = Math.floor(Math.random() * 5) + 1;
-  return `url(./.vitepress/theme/public/img_${imgNum}.jpg)`;
-}
-
-function blogListBack(item: { imgURL: string }) {
-  let imagesSize;
-  if (theme.value.blogList) {
-    if (theme.value.blogList.imagesSize === "small") {
-      imagesSize = "100px";
-    }
-    else if (theme.value.blogList.imagesSize === "large") {
-      imagesSize = "200px";
-    }
-    else {
-      imagesSize = "150px";
-    }
-    return {
-      backgroundImage: item.imgURL ? `url(${item.imgURL})` : randomImages(),
-      backgroundSize: "cover",
-      backgroundPosition: "center",
-      backgroundRepeat: "no-repeat",
-      height: imagesSize,
-    };
-  }
-  return {};
-}
 </script>
 
 <template>
   <div class="list">
-    <div
-      v-for="(item, index) in filteredPosts" :key="index" class="doc-box"
-      :style="blogListBack(item)"
-      @click="go(item.url)"
-    >
-      <div class="title">
-        {{ item.title }}
-      </div>
-      <div class="info">
-        <div> {{ item.date.string }}</div>
-        <div v-if="item.frontmatter.tags" class="infoTags">
-          <div
-            v-for="(tag, tagIndex) in item.frontmatter.tags"
-            :key="tagIndex"
-          >
-            {{ tag }}
-          </div>
-        </div>
-      </div>
-    </div>
-
+    <ContentsList :data-list="filteredPosts" />
     <div class="list-control">
       <div v-if="pageIndex !== 1" class="page-number" @click="jump(pageIndex - 1)">
         <span>&lt;</span>
@@ -174,65 +126,6 @@ function blogListBack(item: { imgURL: string }) {
   width: 60vw;
   max-width: 1000px;
   min-height: 79vh;
-
-  .doc-box {
-    margin: 10px auto 20px;
-    padding: 16px 20px;
-    width: 90%;
-    overflow: hidden;
-    border-radius: 0.25rem;
-    box-shadow: var(--vp-shadow);
-    box-sizing: border-box;
-    transition: all 0.3s;
-    background-color: var(--vp-c-bg);
-    border: 1px solid var(--vp-c-bg);
-    cursor: pointer;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-
-    .info, .infoTags {
-      display: flex;
-      font-size: 16px;
-      z-index: 1;
-      position: inherit;
-
-      div {
-        margin-right: 15px;
-      }
-    }
-
-    .title {
-      /* position: relative; */
-      font-size: 1.28rem;
-      line-height: 46px;
-      z-index: 1;
-      position: inherit;
-      /* display: inline-block; */
-    }
-  }
-
-  .doc-box::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(to right, rgba(125, 125, 125, 1), rgba(125, 125, 125, 0.5));
-    border-radius: inherit;
-  }
-  .doc-box:hover::before {
-    background: linear-gradient(to right, rgba(125, 125, 125, 1), rgba(125, 125, 125, 0.9));
-    transition: background 0.5s ease;
-  }
-
-  .doc-box:hover {
-    transition: 0.3s;
-    box-shadow: var(--vp-shadow-hover);
-    border: 1px solid var(--vp-c-indigo-1);
-  }
 }
 
 .list-control {
