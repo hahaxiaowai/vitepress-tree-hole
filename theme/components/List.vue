@@ -53,7 +53,7 @@ function jump(pIndex: number) {
   pageIndex.value = pIndex;
 }
 
-function randomImags() {
+function randomImages() {
   const imgNum = Math.floor(Math.random() * 5) + 1;
   return `url(./.vitepress/theme/public/img_${imgNum}.jpg)`;
 }
@@ -71,7 +71,7 @@ function blogListBack(item: { imgURL: string }) {
       imagesSize = "150px";
     }
     return {
-      backgroundImage: item.imgURL ? `url(${item.imgURL})` : randomImags(),
+      backgroundImage: item.imgURL ? `url(${item.imgURL})` : randomImages(),
       backgroundSize: "cover",
       backgroundPosition: "center",
       backgroundRepeat: "no-repeat",
