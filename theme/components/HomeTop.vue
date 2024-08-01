@@ -1,15 +1,19 @@
 <script setup lang="ts">
-import { useData } from 'vitepress'
+import { useData } from "vitepress";
 
-const { title, description, theme } = useData()
+const { title, description, theme } = useData();
 
-const style = Object.assign({}, theme.value.headStyle || {}, theme.value.headImage ? { background: `url(${theme.value.headImage}) center center / cover no-repeat` } : {})
+const style = Object.assign({}, theme.value.headStyle || {}, theme.value.headImage ? { background: `url(${theme.value.headImage}) center center / cover no-repeat`, height: "30vh" } : {});
 </script>
 
 <template>
-  <div class="home-top" :style=style>
-    <div class="title">{{ theme.title || title }}</div>
-    <div class="description">{{ theme.description || description }}</div>
+  <div class="home-top" :style="style">
+    <div class="title">
+      {{ theme.title || title }}
+    </div>
+    <div class="description">
+      {{ theme.description || description }}
+    </div>
   </div>
 </template>
 
