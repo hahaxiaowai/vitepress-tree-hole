@@ -40,35 +40,27 @@ function blogListImagesSize(item: { imgURL: string }) {
   return {};
 }
 
-// 判断图片位置
-function isImagesRight(index: number) {
-  if ((index % 2 === 0 && imagesLocation === 'reversal') || imagesLocation === 'left' || imagesLocation === 'leftRight') {
-    return true;
-  } else {
-    return false;
+function isImagesShow(index: number) {
+  if((index % 2 === 0  && imagesLocation === 'reversal') || imagesLocation === 'left') {
+    return true
+  } else if ((index % 2 !== 0  && imagesLocation === 'reversal') || imagesLocation === 'right'){
+    return false
   }
 }
 </script>
 
 <template>
-  <div v-if="theme.blogList && imagesLocation && imagesLocation !== 'center' ">
+  <div v-if="theme.blogList && imagesLocation && imagesLocation !== 'center'">
     <div
       v-for="(item, index) in dataList"
       :key="index"
       class=" box group flex justify-center items-center w-9/10 mx-auto mt-3 mb-5 rounded cursor-pointer box-border"
-      :class="{
-        'flex-row-reverse': (index % 2 !== 0 && imagesLocation === 'reversal') || imagesLocation === 'right',
-      }"
       @click="go(item.url)"
     >
-      <div class="box-images w-3/10 overflow-hidden box-border" :class="{'box-images-right' : isImagesRight(index)}">
+      <div v-if="imagesLocation === 'leftRight' || isImagesShow(index)" class="box-images-right w-3/10 overflow-hidden box-border">
         <div 
           :style="blogListImagesSize(item)" 
-          class="group-hover:scale-125 transition-transform duration-700 box-border" 
-          :class="{
-            'rounded-r': (index % 2 !== 0  && imagesLocation === 'reversal') || imagesLocation === 'right',
-            'rounded-l': (index % 2 === 0  && imagesLocation === 'reversal') || imagesLocation === 'left' || imagesLocation === 'leftRight',
-          }"
+          class="group-hover:scale-125 transition-transform duration-700 box-border rounded-l" 
         />
       </div>
       <div class="w-7/10 flex flex-col items-center p-4 box-border">
@@ -88,7 +80,7 @@ function isImagesRight(index: number) {
           </div>
         </div>
       </div>
-      <div v-if="imagesLocation === 'leftRight'" class="box-images w-3/10 overflow-hidden box-border">
+      <div v-if="imagesLocation === 'leftRight' || !isImagesShow(index)" class="box-images w-3/10 overflow-hidden box-border">
         <div 
           :style="blogListImagesSize(item)" 
           class="group-hover:scale-125 transition-transform duration-700 box-border rounded-r" 
