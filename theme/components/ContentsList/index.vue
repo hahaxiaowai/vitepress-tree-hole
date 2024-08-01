@@ -57,17 +57,17 @@ function isImagesShow(index: number) {
       class=" box group flex justify-center items-center w-9/10 mx-auto mt-3 mb-5 rounded cursor-pointer box-border"
       @click="go(item.url)"
     >
-      <div v-if="imagesLocation === 'leftRight' || isImagesShow(index)" class="box-images-right w-3/10 overflow-hidden box-border">
+      <div v-if="imagesLocation === 'leftRight' || isImagesShow(index)" class="box-images-right w-3/10 overflow-hidden rounded-l">
         <div 
           :style="blogListImagesSize(item)" 
-          class="group-hover:scale-125 transition-transform duration-700 box-border rounded-l" 
+          class="group-hover:scale-125 transition-transform duration-700" 
         />
       </div>
-      <div class="w-7/10 flex flex-col items-center p-4 box-border">
+      <div class="w-7/10 flex flex-col items-center p-4">
         <div class="z-1 text-2xl">
             {{ item.title }}
         </div>
-        <div class="z-1 text-base flex mt-3 box-border">
+        <div class="z-1 text-base flex mt-3">
           <div> {{ item.date.string }}</div>
           <div v-if="item.frontmatter.tags" class="flex ml-3">
             <div
@@ -80,10 +80,10 @@ function isImagesShow(index: number) {
           </div>
         </div>
       </div>
-      <div v-if="imagesLocation === 'leftRight' || !isImagesShow(index)" class="box-images w-3/10 overflow-hidden box-border">
+      <div v-if="imagesLocation === 'leftRight' || !isImagesShow(index)" class="box-images w-3/10 overflow-hidden rounded-r">
         <div 
           :style="blogListImagesSize(item)" 
-          class="group-hover:scale-125 transition-transform duration-700 box-border rounded-r" 
+          class="group-hover:scale-125 transition-transform duration-700" 
         />
       </div>
     </div>
@@ -92,7 +92,7 @@ function isImagesShow(index: number) {
     <div
       v-for="(item, index) in dataList"
       :key="index"
-      class="box flex flex-col justify-center w-9/10 mx-auto mt-3 mb-5 px-4 py-5 rounded cursor-pointer box-border"
+      class="box flex flex-col justify-center w-9/10 mx-auto mt-3 mb-5 px-4 py-5 rounded cursor-pointer"
       :class="theme.blogList ? 'gradient' : ''"
       :style="blogListImagesSize(item)"
       @click="go(item.url)"
