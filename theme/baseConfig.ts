@@ -15,7 +15,19 @@ const baseConfig = {
         {
           find: /^.*\/VPDoc\.vue$/,
           replacement: fileURLToPath(
-            new URL("./components/Doc.vue", import.meta.url),
+            new URL("./components/Doc.vue", import.meta.url)
+          ),
+        },
+        {
+          find: /^.*\/VPContent\.vue$/,
+          replacement: fileURLToPath(
+            new URL("./components/Content.vue", import.meta.url)
+          ),
+        },
+        {
+          find: /^.*\/Layout\.vue$/,
+          replacement: fileURLToPath(
+            new URL("./components/Layout.vue", import.meta.url)
           ),
         },
       ],

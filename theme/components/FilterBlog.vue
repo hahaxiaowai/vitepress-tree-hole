@@ -4,9 +4,7 @@ import { useData } from "vitepress";
 import { getQuery } from "../utils/common";
 import { data } from "../posts.data";
 import List from "./List.vue";
-import HomeFooter from "./HomeFooter.vue";
 import Filter from "./Filter.vue";
-import Fall from "./Fall/index.vue";
 
 const { frontmatter } = useData();
 const { tags, categories } = data;
@@ -29,14 +27,10 @@ else if (params.tag) {
 
 <template>
   <div class="flex-content">
-    <Filter
-      :tags="tags" :categories="categories" :type="frontmatter.layout" :filter="filterValue"
-      @set-filter="setFilter"
-    />
+    <Filter :tags="tags" :categories="categories" :type="frontmatter.layout" :filter="filterValue"
+      @set-filter="setFilter" />
     <List :filter-value="filterValue" :filter-type="filterType" />
   </div>
-  <Fall />
-  <HomeFooter />
 
   <content />
 </template>

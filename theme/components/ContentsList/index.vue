@@ -14,7 +14,7 @@ const imagesLocation = blogList?.imagesLocation;
 
 function randomImages() {
   const imgNum = Math.floor(Math.random() * 5) + 1;
-  return `url(./.vitepress/theme/public/img_${imgNum}.jpg)`;
+  return new URL(`./img/img_${imgNum}.jpg`, import.meta.url).href;
 }
 
 function blogListImagesSize(item: { imgURL: string }) {
@@ -41,9 +41,9 @@ function blogListImagesSize(item: { imgURL: string }) {
 }
 
 function isImagesShow(index: number) {
-  if((index % 2 === 0  && imagesLocation === 'reversal') || imagesLocation === 'left') {
+  if ((index % 2 === 0 && imagesLocation === 'reversal') || imagesLocation === 'left') {
     return true
-  } else if ((index % 2 !== 0  && imagesLocation === 'reversal') || imagesLocation === 'right'){
+  } else if ((index % 2 !== 0 && imagesLocation === 'reversal') || imagesLocation === 'right') {
     return false
   }
 }
@@ -51,63 +51,43 @@ function isImagesShow(index: number) {
 
 <template>
   <div v-if="theme.blogList && imagesLocation && imagesLocation !== 'center'">
-    <div
-      v-for="(item, index) in dataList"
-      :key="index"
+    <div v-for="(item, index) in dataList" :key="index"
       class=" box group flex justify-center items-center w-9/10 mx-auto mt-3 mb-5 rounded cursor-pointer box-border"
-      @click="go(item.url)"
-    >
-      <div v-if="imagesLocation === 'leftRight' || isImagesShow(index)" class="box-images-right w-3/10 overflow-hidden rounded-l">
-        <div 
-          :style="blogListImagesSize(item)" 
-          class="group-hover:scale-125 transition-transform duration-700" 
-        />
+      @click="go(item.url)">
+      <div v-if="imagesLocation === 'leftRight' || isImagesShow(index)"
+        class="box-images-right w-3/10 overflow-hidden rounded-l">
+        <div :style="blogListImagesSize(item)" class="group-hover:scale-125 transition-transform duration-700" />
       </div>
       <div class="w-7/10 flex flex-col items-center p-4">
         <div class="z-1 text-2xl">
-            {{ item.title }}
+          {{ item.title }}
         </div>
         <div class="z-1 text-base flex mt-3">
           <div> {{ item.date.string }}</div>
           <div v-if="item.frontmatter.tags" class="flex ml-3">
-            <div
-              v-for="(tag, tagIndex) in item.frontmatter.tags"
-              :key="tagIndex"
-              class="mr-3"
-            >
+            <div v-for="(tag, tagIndex) in item.frontmatter.tags" :key="tagIndex" class="mr-3">
               {{ tag }}
             </div>
           </div>
         </div>
       </div>
-      <div v-if="imagesLocation === 'leftRight' || !isImagesShow(index)" class="box-images w-3/10 overflow-hidden rounded-r">
-        <div 
-          :style="blogListImagesSize(item)" 
-          class="group-hover:scale-125 transition-transform duration-700" 
-        />
+      <div v-if="imagesLocation === 'leftRight' || !isImagesShow(index)"
+        class="box-images w-3/10 overflow-hidden rounded-r">
+        <div :style="blogListImagesSize(item)" class="group-hover:scale-125 transition-transform duration-700" />
       </div>
     </div>
   </div>
   <div v-else>
-    <div
-      v-for="(item, index) in dataList"
-      :key="index"
+    <div v-for="(item, index) in dataList" :key="index"
       class="box flex flex-col justify-center w-9/10 mx-auto mt-3 mb-5 px-4 py-5 rounded cursor-pointer"
-      :class="theme.blogList ? 'gradient' : ''"
-      :style="blogListImagesSize(item)"
-      @click="go(item.url)"
-    >
+      :class="theme.blogList ? 'gradient' : ''" :style="blogListImagesSize(item)" @click="go(item.url)">
       <div class="z-1 text-2xl">
         {{ item.title }}
       </div>
       <div class="z-1 text-base flex mt-3">
         <div> {{ item.date.string }}</div>
         <div v-if="item.frontmatter.tags" class="flex ml-3">
-          <div
-            v-for="(tag, tagIndex) in item.frontmatter.tags"
-            :key="tagIndex"
-            class="mr-3"
-          >
+          <div v-for="(tag, tagIndex) in item.frontmatter.tags" :key="tagIndex" class="mr-3">
             {{ tag }}
           </div>
         </div>

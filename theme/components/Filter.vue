@@ -20,33 +20,25 @@ function badgeUrl(category: string | number | boolean) {
 </script>
 
 <template>
-  <div v-if="props.type === 'tag'" class="tag-box">
+  <div v-if="props.type === 'tag'">
     <div v-if="theme.iconTags" class="tag-box">
-      <img
-        v-for="(item, index) in props.tags" :key="index" :style="theme.iconTagStyle" :alt="item"
+      <img v-for="(item, index) in props.tags" :key="index" :style="theme.iconTagStyle" :alt="item"
         :class="props.filter === item ? 'tag-name active' : 'tag-name'" :src="badgeUrl(item)"
-        @click="setFilter(item, 'tag')"
-      >
+        @click="setFilter(item, 'tag')">
     </div>
     <div v-else class="tag-box">
-      <div
-        v-for="(item, index) in props.tags" :key="index"
-        :class="props.filter === item ? 'name active' : 'name'" :style="{
+      <div v-for="(item, index) in props.tags" :key="index" :class="props.filter === item ? 'name active' : 'name'"
+        :style="{
           backgroundColor: tagColors[index],
           boxShadow: props.filter === item ? `0 1px 8px 0${tagColors[index]}` : '',
-        }"
-        @click="setFilter(item, 'tag')"
-      >
+}" @click="setFilter(item, 'tag')">
         {{ item }}
       </div>
     </div>
   </div>
   <div v-else class="category-box">
-    <div
-      v-for="(value, index) in props.categories" :key="index"
-      :class="props.filter === value ? 'name active' : 'name'"
-      @click="setFilter(value, 'category')"
-    >
+    <div v-for="(value, index) in props.categories" :key="index"
+      :class="props.filter === value ? 'name active' : 'name'" @click="setFilter(value, 'category')">
       {{ value }}
     </div>
   </div>
@@ -54,7 +46,7 @@ function badgeUrl(category: string | number | boolean) {
 
 <style scoped>
   .tag-box {
-    width: 55%;
+    width: 100%;
     display: flex;
     flex-wrap: wrap;
     padding: 1rem;
@@ -93,6 +85,7 @@ function badgeUrl(category: string | number | boolean) {
     flex-wrap: wrap;
     user-select: none;
     padding: 1rem;
+    max-width: 1000px;
 
     .name {
       /* width: 100%; */
@@ -119,7 +112,7 @@ function badgeUrl(category: string | number | boolean) {
     }
   }
 
-  @media screen and (width<768px) {
+  /* @media screen and (width<768px) {
     .tag-box {
       width: 100%;
     }
@@ -127,5 +120,5 @@ function badgeUrl(category: string | number | boolean) {
     .category-box {
       width: 100%;
     }
-  }
+  } */
 </style>

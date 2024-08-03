@@ -2,9 +2,6 @@
 import { useRouter } from "vitepress";
 import type { Post } from "../posts.data";
 import { data } from "../posts.data";
-import HomeFooter from "./HomeFooter.vue";
-import BackTop from "./BackTop.vue";
-import Fall from "./Fall/index.vue";
 
 const posts: Post[] = [];
 data.posts.forEach((post) => {
@@ -55,9 +52,7 @@ function showYear(index: number) {
       </div>
     </div>
   </div>
-  <Fall />
-  <BackTop />
-  <HomeFooter />
+  <slot name="back-top" />
   <content />
 </template>
 

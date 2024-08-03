@@ -53,12 +53,10 @@ const pageName = computed(() =>
         <div :class="isWiden ? 'content-container-widen' : 'content-container'">
           <slot name="doc-before" />
           <main class="main">
-            <Content
-              class="vp-doc" :class="[
+            <Content class="vp-doc" :class="[
                 pageName,
                 theme.externalLinkIcon && 'external-link-icon-enabled',
-              ]"
-            />
+              ]" />
           </main>
           <VPDocFooter>
             <template #doc-footer-before>
@@ -66,6 +64,7 @@ const pageName = computed(() =>
             </template>
           </VPDocFooter>
           <slot name="doc-after" />
+          <slot name="comment" />
         </div>
       </div>
     </div>
