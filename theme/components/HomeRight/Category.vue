@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useRouter } from "vitepress";
 import { getRandomThemeColor } from "../../utils/common";
-
+import Empty from "../Empty.vue";
 const props = defineProps<{
   everyCategoryCount: object;
   count: number;
@@ -17,7 +17,8 @@ function toCategory(value: string) {
     <div class="title">
       分类
     </div>
-    <div v-for="(value, key) in props.everyCategoryCount" :key="key" class="flex" @click="toCategory(key)">
+    <div v-if="props.count !== 0" v-for="(value, key) in props.everyCategoryCount" :key="key" class="flex"
+      @click="toCategory(key)">
       <div class="name">
         {{ key }}
       </div>
@@ -25,6 +26,7 @@ function toCategory(value: string) {
         {{ value }}
       </div>
     </div>
+    <empty class="scale-50" v-else />
   </div>
 </template>
 

@@ -27,7 +27,10 @@ const { frontmatter } = useData()
 
 const slots = useSlots()
 const heroImageSlotExists = computed(() => !!slots['home-hero-image'])
-
+window.addEventListener('vite:preloadError', (event) => {
+  // window.location.reload() // 例如，刷新页面
+  console.log('------------------------error-------------------')
+})
 provide('hero-image-slot-exists', heroImageSlotExists)
 </script>
 

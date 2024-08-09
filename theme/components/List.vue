@@ -5,7 +5,7 @@ import { useData } from "vitepress";
 import type { Post } from "../posts.data";
 import { data } from "../posts.data";
 import ContentsList from "./ContentsList/index.vue";
-
+import Empty from "./Empty.vue";
 const props = defineProps<{
   filterValue?: string;
   filterType?: string;
@@ -54,7 +54,7 @@ function jump(pIndex: number) {
 </script>
 
 <template>
-  <div class="list">
+  <div v-if="filteredPosts.length" class="list">
     <ContentsList :data-list="filteredPosts" />
     <div class="list-control">
       <div v-if="pageIndex !== 1" class="page-number" @click="jump(pageIndex - 1)">
@@ -107,6 +107,7 @@ function jump(pIndex: number) {
       </div>
     </div>
   </div>
+  <empty class="list flex justify-center items-center" v-else />
 </template>
 
 <style scoped>

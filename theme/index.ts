@@ -6,7 +6,6 @@ import Comment from "./components/Comment.vue";
 import WebList from "./components/WebList.vue";
 import HomeRight from "./components/HomeRight/index.vue";
 import BackTop from "./components/BackTop.vue";
-import Fall from "./components/Fall/index.vue";
 // import theme from "@night-tea/vitepress-tree-hole";
 import "./style.css";
 // uno.css
@@ -59,15 +58,13 @@ export interface ThemeConfig extends DefaultTheme.Config {
    */
   iconTagStyle?: object;
   /**
-   * @default isBlogImages:false
    * @default imagesSize:medium
    * @default imagesLocation:center
    * @description Set blog image style
-   * @description imagesSize small : 小图｜medium : 中图｜large : 大图
-   * @description imagesLocation left : 左｜right : 右｜center : 中 | reversal : 左右交替 | leftRight : 左右
+   * @description imagesSize small : 小图 | medium : 中图 | large : 大图
+   * @description imagesLocation left : 左 | right : 右 | center : 中 | reversal : 左右交替 | leftRight : 左右
    */
   blogList?: {
-    isBlogImages?: boolean;
     imagesSize?: "small" | "medium" | "large";
     imagesLocation?: "left" | "right" | "center" | "reversal" | "leftRight";
   };

@@ -2,7 +2,7 @@
 import { useRouter } from "vitepress";
 import type { Post } from "../posts.data";
 import { data } from "../posts.data";
-
+import Empty from "./Empty.vue";
 const posts: Post[] = [];
 data.posts.forEach((post) => {
   if (
@@ -31,7 +31,7 @@ function showYear(index: number) {
 </script>
 
 <template>
-  <div class="timeline">
+  <div v-if="posts.length" class="timeline">
     <div class="flex-content">
       <div v-for="(post, index) in posts" :key="index - 1" class="doc-box" @click="go(post.url)">
         <div class="dot" />
@@ -52,6 +52,8 @@ function showYear(index: number) {
       </div>
     </div>
   </div>
+  <empty v-if="posts.length === 0" class="h-60vh flex justify-center items-center" />
+
   <slot name="back-top" />
   <content />
 </template>

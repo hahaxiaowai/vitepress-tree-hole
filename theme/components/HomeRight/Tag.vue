@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useData, useRouter } from "vitepress";
 import { getRandomThemeColor } from "../../utils/common";
-
+import Empty from "../Empty.vue";
 const props = defineProps<{
   tags: string[];
 }>();
@@ -22,20 +22,16 @@ function badgeUrl(category: string | number | boolean) {
       标签
     </div>
     <div v-if="theme.iconTags" class="flex">
-      <img
-        v-for="(item, index) in props.tags" :key="index" :style="theme.iconTagStyle" :alt="item"
-        class="tag-name" :src="badgeUrl(item)" @click="toTag(item)"
-      >
+      <img v-for="(item, index) in props.tags" :key="index" :style="theme.iconTagStyle" :alt="item" class="tag-name"
+        :src="badgeUrl(item)" @click="toTag(item)">
     </div>
     <div v-else class="flex">
-      <div
-        v-for="(item, index) in props.tags" :key="index" class="name"
-        :style="{ backgroundColor: getRandomThemeColor() }"
-        @click="toTag(item)"
-      >
+      <div v-for="(item, index) in props.tags" :key="index" class="name"
+        :style="{ backgroundColor: getRandomThemeColor() }" @click="toTag(item)">
         {{ item }}
       </div>
     </div>
+    <empty class="scale-50" v-if="props.tags.length === 0" />
   </div>
 </template>
 

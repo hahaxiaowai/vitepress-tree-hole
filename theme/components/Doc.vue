@@ -63,6 +63,7 @@ const pageName = computed(() =>
               <slot name="doc-footer-before" />
             </template>
           </VPDocFooter>
+          <slot name="back-top" />
           <slot name="doc-after" />
           <slot name="comment" />
         </div>

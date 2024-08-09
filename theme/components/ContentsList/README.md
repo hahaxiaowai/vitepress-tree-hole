@@ -7,7 +7,6 @@
 ## 配置
 ``` ts
 /**
- * @default isBlogImages:false
  * @default imagesSize:medium
  * @default imagesLocation:center
  * @description Set blog image style
@@ -15,11 +14,10 @@
  * @description imagesLocation left : 左｜right : 右｜center : 中 | reversal : 左右交替 | leftRight : 左右
  */
 blogList?: {
-  isBlogImages?: boolean;
   imagesSize?: "small" | "medium" | "large";
   imagesLocation?: "left" | "right" | "center" | "reversal" | "leftRight";
 };
-```  
+```
 
 ## TODO
 + 添加Api控制组件样式
