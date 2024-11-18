@@ -43,13 +43,13 @@
  *   in custom container, badges, etc.
  * -------------------------------------------------------------------------- */
 
- :root {
+:root {
   --vp-c-default-1: var(--vp-c-gray-1);
   --vp-c-default-2: var(--vp-c-gray-2);
   --vp-c-default-3: var(--vp-c-gray-3);
   --vp-c-default-soft: var(--vp-c-gray-soft);
 
-  --vp-c-brand-1: var(--vp-c-indigo-1);
+  --vp-c-brand-1: var(--nt-theme-color-1);
   --vp-c-brand-2: var(--vp-c-indigo-2);
   --vp-c-brand-3: var(--vp-c-indigo-3);
   --vp-c-brand-soft: var(--vp-c-indigo-soft);
@@ -92,17 +92,13 @@
 
 :root {
   --vp-home-hero-name-color: transparent;
-  --vp-home-hero-name-background: -webkit-linear-gradient(
-    120deg,
-    #bd34fe 30%,
-    #41d1ff
-  );
+  --vp-home-hero-name-background: -webkit-linear-gradient(120deg,
+      #bd34fe 30%,
+      #41d1ff);
 
-  --vp-home-hero-image-background-image: linear-gradient(
-    -45deg,
-    #bd34fe 50%,
-    #47caff 50%
-  );
+  --vp-home-hero-image-background-image: linear-gradient(-45deg,
+      #bd34fe 50%,
+      #47caff 50%);
   --vp-home-hero-image-filter: blur(44px);
 }
 
@@ -142,8 +138,11 @@
 * green theme
 */
 :root {
+  /* theme color */
+  --nt-theme-color-1: #30a46c;
+  /* --nt-theme-color-1: #cc8700; */
   /* bg */
-  --vp-shadow: 0 1px 8px 0 rgba(200,200,200, .6);
+  --vp-shadow: 0 1px 8px 0 rgba(200, 200, 200, .6);
   --vp-c-bg: #ffffff;
   --vp-c-bg-alt: #f6f6f7;
   --vp-c-bg-elv: #ffffff;
@@ -153,69 +152,114 @@
   --vp-c-indigo-2: #30a46c;
   --vp-c-indigo-3: #30a46c;
   --vp-c-indigo-soft: rgba(16, 185, 129, 0.14);
-  --nt-c-box: rgb(246,248,250);
-  --vp-shadow-hover: 0 1px 8px 0 var(--vp-c-indigo-1);
+  --nt-c-box: rgb(246, 248, 250);
+  --vp-shadow-hover: 0 1px 8px 0 var(--nt-theme-color-1);
 
-  --vp-home-hero-name-background: -webkit-linear-gradient(
-    120deg,
-    #30a46c 30%,
-    #41d1ff
-  );
+  --vp-home-hero-name-background: -webkit-linear-gradient(120deg,
+      #30a46c 30%,
+      #41d1ff);
 
-  --vp-home-hero-image-background-image: linear-gradient(
-    -45deg,
-    #30a46c  50%,
-    #47caff 50%
-  );
+  --vp-home-hero-image-background-image: linear-gradient(-45deg,
+      #30a46c 50%,
+      #47caff 50%);
 }
 
 .dark {
-  --vp-shadow: 0 1px 8px 0 rgba(0,0,0, .6);
+  --vp-shadow: 0 1px 8px 0 rgba(0, 0, 0, .6);
   --vp-c-bg: #181818;
   --vp-c-bg-alt: #000000;
   --vp-c-bg-elv: #202127;
   --vp-c-bg-soft: #202127;
 
-  --vp-c-indigo-1: #30a46c;
-  --vp-c-indigo-2: #30a46c;
-  --vp-c-indigo-3: #30a46c;
-  /* --vp-c-indigo-soft: rgba(100, 108, 255, 0.16); */
-  --nt-c-box: rgb(1,4,9);
+  --nt-c-box: rgb(1, 4, 9);
 }
 
-::-webkit-scrollbar{
-  width:5px;
+::-webkit-scrollbar {
+  width: 5px;
   height: 5px;
   background-color: var(--vp-c-bg);
 }
 
 /* 自定义滚动条的滑块（thumb） */
 ::-webkit-scrollbar-thumb {
-  background-color: var(--vp-c-indigo-1); /* 滑块的背景颜色 */
-  border-radius: 3px; /* 滑块的圆角 */
+  background-color: var(--nt-theme-color-1);
+  /* 滑块的背景颜色 */
+  border-radius: 3px;
+  /* 滑块的圆角 */
 }
 
 /* 当滑块悬停或活动时的样式 */
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--vp-c-indigo-1); /* 悬停或活动状态下滑块的背景颜色 */
+  background: var(--nt-theme-color-1);
+  /* 悬停或活动状态下滑块的背景颜色 */
 }
+
 /* @media screen and (width<768px) { */
-  .VPNavScreen{
-    padding: 0 0 !important;
-    .container{
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-    }
-    .VPNavScreenMenu{
-      width: 90%;
-    }
-    .VPNavScreenAppearance{
-      width: 90%;
-    }
-    .VPSocialLink{
-      margin-bottom: 10px;
-    }
+.VPNavScreen {
+  padding: 0 0 !important;
+
+  .container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
   }
+
+  .VPNavScreenMenu {
+    width: 90%;
+  }
+
+  .VPNavScreenAppearance {
+    width: 90%;
+  }
+
+  .VPSocialLink {
+    margin-bottom: 10px;
+  }
+}
+
 /* } */
+:root {
+  --tm-rounded: 0.5rem;
+  --tm-textarea-bg: #fffffe;
+  --tm-tagBg: #eef3fe;
+  --tm-tagColor: #5783f7;
+}
+
+.dark {
+  --tm-textarea-bg: #1e1e1e;
+  --tm-tagBg: #3a4359;
+  --tm-tagColor: #2b88d8;
+}
+
+.custom-tag {
+  background-color: var(--tm-tagBg);
+  color: var(--tm-tagColor);
+  font-size: 1rem;
+  line-height: 1.8rem;
+  padding: 1px 4px;
+  border-radius: 3px;
+}
+
+.shiki,
+.shiki span {
+  color: var(--shiki-light);
+  background: var(--shiki-light-bg);
+}
+
+html.dark .shiki,
+html.dark .shiki span {
+  color: var(--shiki-dark);
+  background: var(--shiki-dark-bg);
+}
+
+.md-editor,
+.cm-editor,
+.md-editor-preview {
+  --md-border-color: var(--tm-textarea-bg) !important;
+  --md-bk-color: var(--tm-textarea-bg) !important;
+  --md-theme-code-block-bg-color: var(--vp-c-bg-alt) !important;
+  font-size: 1.1rem !important;
+  min-height: 200px !important;
+  /* height: auto !important; */
+}

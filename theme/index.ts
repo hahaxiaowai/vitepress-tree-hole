@@ -33,6 +33,11 @@ export interface ThemeConfig extends DefaultTheme.Config {
     umamiToken: string;
     umamiUrl: string;
   };
+  memo?: {
+    memoUrl: string,
+    memoUser: string,
+    memoToken: string,
+  },
   comment?: {
     repo: string;
     repoId: string;
@@ -79,7 +84,8 @@ export default {
       "back-top": () => h(BackTop),
     });
   },
-  enhanceApp({ app }) {
+  enhanceApp({ app, }) {
     app.component("web-list", WebList);
+
   },
 } satisfies Theme;

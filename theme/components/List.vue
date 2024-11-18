@@ -111,11 +111,11 @@ function jump(pIndex: number) {
 </template>
 
 <style scoped>
-.list {
-  width: 60vw;
-  max-width: 1000px;
-  min-height: 79vh;
-}
+  .list {
+    width: 60vw;
+    max-width: 1000px;
+    min-height: 79vh;
+  }
 
   .list-control {
     display: flex;
@@ -157,11 +157,11 @@ function jump(pIndex: number) {
     .page-number:hover {
       transition: 0.3s;
       box-shadow: var(--vp-shadow-hover);
-      border: 1px solid var(--vp-c-indigo-1);
+      border: 1px solid var(--nt-theme-color-1);
     }
 
     .page-number-active {
-      background-color: var(--vp-c-indigo-1);
+      background-color: var(--nt-theme-color-1);
       cursor: default;
     }
   }

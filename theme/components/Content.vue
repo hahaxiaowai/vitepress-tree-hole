@@ -9,6 +9,8 @@ import VPPage from 'vitepress/dist/client/theme-default/components/VPPage.vue'
 import TimeLine from './TimeLine.vue'
 import Blog from './Blog/index.vue'
 import FilterBlog from './FilterBlog.vue'
+import Memo from './Memo/index.vue'
+
 const { page, frontmatter } = useData()
 const { hasSidebar } = useSidebar()
 </script>
@@ -67,6 +69,7 @@ const { hasSidebar } = useSidebar()
     </TimeLine>
     <Blog v-else-if="frontmatter.layout === 'blog'"></Blog>
     <FilterBlog v-else-if="frontmatter.layout === 'category' || frontmatter.layout === 'tag'"></FilterBlog>
+    <Memo v-else-if="frontmatter.layout === 'memo'"></Memo>
     <component v-else-if="frontmatter.layout && frontmatter.layout !== 'doc'" :is="frontmatter.layout" />
 
     <VPDoc v-else>

@@ -97,39 +97,45 @@ function isImagesShow(index: number) {
 </template>
 
 <style scoped>
-.box {
-  position: relative;
-  box-shadow: var(--vp-shadow);
-  transition: all 0.3s;
-  background-color: var(--vp-c-bg);
-  border: 1px solid var(--vp-c-bg);
-}
-.box:hover {
-  transition: 0.3s;
-  box-shadow: var(--vp-shadow-hover);
-  border: 1px solid var(--vp-c-indigo-1);
-}
-.gradient::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(to right, rgba(125, 125, 125, 1), rgba(125, 125, 125, 0.5));
-  border-radius: inherit;
-}
-.gradient:hover::before {
-  background: linear-gradient(to right, rgba(125, 125, 125, 1), rgba(125, 125, 125, 0.9));
-  transition: background 0.5s ease;
-}
-.box-images {
-  clip-path: polygon(0 0, 100% 0, 100% 100%, 10% 100%);
-}
-.box-images-right {
-  clip-path: polygon(0 0, 90% 0, 100% 100%, 0 100%) !important;
-}
-.box:hover .box-images {
-  transition: 0.3s;
-}
+  .box {
+    position: relative;
+    box-shadow: var(--vp-shadow);
+    transition: all 0.3s;
+    background-color: var(--vp-c-bg);
+    border: 1px solid var(--vp-c-bg);
+  }
+
+  .box:hover {
+    transition: 0.3s;
+    box-shadow: var(--vp-shadow-hover);
+    border: 1px solid var(--nt-theme-color-1);
+  }
+
+  .gradient::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to right, rgba(125, 125, 125, 1), rgba(125, 125, 125, 0.5));
+    border-radius: inherit;
+  }
+
+  .gradient:hover::before {
+    background: linear-gradient(to right, rgba(125, 125, 125, 1), rgba(125, 125, 125, 0.9));
+    transition: background 0.5s ease;
+  }
+
+  .box-images {
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 10% 100%);
+  }
+
+  .box-images-right {
+    clip-path: polygon(0 0, 90% 0, 100% 100%, 0 100%) !important;
+  }
+
+  .box:hover .box-images {
+    transition: 0.3s;
+  }
 </style>

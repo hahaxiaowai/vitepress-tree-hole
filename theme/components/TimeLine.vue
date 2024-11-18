@@ -121,7 +121,7 @@ function showYear(index: number) {
         font-size: 1.4rem;
         line-height: 1.4rem;
         text-align: left;
-        color: var(--vp-c-indigo-1);
+        color: var(--nt-theme-color-1);
         font-weight: 600;
       }
 
@@ -141,10 +141,10 @@ function showYear(index: number) {
     }
 
     .doc-box:hover {
-      color: var(--vp-c-indigo-1);
+      color: var(--nt-theme-color-1);
 
       .dot {
-        background-color: var(--vp-c-indigo-1);
+        background-color: var(--nt-theme-color-1);
       }
     }
   }

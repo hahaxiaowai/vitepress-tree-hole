@@ -113,7 +113,7 @@ window.addEventListener("scrollend", () => {
     position: fixed;
     bottom: 5vh;
     right: 5vw;
-    background-color: var(--vp-c-indigo-1);
+    background-color: var(--nt-theme-color-1);
     padding: 0.25rem;
     border-radius: 2.5rem;
     cursor: pointer;

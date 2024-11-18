@@ -160,7 +160,7 @@ if (theme.value.umami) {
       padding-top: 0.5rem;
       padding-left: 0.5rem;
       font-size: 1.5rem;
-      color: var(--vp-c-indigo-1);
+      color: var(--nt-theme-color-1);
       font-weight: 700;
     }
   }

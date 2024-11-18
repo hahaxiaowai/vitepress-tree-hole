@@ -88,6 +88,17 @@ const baseConfig = {
     outline: {
       label: "页面导航",
     },
+    memo: {
+      memoUrl: "",
+      memoUser: "",
+      memoToken: "",
+    },
+    comment: {
+      repo: "",
+      repoId: "",
+      categoryId: "",
+      reactionsEnabled: "1",
+    },
   },
 } as RawConfigExports<ThemeConfig>;
 export default baseConfig;

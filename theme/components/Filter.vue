@@ -104,11 +104,11 @@ function badgeUrl(category: string | number | boolean) {
     .name:hover {
       transition: 0.3s;
       box-shadow: var(--vp-shadow-hover);
-      border: 1px solid var(--vp-c-indigo-1);
+      border: 1px solid var(--nt-theme-color-1);
     }
 
     .active {
-      background-color: var(--vp-c-indigo-1);
+      background-color: var(--nt-theme-color-1);
     }
   }
 

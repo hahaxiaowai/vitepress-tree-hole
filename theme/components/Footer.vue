@@ -68,7 +68,7 @@ function jumpTo() {
 
 <style scoped>
   .home-footer {
-    color: var(--vp-c-indigo-1);
+    color: var(--nt-theme-color-1);
     padding-top: 2rem;
     height: 5rem;
     line-height: 20px;
