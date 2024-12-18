@@ -8,7 +8,7 @@ const props = defineProps<{
 const { theme } = useData();
 const router = useRouter();
 function toTag(value: string) {
-  router.go(`/tag?tag=${value}`);
+  router.go(`/${theme.value.route.tag}?tag=${value}`);
 }
 
 function badgeUrl(category: string | number | boolean) {

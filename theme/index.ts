@@ -34,10 +34,10 @@ export interface ThemeConfig extends DefaultTheme.Config {
     umamiUrl: string;
   };
   memo?: {
-    memoUrl: string,
-    memoUser: string,
-    memoToken: string,
-  },
+    memoUrl: string;
+    memoUser: string;
+    memoToken: string;
+  };
   comment?: {
     repo: string;
     repoId: string;
@@ -73,6 +73,11 @@ export interface ThemeConfig extends DefaultTheme.Config {
     imagesSize?: "small" | "medium" | "large";
     imagesLocation?: "left" | "right" | "center" | "reversal" | "leftRight";
   };
+  route: {
+    category: string;
+    filter: string;
+    tag: string;
+  };
 }
 export default {
   extends: theme,
@@ -84,8 +89,7 @@ export default {
       "back-top": () => h(BackTop),
     });
   },
-  enhanceApp({ app, }) {
+  enhanceApp({ app }) {
     app.component("web-list", WebList);
-
   },
 } satisfies Theme;

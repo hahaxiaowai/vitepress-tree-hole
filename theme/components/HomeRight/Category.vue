@@ -1,14 +1,15 @@
 <script setup lang="ts">
-import { useRouter } from "vitepress";
+import { useData, useRouter } from "vitepress";
 import { getRandomThemeColor } from "../../utils/common";
 import Empty from "../Empty.vue";
 const props = defineProps<{
   everyCategoryCount: object;
   count: number;
 }>();
+const { theme } = useData();
 const router = useRouter();
 function toCategory(value: string) {
-  router.go(`/category?category=${value}`);
+  router.go(`/${theme.value.route.tag}?category=${value}`);
 }
 </script>
 

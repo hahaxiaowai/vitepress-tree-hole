@@ -10,12 +10,16 @@ const props = defineProps<{
 }>();
 const emit = defineEmits<{ setFilter: [name: string, type: string] }>();
 const { theme } = useData();
-const tagColors = props.tags.map(() => { return getRandomThemeColor(); });
+const tagColors = props.tags.map(() => {
+  return getRandomThemeColor();
+});
 function setFilter(name: string, type: string) {
   emit("setFilter", name, type);
 }
 function badgeUrl(category: string | number | boolean) {
-  return `https://img.shields.io/badge/-${encodeURIComponent(category)}-${encodeURIComponent("#3c3c43c7")}?logo=${encodeURIComponent(category)}`;
+  return `https://img.shields.io/badge/-${encodeURIComponent(
+    category
+  )}-${encodeURIComponent("#3c3c43c7")}?logo=${encodeURIComponent(category)}`;
 }
 </script>
 
@@ -24,24 +28,52 @@ function badgeUrl(category: string | number | boolean) {
     <div v-if="theme.iconTags" class="tag-box">
       <img v-for="(item, index) in props.tags" :key="index" :style="theme.iconTagStyle" :alt="item"
         :class="props.filter === item ? 'tag-name active' : 'tag-name'" :src="badgeUrl(item)"
-        @click="setFilter(item, 'tag')">
+        @click="setFilter(item, 'tag')" />
     </div>
     <div v-else class="tag-box">
       <div v-for="(item, index) in props.tags" :key="index" :class="props.filter === item ? 'name active' : 'name'"
         :style="{
           backgroundColor: tagColors[index],
-          boxShadow: props.filter === item ? `0 1px 8px 0${tagColors[index]}` : '',
+  boxShadow:
+    props.filter === item ? `0 1px 8px 0${tagColors[index]}` : '',
 }" @click="setFilter(item, 'tag')">
         {{ item }}
       </div>
     </div>
   </div>
-  <div v-else class="category-box">
+  <div v-if="props.type === 'category'" class="category-box">
     <div v-for="(value, index) in props.categories" :key="index"
       :class="props.filter === value ? 'name active' : 'name'" @click="setFilter(value, 'category')">
       {{ value }}
     </div>
   </div>
+  <div v-if="props.type === 'filter'">
+    <div class="category-box">
+      <div v-for="(value, index) in props.categories" :key="index"
+        :class="props.filter === value ? 'name active' : 'name'" @click="setFilter(value, 'category')">
+        {{ value }}
+      </div>
+    </div>
+    <div>
+      <div v-if="theme.iconTags" class="tag-box">
+        <img v-for="(item, index) in props.tags" :key="index" :style="theme.iconTagStyle" :alt="item"
+          :class="props.filter === item ? 'tag-name active' : 'tag-name'" :src="badgeUrl(item)"
+          @click="setFilter(item, 'tag')" />
+      </div>
+      <div v-else class="tag-box">
+        <div v-for="(item, index) in props.tags" :key="index" :class="props.filter === item ? 'name active' : 'name'"
+          :style="{
+            backgroundColor: tagColors[index],
+            boxShadow:
+              props.filter === item ? `0 1px 8px 0${tagColors[index]}` : '',
+          }" @click="setFilter(item, 'tag')">
+          {{ item }}
+        </div>
+      </div>
+    </div>
+
+  </div>
+
 </template>
 
 <style scoped>
@@ -50,7 +82,7 @@ function badgeUrl(category: string | number | boolean) {
     display: flex;
     flex-wrap: wrap;
     padding: 1rem;
-    max-width: 1000px;
+    max-width: 900px;
     user-select: none;
 
     .name {
@@ -80,12 +112,12 @@ function badgeUrl(category: string | number | boolean) {
   }
 
   .category-box {
-    width: 55%;
+    width: 100%;
     display: flex;
     flex-wrap: wrap;
     user-select: none;
     padding: 1rem;
-    max-width: 1000px;
+    max-width: 900px;
 
     .name {
       /* width: 100%; */

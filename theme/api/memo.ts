@@ -4,8 +4,7 @@ import request from "../utils/request";
 
 export function getMemoList(
   page: number,
-  filter1: string,
-  filter2: string,
+  filters: string,
   url: string,
   username: string,
   token: string,
@@ -16,6 +15,7 @@ export function getMemoList(
     params: {
       page,
       token,
+      filters,
       username
     }
   });

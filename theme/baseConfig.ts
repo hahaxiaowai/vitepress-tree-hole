@@ -99,6 +99,11 @@ const baseConfig = {
       categoryId: "",
       reactionsEnabled: "1",
     },
+    route: {
+      category: 'category',
+      filter: 'filter',
+      tag: 'tag'
+    }
   },
 } as RawConfigExports<ThemeConfig>;
 export default baseConfig;

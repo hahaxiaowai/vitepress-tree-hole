@@ -1,7 +1,6 @@
 import { config } from 'md-editor-v3'
 
 export function useMD() {
-  console.log('useMD')
   config({
     codeMirrorExtensions(_theme, _extensions) {
       const extensions = [..._extensions]
@@ -16,7 +15,7 @@ export function useMD() {
         if (marker !== 0x23 /* # */)
           return false
 
-        const match = state.src.slice(start).match(/^#([\w/]+)/)
+        const match = state.src.slice(start).match(/^#([\w\u4E00-\u9FA5/]+)/)
         if (!match)
           return false
 

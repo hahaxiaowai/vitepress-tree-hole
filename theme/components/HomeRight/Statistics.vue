@@ -55,7 +55,7 @@ if (theme.value.umami) {
     if (total?.pageviews)
       data.value[0].value = total.pageviews.value;
     const date = new Date();
-    const date2 = new Date(`${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`);
+    const date2 = new Date(`${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()} 00:00:00`);
     const day = await getStats(umamiId, umamiUrl, umamiToken, date2.getTime() - 0);
     if (day?.pageviews) {
       data.value[1].value = day.pageviews.value;

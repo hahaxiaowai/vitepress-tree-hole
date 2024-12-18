@@ -1,6 +1,6 @@
 <script setup lang="ts">
 // Copy VPDoc
-import { useData, useRoute } from "vitepress";
+import { useData, useRoute, useRouter } from "vitepress";
 import { useSidebar } from "vitepress/theme";
 import { computed } from "vue";
 import VPDocAside from "vitepress/dist/client/theme-default/components/VPDocAside.vue";
@@ -10,11 +10,19 @@ import "../styles/widen.css";
 const { theme, frontmatter } = useData();
 const isWiden = computed(() => { return frontmatter.value.type === "widen"; });
 const route = useRoute();
+const router = useRouter();
 const { hasSidebar, hasAside, leftAside } = useSidebar();
 
 const pageName = computed(() =>
   route.path.replace(/[./]+/g, "_").replace(/_html$/, ""),
 );
+function toTag(value: string) {
+  router.go(`/tag?tag=${value}`);
+}
+
+function badgeUrl(category: string | number | boolean) {
+  return `https://img.shields.io/badge/-${encodeURIComponent(category)}-${encodeURIComponent("#3c3c43c7")}?logo=${encodeURIComponent(category)}`;
+}
 </script>
 
 <template>
@@ -54,10 +62,14 @@ const pageName = computed(() =>
           <slot name="doc-before" />
           <main class="main">
             <Content class="vp-doc" :class="[
-                pageName,
-                theme.externalLinkIcon && 'external-link-icon-enabled',
-              ]" />
+  pageName,
+  theme.externalLinkIcon && 'external-link-icon-enabled',
+]" />
           </main>
+          <div v-if="frontmatter.tags" flex>
+            <img v-for="(item, index) in frontmatter.tags" :key="index" :style="theme.iconTagStyle" :alt="item"
+              class="tag-name" mr-4 :src="badgeUrl(item)" @click="toTag(item)">
+          </div>
           <VPDocFooter>
             <template #doc-footer-before>
               <slot name="doc-footer-before" />
@@ -74,132 +86,132 @@ const pageName = computed(() =>
 </template>
 
 <style scoped>
-.VPDoc {
-  min-height: 100vh;
-  padding: 32px 24px 96px;
-  width: 100%;
-}
-
-@media (min-width: 768px) {
   .VPDoc {
-    padding: 48px 32px 128px;
-  }
-}
-
-@media (min-width: 960px) {
-  .VPDoc {
-    padding: 48px 32px 0;
+    min-height: 100vh;
+    padding: 32px 24px 96px;
+    width: 100%;
   }
 
-  .VPDoc:not(.has-sidebar) .container {
-    display: flex;
-    justify-content: center;
-    max-width: 992px;
+  @media (min-width: 768px) {
+    .VPDoc {
+      padding: 48px 32px 128px;
+    }
   }
 
-  .VPDoc:not(.has-sidebar) .content {
-    max-width: 752px;
-  }
-}
+  @media (min-width: 960px) {
+    .VPDoc {
+      padding: 48px 32px 0;
+    }
 
-@media (min-width: 1280px) {
-  .VPDoc .container {
-    display: flex;
-    justify-content: center;
-  }
+    .VPDoc:not(.has-sidebar) .container {
+      display: flex;
+      justify-content: center;
+      max-width: 992px;
+    }
 
-  .VPDoc .aside {
-    display: block;
-  }
-}
-
-@media (min-width: 1440px) {
-  .VPDoc:not(.has-sidebar) .content {
-    max-width: 784px;
+    .VPDoc:not(.has-sidebar) .content {
+      max-width: 752px;
+    }
   }
 
-  .VPDoc:not(.has-sidebar) .container {
-    max-width: 1204px;
+  @media (min-width: 1280px) {
+    .VPDoc .container {
+      display: flex;
+      justify-content: center;
+    }
+
+    .VPDoc .aside {
+      display: block;
+    }
   }
-}
 
-.container {
-  margin: 0 auto;
-  width: 100%;
-}
+  @media (min-width: 1440px) {
+    .VPDoc:not(.has-sidebar) .content {
+      max-width: 784px;
+    }
 
-.aside {
-  position: relative;
-  display: none;
-  order: 2;
-  flex-grow: 1;
-  padding-left: 32px;
-  width: 100%;
-  max-width: 256px;
-}
-
-.left-aside {
-  order: 1;
-  padding-left: unset;
-  padding-right: 32px;
-}
-
-.aside-container {
-  position: fixed;
-  top: 0;
-  padding-top: calc(var(--vp-nav-height) + var(--vp-layout-top-height, 0px) + var(--vp-doc-top-height, 0px) + 48px);
-  width: 224px;
-  height: 100vh;
-  overflow-x: hidden;
-  overflow-y: auto;
-  scrollbar-width: none;
-}
-
-.aside-container::-webkit-scrollbar {
-  display: none;
-}
-
-.aside-curtain {
-  position: fixed;
-  bottom: 0;
-  z-index: 10;
-  width: 224px;
-  height: 32px;
-  background: linear-gradient(transparent, var(--vp-c-bg) 70%);
-}
-
-.aside-content {
-  display: flex;
-  flex-direction: column;
-  min-height: calc(100vh - (var(--vp-nav-height) + var(--vp-layout-top-height, 0px) + 48px));
-  padding-bottom: 32px;
-}
-
-.content {
-  position: relative;
-  margin: 0 auto;
-  width: 100%;
-}
-
-@media (min-width: 960px) {
-  .content {
-    padding: 0 32px 128px;
+    .VPDoc:not(.has-sidebar) .container {
+      max-width: 1204px;
+    }
   }
-}
 
-@media (min-width: 1280px) {
-  .content {
+  .container {
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  .aside {
+    position: relative;
+    display: none;
+    order: 2;
+    flex-grow: 1;
+    padding-left: 32px;
+    width: 100%;
+    max-width: 256px;
+  }
+
+  .left-aside {
     order: 1;
-    margin: 0;
-    min-width: 640px;
+    padding-left: unset;
+    padding-right: 32px;
   }
-}
 
-.content-container {
-  margin: 0 auto;
-}
+  .aside-container {
+    position: fixed;
+    top: 0;
+    padding-top: calc(var(--vp-nav-height) + var(--vp-layout-top-height, 0px) + var(--vp-doc-top-height, 0px) + 48px);
+    width: 224px;
+    height: 100vh;
+    overflow-x: hidden;
+    overflow-y: auto;
+    scrollbar-width: none;
+  }
 
-.VPDoc.has-aside .content-container {
-  max-width: 688px;
-}
+  .aside-container::-webkit-scrollbar {
+    display: none;
+  }
+
+  .aside-curtain {
+    position: fixed;
+    bottom: 0;
+    z-index: 10;
+    width: 224px;
+    height: 32px;
+    background: linear-gradient(transparent, var(--vp-c-bg) 70%);
+  }
+
+  .aside-content {
+    display: flex;
+    flex-direction: column;
+    min-height: calc(100vh - (var(--vp-nav-height) + var(--vp-layout-top-height, 0px) + 48px));
+    padding-bottom: 32px;
+  }
+
+  .content {
+    position: relative;
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  @media (min-width: 960px) {
+    .content {
+      padding: 0 32px 128px;
+    }
+  }
+
+  @media (min-width: 1280px) {
+    .content {
+      order: 1;
+      margin: 0;
+      min-width: 640px;
+    }
+  }
+
+  .content-container {
+    margin: 0 auto;
+  }
+
+  .VPDoc.has-aside .content-container {
+    max-width: 688px;
+  }
 </style>

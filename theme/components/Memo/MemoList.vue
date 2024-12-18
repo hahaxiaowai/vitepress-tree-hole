@@ -32,7 +32,7 @@ onMounted(async () => {
     padding: 1rem;
     border-radius: var(--tm-rounded);
     background-color: var(--tm-textarea-bg);
-    width: 675px;
+    width: 768px;
   }
 
   @media screen and (max-width: 430px) {

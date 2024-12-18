@@ -40,6 +40,10 @@ function blogListImagesSize(item: { imgURL: string }) {
   return {};
 }
 
+function badgeUrl(category: string | number | boolean) {
+  return `https://img.shields.io/badge/-${encodeURIComponent(category)}-${encodeURIComponent("#3c3c43c7")}?logo=${encodeURIComponent(category)}`;
+}
+
 function isImagesShow(index: number) {
   if ((index % 2 === 0 && imagesLocation === 'reversal') || imagesLocation === 'left') {
     return true
@@ -88,7 +92,7 @@ function isImagesShow(index: number) {
         <div> {{ item.date.string }}</div>
         <div v-if="item.frontmatter.tags" class="flex ml-3">
           <div v-for="(tag, tagIndex) in item.frontmatter.tags" :key="tagIndex" class="mr-3">
-            {{ tag }}
+            <img :key="index" :style="theme.iconTagStyle" :alt="tag" :src="badgeUrl(tag)">
           </div>
         </div>
       </div>

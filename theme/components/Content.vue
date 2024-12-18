@@ -68,7 +68,9 @@ const { hasSidebar } = useSidebar()
       </template>
     </TimeLine>
     <Blog v-else-if="frontmatter.layout === 'blog'"></Blog>
-    <FilterBlog v-else-if="frontmatter.layout === 'category' || frontmatter.layout === 'tag'"></FilterBlog>
+    <FilterBlog
+      v-else-if="frontmatter.layout === 'category' || frontmatter.layout === 'tag' || frontmatter.layout === 'filter'">
+    </FilterBlog>
     <Memo v-else-if="frontmatter.layout === 'memo'"></Memo>
     <component v-else-if="frontmatter.layout && frontmatter.layout !== 'doc'" :is="frontmatter.layout" />
 
