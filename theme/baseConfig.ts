@@ -7,7 +7,7 @@ import type { ThemeConfig } from ".";
 const baseConfig = {
   lang: "zh",
   rewrites: {
-    "page/(.*)": "(.*)",
+    "pages/(.*)": "(.*)",
   },
   vite: {
     resolve: {
