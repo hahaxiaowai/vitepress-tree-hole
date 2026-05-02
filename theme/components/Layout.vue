@@ -1,41 +1,49 @@
 <script setup lang="ts">
-import { useRoute } from 'vitepress'
-import { computed, provide, useSlots, watch } from 'vue'
-import VPBackdrop from 'vitepress/dist/client/theme-default/components/VPBackdrop.vue'
-import VPContent from './Content.vue'
-import VPFooter from 'vitepress/dist/client/theme-default/components/VPFooter.vue'
-import VPLocalNav from 'vitepress/dist/client/theme-default/components/VPLocalNav.vue'
-import VPNav from 'vitepress/dist/client/theme-default/components/VPNav.vue'
-import VPSidebar from 'vitepress/dist/client/theme-default/components/VPSidebar.vue'
-import VPSkipLink from 'vitepress/dist/client/theme-default/components/VPSkipLink.vue'
-import { useData } from 'vitepress/dist/client/theme-default/composables/data'
-import { useCloseSidebarOnEscape, useSidebar } from 'vitepress/dist/client/theme-default/composables/sidebar'
-import Fall from './Fall/index.vue'
-import Footer from './Footer.vue'
+import { useRoute } from "vitepress";
+import VPBackdrop from "vitepress/dist/client/theme-default/components/VPBackdrop.vue";
+import VPFooter from "vitepress/dist/client/theme-default/components/VPFooter.vue";
+import VPLocalNav from "vitepress/dist/client/theme-default/components/VPLocalNav.vue";
+import VPNav from "vitepress/dist/client/theme-default/components/VPNav.vue";
+import VPSidebar from "vitepress/dist/client/theme-default/components/VPSidebar.vue";
+import VPSkipLink from "vitepress/dist/client/theme-default/components/VPSkipLink.vue";
+import { useData } from "vitepress/dist/client/theme-default/composables/data";
+import { useCloseSidebarOnEscape, useSidebar } from "vitepress/dist/client/theme-default/composables/sidebar";
+import { computed, provide, useSlots, watch } from "vue";
+import Content from "./Content.vue";
+import Fall from "./Fall/index.vue";
+import Footer from "./Footer.vue";
+
 const {
   isOpen: isSidebarOpen,
   open: openSidebar,
-  close: closeSidebar
-} = useSidebar()
+  close: closeSidebar,
+} = useSidebar();
 
-const route = useRoute()
-watch(() => route.path, closeSidebar)
+const route = useRoute();
+watch(() => route.path, closeSidebar);
 
-useCloseSidebarOnEscape(isSidebarOpen, closeSidebar)
+useCloseSidebarOnEscape(isSidebarOpen, closeSidebar);
 
-const { frontmatter } = useData()
+const { frontmatter } = useData();
 
-const slots = useSlots()
-const heroImageSlotExists = computed(() => !!slots['home-hero-image'])
-window.addEventListener('vite:preloadError', (event) => {
-  // window.location.reload() // 例如，刷新页面
-  console.log('------------------------error-------------------')
-})
-provide('hero-image-slot-exists', heroImageSlotExists)
+const slots = useSlots();
+const heroImageSlotExists = computed(() => !!slots["home-hero-image"]);
+
+if (typeof window !== "undefined") {
+  window.addEventListener("vite:preloadError", (event) => {
+    console.error("vite:preloadError", event);
+  });
+}
+
+provide("hero-image-slot-exists", heroImageSlotExists);
 </script>
 
 <template>
-  <div v-if="frontmatter.layout !== false" class="Layout" :class="frontmatter.pageClass">
+  <div
+    v-if="frontmatter.layout !== false"
+    class="flex min-h-screen flex-col"
+    :class="frontmatter.pageClass"
+  >
     <slot name="layout-top" />
     <VPSkipLink />
     <VPBackdrop class="backdrop" :show="isSidebarOpen" @click="closeSidebar" />
@@ -70,7 +78,7 @@ provide('hero-image-slot-exists', heroImageSlotExists)
       </template>
     </VPSidebar>
 
-    <VPContent>
+    <Content>
       <template #page-top>
         <slot name="page-top" />
       </template>
@@ -143,15 +151,13 @@ provide('hero-image-slot-exists', heroImageSlotExists)
       <template #aside-ads-after>
         <slot name="aside-ads-after" />
       </template>
-      <!-- custom slot -->
       <template #comment>
         <slot name="comment" />
       </template>
       <template #back-top>
         <slot name="back-top" />
       </template>
-    </VPContent>
-    <!-- 目前两个footer并存，后面重写 -->
+    </Content>
     <VPFooter />
     <Footer />
     <Fall />
@@ -159,11 +165,3 @@ provide('hero-image-slot-exists', heroImageSlotExists)
   </div>
   <Content v-else />
 </template>
-
-<style scoped>
-  .Layout {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-  }
-</style>

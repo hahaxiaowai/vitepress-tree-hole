@@ -1,25 +1,16 @@
 <script setup lang="ts">
-import HomeTop from "./BlogTop.vue";
-import List from "../List.vue";
 import HomeRight from "../HomeRight/index.vue";
-
-const width = window.outerWidth;
+import List from "../List.vue";
+import HomeTop from "./BlogTop.vue";
 </script>
 
 <template>
   <HomeTop />
-  <div class="flex-content">
-    <List />
-    <HomeRight v-if="width >= 768" />
+  <div class="mx-auto flex w-full max-w-[1440px] gap-6 px-4 pb-6 pt-6 min-[1024px]:px-6">
+    <List class="min-w-0 flex-1" />
+    <div class="hidden shrink-0 min-[1024px]:block">
+      <HomeRight />
+    </div>
   </div>
   <content />
 </template>
-
-<style scoped>
-  .flex-content {
-    padding-top: 1rem;
-    display: flex;
-    justify-content: center;
-    flex: auto
-  }
-</style>

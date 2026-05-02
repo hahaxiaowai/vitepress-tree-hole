@@ -1,200 +1,116 @@
 <script setup lang="ts">
 import type { ComputedRef, Ref } from "vue";
-import { computed, ref } from "vue";
-import { useData } from "vitepress";
 import type { Post } from "../posts.data";
+import { useData } from "vitepress";
+import { computed, ref, watch } from "vue";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
 import { data } from "../posts.data";
 import ContentsList from "./ContentsList/index.vue";
 import Empty from "./Empty.vue";
+
 const props = defineProps<{
   filterValue?: string;
   filterType?: string;
 }>();
+
 const { theme } = useData();
 
 const posts: ComputedRef<Post[]> = computed(() => {
   if (props.filterType === "tag") {
-    const res = [];
-    for (let i = 0; i < data.posts.length; i++) {
-      if (data.posts[i].frontmatter.tags && data.posts[i].frontmatter.tags.includes(props.filterValue)) {
-        res.push(data.posts[i]);
-      }
-    }
-    return res;
+    return data.posts.filter(post =>
+      post.frontmatter.tags && post.frontmatter.tags.includes(props.filterValue),
+    );
   }
-  else if (props.filterType === "category") {
-    const res = [];
-    for (let i = 0; i < data.posts.length; i++) {
-      if (data.posts[i].frontmatter.categories && data.posts[i].frontmatter.categories.includes(props.filterValue)) {
-        res.push(data.posts[i]);
-      }
-    }
-    return res;
+  if (props.filterType === "category") {
+    return data.posts.filter(post =>
+      post.frontmatter.categories && post.frontmatter.categories.includes(props.filterValue),
+    );
   }
   return data.posts;
 });
-const docCount: number = theme.value.docCount || 10; // 每页展示文章数量
-const totalPage: ComputedRef<number> = computed(() => { return Math.ceil(posts.value.length / docCount); });
+
+const docCount: number = theme.value.docCount || 10;
+const totalPage: ComputedRef<number> = computed(() => Math.max(1, Math.ceil(posts.value.length / docCount)));
 const pageIndex: Ref<number> = ref(1);
+const jumpPage: Ref<number> = ref(1);
 
 const filteredPosts = computed(() => {
   const start = (pageIndex.value - 1) * docCount;
   const end = start + docCount;
   return posts.value.slice(start, end);
 });
-const morePageNumberFill: ComputedRef<number> = computed(() => {
-  return Math.floor((pageIndex.value - 2) / 4) * 4 + 1;
+
+watch(() => [props.filterType, props.filterValue], () => {
+  pageIndex.value = 1;
+  jumpPage.value = 1;
 });
-const jumpPage: Ref<number> = ref(1);
+
+function updateJumpPage(value: string | number) {
+  jumpPage.value = Number(value || 1);
+}
+
 function jump(pIndex: number) {
-  if (pIndex === undefined || pIndex === 0)
+  if (!pIndex || Number.isNaN(pIndex)) {
     return;
-  pageIndex.value = pIndex;
+  }
+  pageIndex.value = Math.min(totalPage.value, Math.max(1, pIndex));
+  jumpPage.value = pageIndex.value;
 }
 </script>
 
 <template>
-  <div v-if="filteredPosts.length" class="list">
+  <div v-if="filteredPosts.length" class="min-h-[79vh] w-full max-w-[1000px]">
     <ContentsList :data-list="filteredPosts" />
-    <div class="list-control">
-      <div v-if="pageIndex !== 1" class="page-number" @click="jump(pageIndex - 1)">
-        <span>&lt;</span>
-      </div>
-      <div v-if="totalPage < 9" class="list-control">
-        <div v-for="i in totalPage" :key="i" :class="pageIndex === i ? 'page-number page-number-active' : 'page-number'"
-          @click="jump(i)">
-          {{ i }}
-        </div>
-      </div>
-      <div v-else class="more-page">
-        <div :class="pageIndex === 1 ? 'page-number page-number-active' : 'page-number'" @click="jump(1)">
-          {{ 1 }}
-        </div>
-        <div v-if="pageIndex > 5" class="page-ellipsis">
-          ...
-        </div>
-        <div v-if="pageIndex <= 5" class="list-control">
-          <div v-for="i in 4 " :key="i" :class="pageIndex === i + 1 ? 'page-number page-number-active' : 'page-number'"
-            @click="jump(i + 1)">
-            {{ i + 1 }}
-          </div>
-        </div>
-        <div v-if="pageIndex > 5" class="list-control">
-          <div v-for="i in totalPage - morePageNumberFill > 4 ? 4 : totalPage - morePageNumberFill - 1 " :key="i"
-            :class="pageIndex === morePageNumberFill + i ? 'page-number page-number-active' : 'page-number'"
-            @click="jump(morePageNumberFill + i)">
-            {{ morePageNumberFill + i }}
-          </div>
-        </div>
+    <div class="mt-8 flex flex-col items-center gap-4 px-4 pb-4">
+      <Pagination
+        v-if="totalPage > 1"
+        :items-per-page="1"
+        :page="pageIndex"
+        :sibling-count="1"
+        :total="totalPage"
+        show-edges
+        @update:page="jump"
+      >
+        <PaginationContent v-slot="{ items }" class="flex-wrap justify-center gap-2">
+          <PaginationPrevious />
+          <template v-for="(item, index) in items" :key="`${item.type}-${item.value ?? index}`">
+            <PaginationItem
+              v-if="item.type === 'page'"
+              :value="item.value"
+              :is-active="item.value === pageIndex"
+            >
+              {{ item.value }}
+            </PaginationItem>
+            <PaginationEllipsis v-else :index="index" />
+          </template>
+          <PaginationNext />
+        </PaginationContent>
+      </Pagination>
 
-        <div v-if="pageIndex < totalPage - 3" class="page-ellipsis">
-          ...
-        </div>
-        <div :class="pageIndex === totalPage ? 'page-number page-number-active' : 'page-number'"
-          @click="jump(totalPage)">
-          {{ totalPage }}
-        </div>
-      </div>
-      <div v-if="totalPage !== 1 && pageIndex !== totalPage" class="page-number" @click="jump(pageIndex + 1)">
-        <span>&gt;</span>
-      </div>
-      <div>
-        <span class="page-number jumpDom">跳转至</span>
-        <input v-model="jumpPage" class="page-number" type="number" name="页数">
-        <button class="page-number" @click="jump(jumpPage)">
+      <div class="flex items-center gap-2 rounded-2xl bg-[var(--vp-c-bg-soft)] px-3 py-2">
+        <span class="hidden text-sm text-[var(--vp-c-text-2)] min-[350px]:inline">跳转到</span>
+        <Input
+          :model-value="String(jumpPage)"
+          class="h-8 w-20 bg-[var(--vp-c-bg)] text-center"
+          type="number"
+          name="页码"
+          aria-label="页码"
+          @update:model-value="updateJumpPage"
+        />
+        <Button size="sm" class="rounded-full" @click="jump(jumpPage)">
           前往
-        </button>
+        </Button>
       </div>
     </div>
   </div>
-  <empty class="list flex justify-center items-center" v-else />
+  <Empty v-else class="mx-auto w-full max-w-[1000px]" />
 </template>
-
-<style scoped>
-  .list {
-    width: 60vw;
-    max-width: 1000px;
-    min-height: 79vh;
-  }
-
-  .list-control {
-    display: flex;
-    justify-content: center;
-    user-select: none;
-
-    div {
-      padding: 0px 5px;
-      margin: 0px 3px;
-    }
-
-    .more-page {
-      display: flex;
-      justify-content: center;
-    }
-
-    input {
-      width: 70px;
-      margin: 0 8px;
-    }
-
-    .page-number {
-      font-size: 1.1rem;
-      padding: 4px 8px;
-      border-radius: 4px;
-      cursor: pointer;
-      box-shadow: var(--vp-shadow);
-      border: 1px solid var(--vp-c-bg);
-    }
-
-    .page-ellipsis {
-      font-size: 1.1rem;
-      padding: 4px 8px;
-      border-radius: 4px;
-      cursor: default;
-      box-shadow: var(--vp-shadow);
-    }
-
-    .page-number:hover {
-      transition: 0.3s;
-      box-shadow: var(--vp-shadow-hover);
-      border: 1px solid var(--nt-theme-color-1);
-    }
-
-    .page-number-active {
-      background-color: var(--nt-theme-color-1);
-      cursor: default;
-    }
-  }
-
-  @media screen and (width<768px) {
-    .list {
-      width: 100vw;
-    }
-
-    .list-control {
-      div {
-        padding: 0px 5px;
-        margin: 0px 2px;
-      }
-
-      .page-number {
-        padding: 1px 4px;
-      }
-
-      .page-ellipsis {
-        padding: 1px 4px;
-      }
-
-      input {
-        width: 20px;
-        margin: 0 4px;
-      }
-    }
-  }
-
-  @media screen and (width<350px) {
-    .jumpDom {
-      display: none
-    }
-  }
-</style>

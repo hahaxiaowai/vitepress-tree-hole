@@ -1,6 +1,4 @@
-/* eslint-disable node/prefer-global/process */
 import request from "../utils/request";
-
 
 export function getMemoList(
   page: number,
@@ -16,7 +14,7 @@ export function getMemoList(
       page,
       token,
       filters,
-      username
-    }
+      username,
+    },
   });
 }

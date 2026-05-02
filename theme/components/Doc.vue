@@ -1,38 +1,49 @@
 <script setup lang="ts">
-// Copy VPDoc
-import { useData, useRoute, useRouter } from "vitepress";
-import { useSidebar } from "vitepress/theme";
-import { computed } from "vue";
+import { useData, useRoute } from "vitepress";
 import VPDocAside from "vitepress/dist/client/theme-default/components/VPDocAside.vue";
 import VPDocFooter from "vitepress/dist/client/theme-default/components/VPDocFooter.vue";
+import { useSidebar } from "vitepress/theme";
+import { computed } from "vue";
+import { cn } from "../lib/cn";
+import TagChip from "./TagChip.vue";
 import "../styles/widen.css";
 
 const { theme, frontmatter } = useData();
-const isWiden = computed(() => { return frontmatter.value.type === "widen"; });
+const isWiden = computed(() => frontmatter.value.type === "widen");
 const route = useRoute();
-const router = useRouter();
 const { hasSidebar, hasAside, leftAside } = useSidebar();
 
 const pageName = computed(() =>
   route.path.replace(/[./]+/g, "_").replace(/_html$/, ""),
 );
-function toTag(value: string) {
-  router.go(`/tag?tag=${value}`);
-}
 
-function badgeUrl(category: string | number | boolean) {
-  return `https://img.shields.io/badge/-${encodeURIComponent(category)}-${encodeURIComponent("#3c3c43c7")}?logo=${encodeURIComponent(category)}`;
+const contentClasses = computed(() => {
+  if (isWiden.value) {
+    return "content-widen";
+  }
+  if (!hasSidebar.value) {
+    return "mx-auto w-full max-w-[752px] min-[1440px]:max-w-[784px]";
+  }
+  return "mx-auto w-full max-w-[688px]";
+});
+
+function tagHref(value: string) {
+  return `/${theme.value.route.tag}?tag=${encodeURIComponent(value)}`;
 }
 </script>
 
 <template>
-  <div class="VPDoc" :class="{ 'has-sidebar': hasSidebar, 'has-aside': hasAside }">
+  <div class="w-full min-h-screen px-6 pb-24 pt-8 min-[768px]:px-8 min-[768px]:pb-32 min-[768px]:pt-12 min-[960px]:pb-0">
     <slot name="doc-top" />
-    <div :class="isWiden ? 'container-widen' : 'container'">
-      <div v-if="hasAside" class="aside" :class="{ 'left-aside': leftAside }">
-        <div class="aside-curtain" />
-        <div class="aside-container">
-          <div class="aside-content">
+    <div :class="isWiden ? 'container-widen' : 'mx-auto flex w-full max-w-[1204px] justify-center gap-8'">
+      <aside
+        v-if="hasAside && !isWiden"
+        class="relative hidden w-full max-w-64 shrink-0 min-[1280px]:block"
+        :class="leftAside ? 'order-first pr-8' : 'order-last pl-8'"
+      >
+        <div class="fixed top-0 h-screen w-56 overflow-x-hidden overflow-y-auto pt-[calc(var(--vp-nav-height)_+_var(--vp-layout-top-height,0px)_+_var(--vp-doc-top-height,0px)_+_48px)] [scrollbar-width:none]">
+          <div class="pointer-events-none fixed bottom-0 z-10 h-8 w-56 bg-[linear-gradient(180deg,transparent_0%,var(--vp-c-bg)_70%)]" />
+          <div class="flex min-h-[calc(100vh_-_(var(--vp-nav-height)_+_var(--vp-layout-top-height,0px)_+_48px))] flex-col pb-8">
             <VPDocAside>
               <template #aside-top>
                 <slot name="aside-top" />
@@ -55,22 +66,32 @@ function badgeUrl(category: string | number | boolean) {
             </VPDocAside>
           </div>
         </div>
-      </div>
+      </aside>
 
-      <div :class="isWiden ? 'content-widen' : 'content'">
-        <div :class="isWiden ? 'content-container-widen' : 'content-container'">
+      <div :class="cn('relative w-full min-[960px]:pb-32', contentClasses)">
+        <div :class="isWiden ? 'content-container-widen' : 'mx-auto'">
           <slot name="doc-before" />
-          <main class="main">
-            <Content class="vp-doc" :class="[
-  pageName,
-  theme.externalLinkIcon && 'external-link-icon-enabled',
-]" />
+          <main class="min-w-0">
+            <Content
+              class="vp-doc"
+              :class="[
+                pageName,
+                theme.externalLinkIcon && 'external-link-icon-enabled',
+              ]"
+            />
           </main>
-          <div v-if="frontmatter.tags" flex>
-            <img v-for="(item, index) in frontmatter.tags" :key="index" :style="theme.iconTagStyle" :alt="item"
-              class="tag-name" mr-4 :src="badgeUrl(item)" @click="toTag(item)">
+          <div v-if="frontmatter.tags" class="mt-6 flex flex-wrap items-center gap-3">
+            <TagChip
+              v-for="(item, index) in frontmatter.tags"
+              :key="index"
+              :href="tagHref(item)"
+              :index="index"
+              :label="item"
+              :style="theme.iconTagStyle"
+              :variant="theme.iconTags ? 'solid' : 'soft'"
+            />
           </div>
-          <VPDocFooter>
+          <VPDocFooter class="mt-6">
             <template #doc-footer-before>
               <slot name="doc-footer-before" />
             </template>
@@ -84,134 +105,3 @@ function badgeUrl(category: string | number | boolean) {
     <slot name="doc-bottom" />
   </div>
 </template>
-
-<style scoped>
-  .VPDoc {
-    min-height: 100vh;
-    padding: 32px 24px 96px;
-    width: 100%;
-  }
-
-  @media (min-width: 768px) {
-    .VPDoc {
-      padding: 48px 32px 128px;
-    }
-  }
-
-  @media (min-width: 960px) {
-    .VPDoc {
-      padding: 48px 32px 0;
-    }
-
-    .VPDoc:not(.has-sidebar) .container {
-      display: flex;
-      justify-content: center;
-      max-width: 992px;
-    }
-
-    .VPDoc:not(.has-sidebar) .content {
-      max-width: 752px;
-    }
-  }
-
-  @media (min-width: 1280px) {
-    .VPDoc .container {
-      display: flex;
-      justify-content: center;
-    }
-
-    .VPDoc .aside {
-      display: block;
-    }
-  }
-
-  @media (min-width: 1440px) {
-    .VPDoc:not(.has-sidebar) .content {
-      max-width: 784px;
-    }
-
-    .VPDoc:not(.has-sidebar) .container {
-      max-width: 1204px;
-    }
-  }
-
-  .container {
-    margin: 0 auto;
-    width: 100%;
-  }
-
-  .aside {
-    position: relative;
-    display: none;
-    order: 2;
-    flex-grow: 1;
-    padding-left: 32px;
-    width: 100%;
-    max-width: 256px;
-  }
-
-  .left-aside {
-    order: 1;
-    padding-left: unset;
-    padding-right: 32px;
-  }
-
-  .aside-container {
-    position: fixed;
-    top: 0;
-    padding-top: calc(var(--vp-nav-height) + var(--vp-layout-top-height, 0px) + var(--vp-doc-top-height, 0px) + 48px);
-    width: 224px;
-    height: 100vh;
-    overflow-x: hidden;
-    overflow-y: auto;
-    scrollbar-width: none;
-  }
-
-  .aside-container::-webkit-scrollbar {
-    display: none;
-  }
-
-  .aside-curtain {
-    position: fixed;
-    bottom: 0;
-    z-index: 10;
-    width: 224px;
-    height: 32px;
-    background: linear-gradient(transparent, var(--vp-c-bg) 70%);
-  }
-
-  .aside-content {
-    display: flex;
-    flex-direction: column;
-    min-height: calc(100vh - (var(--vp-nav-height) + var(--vp-layout-top-height, 0px) + 48px));
-    padding-bottom: 32px;
-  }
-
-  .content {
-    position: relative;
-    margin: 0 auto;
-    width: 100%;
-  }
-
-  @media (min-width: 960px) {
-    .content {
-      padding: 0 32px 128px;
-    }
-  }
-
-  @media (min-width: 1280px) {
-    .content {
-      order: 1;
-      margin: 0;
-      min-width: 640px;
-    }
-  }
-
-  .content-container {
-    margin: 0 auto;
-  }
-
-  .VPDoc.has-aside .content-container {
-    max-width: 688px;
-  }
-</style>

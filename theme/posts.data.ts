@@ -76,12 +76,10 @@ function formatDate(raw: string): Post["date"] {
   date.setUTCHours(8);
   return {
     time: +date,
-    string: date.toLocaleDateString("zh", {
+    string: date.toLocaleDateString("zh-CN", {
       year: "numeric",
       month: "numeric",
       day: "numeric",
-      hour: "numeric",
-      minute: "numeric",
     }),
   };
 }

@@ -1,15 +1,12 @@
-// https://vitepress.dev/guide/custom-theme
-import { h } from "vue";
 import type { DefaultTheme, Theme } from "vitepress";
 import theme from "vitepress/theme";
-import Comment from "./components/Comment.vue";
-import WebList from "./components/WebList.vue";
-import HomeRight from "./components/HomeRight/index.vue";
+// https://vitepress.dev/guide/custom-theme
+import { h } from "vue";
 import BackTop from "./components/BackTop.vue";
-// import theme from "@night-tea/vitepress-tree-hole";
+import Comment from "./components/Comment.vue";
+import HomeRight from "./components/HomeRight/index.vue";
+import WebList from "./components/WebList.vue";
 import "./style.css";
-// uno.css
-import "virtual:uno.css";
 
 export interface ThemeConfig extends DefaultTheme.Config {
   author?: string;
@@ -26,7 +23,7 @@ export interface ThemeConfig extends DefaultTheme.Config {
    */
   startYear?: string;
   headImage?: string;
-  headStyle?: any;
+  headStyle?: Record<string, string>;
   authorImage?: string;
   umami?: {
     umamiId: string;
@@ -52,14 +49,13 @@ export interface ThemeConfig extends DefaultTheme.Config {
     count?: number;
   };
   /**
-   * https://github.com/simple-icons/simple-icons/blob/master/slugs.md
    * @default false
-   * @description use ico tags or not
+   * @description use vibrant local tag chips or not
    */
   iconTags?: boolean;
   /**
    * @default height:20px
-   * @description ico tags style
+   * @description tag chip style
    */
   iconTagStyle?: object;
   /**
@@ -84,7 +80,7 @@ export default {
   Layout: () => {
     return h(theme.Layout, null, {
       // https://vitepress.dev/guide/extending-default-theme#layout-slots
-      comment: () => h(Comment),
+      "comment": () => h(Comment),
       "nav-screen-content-after": () => h(HomeRight),
       "back-top": () => h(BackTop),
     });

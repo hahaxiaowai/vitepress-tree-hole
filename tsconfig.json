@@ -1,35 +1,16 @@
 {
+  "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    "target": "ESNext",
-    "jsx": "preserve",
-    "lib": ["DOM", "ESNext"],
-    "baseUrl": ".",
-    "module": "ESNext",
-    "moduleResolution": "node",
     "paths": {
-      "~/*": ["/*"]
-    },
-    "resolveJsonModule": true,
-    "types": [
-
-    ],
-    "allowJs": true,
-    "strict": true,
-    "strictNullChecks": true,
-    "noUnusedLocals": true,
-    "declaration": true,
-    "declarationDir": "dist/theme",
-    "outDir": "dist/theme",
-    "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
-    "isolatedModules": true,
-    "skipLibCheck": true
+      "@/*": [
+        "./theme/*"
+      ]
+    }
   },
-  "vueCompilerOptions": {
-
-  },
-
-  "include": ["**/*"],
-  "exclude": ["dist", "node_modules", "eslint.config.mjs", "scripts", "cache"]
-
+  "include": [
+    "baseConfig.ts",
+    "index.ts",
+    "theme/**/*"
+  ],
+  "exclude": ["dist", "node_modules", "scripts"]
 }

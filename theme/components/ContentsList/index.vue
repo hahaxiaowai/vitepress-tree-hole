@@ -1,13 +1,14 @@
-<script setup lang='ts'>
-import { useData, useRouter } from "vitepress";
+<script setup lang="ts">
 import type { Post } from "../../posts.data";
+import { useData, withBase } from "vitepress";
+import { Card } from "@/components/ui/card";
+import TagChip from "../TagChip.vue";
 
 defineProps<{
   dataList: Post[];
 }>();
 
 const { theme } = useData();
-const { go } = useRouter();
 
 const { blogList } = theme.value;
 const imagesLocation = blogList?.imagesLocation;
@@ -18,128 +19,138 @@ function randomImages() {
 }
 
 function blogListImagesSize(item: { imgURL: string }) {
-  let imagesSize;
-  if (theme.value.blogList) {
-    if (theme.value.blogList.imagesSize === "small") {
-      imagesSize = "100px";
-    }
-    else if (theme.value.blogList.imagesSize === "large") {
-      imagesSize = "200px";
-    }
-    else {
-      imagesSize = "150px";
-    }
-    return {
-      backgroundImage: item.imgURL ? `url(${item.imgURL})` : randomImages(),
-      backgroundSize: "cover",
-      backgroundPosition: "center",
-      backgroundRepeat: "no-repeat",
-      height: imagesSize,
-    };
+  let imagesSize = "150px";
+  if (theme.value.blogList?.imagesSize === "small") {
+    imagesSize = "100px";
   }
-  return {};
+  else if (theme.value.blogList?.imagesSize === "large") {
+    imagesSize = "200px";
+  }
+  return {
+    backgroundImage: item.imgURL ? `url(${item.imgURL})` : `url(${randomImages()})`,
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+    backgroundRepeat: "no-repeat",
+    height: imagesSize,
+  };
 }
 
-function badgeUrl(category: string | number | boolean) {
-  return `https://img.shields.io/badge/-${encodeURIComponent(category)}-${encodeURIComponent("#3c3c43c7")}?logo=${encodeURIComponent(category)}`;
+function postHref(url: string) {
+  return withBase(url);
+}
+
+function tagVariant(): "soft" | "solid" | "contrast" {
+  if (theme.value.blogList) {
+    return "contrast";
+  }
+  return theme.value.iconTags ? "solid" : "soft";
 }
 
 function isImagesShow(index: number) {
-  if ((index % 2 === 0 && imagesLocation === 'reversal') || imagesLocation === 'left') {
-    return true
-  } else if ((index % 2 !== 0 && imagesLocation === 'reversal') || imagesLocation === 'right') {
-    return false
+  if ((index % 2 === 0 && imagesLocation === "reversal") || imagesLocation === "left") {
+    return true;
   }
+  if ((index % 2 !== 0 && imagesLocation === "reversal") || imagesLocation === "right") {
+    return false;
+  }
+  return true;
 }
 </script>
 
 <template>
-  <div v-if="theme.blogList && imagesLocation && imagesLocation !== 'center'">
-    <div v-for="(item, index) in dataList" :key="index"
-      class=" box group flex justify-center items-center w-9/10 mx-auto mt-3 mb-5 rounded cursor-pointer box-border"
-      @click="go(item.url)">
-      <div v-if="imagesLocation === 'leftRight' || isImagesShow(index)"
-        class="box-images-right w-3/10 overflow-hidden rounded-l">
-        <div :style="blogListImagesSize(item)" class="group-hover:scale-125 transition-transform duration-700" />
-      </div>
-      <div class="w-7/10 flex flex-col items-center p-4">
-        <div class="z-1 text-2xl">
-          {{ item.title }}
-        </div>
-        <div class="z-1 text-base flex mt-3">
-          <div> {{ item.date.string }}</div>
-          <div v-if="item.frontmatter.tags" class="flex ml-3">
-            <div v-for="(tag, tagIndex) in item.frontmatter.tags" :key="tagIndex" class="mr-3">
-              {{ tag }}
+  <div class="space-y-5">
+    <template v-if="theme.blogList && imagesLocation && imagesLocation !== 'center'">
+      <a
+        v-for="(item, index) in dataList"
+        :key="index"
+        class="group block mx-auto w-[90%] rounded-3xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--vp-c-bg)]"
+        :href="postHref(item.url)"
+      >
+        <Card
+          class="overflow-hidden rounded-3xl bg-[var(--vp-c-bg)] shadow-[var(--vp-shadow)] [transition-property:transform,box-shadow,background-color] duration-200 group-hover:-translate-y-0.5 group-hover:bg-[var(--vp-c-bg-elv)] group-hover:shadow-[var(--vp-shadow-hover)]"
+        >
+          <div class="flex flex-col min-[900px]:flex-row">
+            <div
+              v-if="imagesLocation === 'leftRight' || isImagesShow(index)"
+              class="min-h-[160px] w-full overflow-hidden min-[900px]:w-[30%]"
+            >
+              <div
+                :style="blogListImagesSize(item)"
+                class="size-full min-h-[160px] transition-transform duration-700 group-hover:scale-110"
+              />
+            </div>
+            <div class="flex w-full flex-1 flex-col justify-center gap-4 px-5 py-5 min-[900px]:w-[70%]">
+              <div class="text-2xl font-semibold text-[var(--vp-c-text-1)]">
+                {{ item.title }}
+              </div>
+              <div class="flex flex-wrap items-center gap-3 text-sm text-[var(--vp-c-text-2)]">
+                <span>{{ item.date.string }}</span>
+                <div v-if="item.frontmatter.tags" class="flex flex-wrap gap-2">
+                  <TagChip
+                    v-for="(tag, tagIndex) in item.frontmatter.tags"
+                    :key="tagIndex"
+                    :index="tagIndex"
+                    :label="tag"
+                    :style="theme.iconTagStyle"
+                    :variant="tagVariant()"
+                    class="text-xs"
+                  />
+                </div>
+              </div>
+            </div>
+            <div
+              v-if="imagesLocation === 'leftRight' || !isImagesShow(index)"
+              class="min-h-[160px] w-full overflow-hidden min-[900px]:w-[30%]"
+            >
+              <div
+                :style="blogListImagesSize(item)"
+                class="size-full min-h-[160px] transition-transform duration-700 group-hover:scale-110"
+              />
             </div>
           </div>
-        </div>
-      </div>
-      <div v-if="imagesLocation === 'leftRight' || !isImagesShow(index)"
-        class="box-images w-3/10 overflow-hidden rounded-r">
-        <div :style="blogListImagesSize(item)" class="group-hover:scale-125 transition-transform duration-700" />
-      </div>
-    </div>
-  </div>
-  <div v-else>
-    <div v-for="(item, index) in dataList" :key="index"
-      class="box flex flex-col justify-center w-9/10 mx-auto mt-3 mb-5 px-4 py-5 rounded cursor-pointer"
-      :class="theme.blogList ? 'gradient' : ''" :style="blogListImagesSize(item)" @click="go(item.url)">
-      <div class="z-1 text-2xl">
-        {{ item.title }}
-      </div>
-      <div class="z-1 text-base flex mt-3">
-        <div> {{ item.date.string }}</div>
-        <div v-if="item.frontmatter.tags" class="flex ml-3">
-          <div v-for="(tag, tagIndex) in item.frontmatter.tags" :key="tagIndex" class="mr-3">
-            <img :key="index" :style="theme.iconTagStyle" :alt="tag" :src="badgeUrl(tag)">
+        </Card>
+      </a>
+    </template>
+    <template v-else>
+      <a
+        v-for="(item, index) in dataList"
+        :key="index"
+        class="group block mx-auto w-[90%] rounded-3xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--vp-c-bg)]"
+        :href="postHref(item.url)"
+      >
+        <Card
+          class="relative overflow-hidden rounded-3xl bg-[var(--vp-c-bg)] px-5 py-5 shadow-[var(--vp-shadow)] [transition-property:transform,box-shadow,background-color] duration-200 group-hover:-translate-y-0.5 group-hover:bg-[var(--vp-c-bg-elv)] group-hover:shadow-[var(--vp-shadow-hover)]"
+        >
+          <div
+            v-if="theme.blogList"
+            class="absolute inset-0"
+            :style="blogListImagesSize(item)"
+          />
+          <div
+            v-if="theme.blogList"
+            class="absolute inset-0 bg-[linear-gradient(90deg,rgba(17,24,39,0.78)_0%,rgba(17,24,39,0.32)_100%)] transition duration-300 group-hover:bg-[linear-gradient(90deg,rgba(17,24,39,0.88)_0%,rgba(17,24,39,0.55)_100%)]"
+          />
+          <div class="relative z-10 flex flex-col gap-4">
+            <div class="text-2xl font-semibold" :class="theme.blogList ? 'text-white' : 'text-[var(--vp-c-text-1)]'">
+              {{ item.title }}
+            </div>
+            <div class="flex flex-wrap items-center gap-3 text-sm" :class="theme.blogList ? 'text-white/80' : 'text-[var(--vp-c-text-2)]'">
+              <span>{{ item.date.string }}</span>
+              <div v-if="item.frontmatter.tags" class="flex flex-wrap gap-2">
+                <TagChip
+                  v-for="(tag, tagIndex) in item.frontmatter.tags"
+                  :key="tagIndex"
+                  :index="tagIndex"
+                  :label="tag"
+                  :style="theme.iconTagStyle"
+                  :variant="tagVariant()"
+                  class="text-xs"
+                />
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
-    </div>
+        </Card>
+      </a>
+    </template>
   </div>
 </template>
-
-<style scoped>
-  .box {
-    position: relative;
-    box-shadow: var(--vp-shadow);
-    transition: all 0.3s;
-    background-color: var(--vp-c-bg);
-    border: 1px solid var(--vp-c-bg);
-  }
-
-  .box:hover {
-    transition: 0.3s;
-    box-shadow: var(--vp-shadow-hover);
-    border: 1px solid var(--nt-theme-color-1);
-  }
-
-  .gradient::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(to right, rgba(125, 125, 125, 1), rgba(125, 125, 125, 0.5));
-    border-radius: inherit;
-  }
-
-  .gradient:hover::before {
-    background: linear-gradient(to right, rgba(125, 125, 125, 1), rgba(125, 125, 125, 0.9));
-    transition: background 0.5s ease;
-  }
-
-  .box-images {
-    clip-path: polygon(0 0, 100% 0, 100% 100%, 10% 100%);
-  }
-
-  .box-images-right {
-    clip-path: polygon(0 0, 90% 0, 100% 100%, 0 100%) !important;
-  }
-
-  .box:hover .box-images {
-    transition: 0.3s;
-  }
-</style>

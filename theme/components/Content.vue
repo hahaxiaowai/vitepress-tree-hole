@@ -1,26 +1,36 @@
 <script setup lang="ts">
-// Copy VPContent.vue
-import NotFound from 'vitepress/dist/client/theme-default/NotFound.vue'
-import { useData } from 'vitepress/dist/client/theme-default/composables/data'
-import { useSidebar } from 'vitepress/dist/client/theme-default/composables/sidebar'
-import VPDoc from './Doc.vue'
-import VPHome from 'vitepress/dist/client/theme-default/components/VPHome.vue'
-import VPPage from 'vitepress/dist/client/theme-default/components/VPPage.vue'
-import TimeLine from './TimeLine.vue'
-import Blog from './Blog/index.vue'
-import FilterBlog from './FilterBlog.vue'
-import Memo from './Memo/index.vue'
+import VPHome from "vitepress/dist/client/theme-default/components/VPHome.vue";
+import VPPage from "vitepress/dist/client/theme-default/components/VPPage.vue";
+import { useData } from "vitepress/dist/client/theme-default/composables/data";
+import { useSidebar } from "vitepress/dist/client/theme-default/composables/sidebar";
+import NotFound from "vitepress/dist/client/theme-default/NotFound.vue";
+import { computed } from "vue";
+import { cn } from "../lib/cn";
+import Blog from "./Blog/index.vue";
+import Doc from "./Doc.vue";
+import FilterBlog from "./FilterBlog.vue";
+import Memo from "./Memo/index.vue";
+import TimeLine from "./TimeLine.vue";
 
-const { page, frontmatter } = useData()
-const { hasSidebar } = useSidebar()
+const { page, frontmatter } = useData();
+const { hasSidebar } = useSidebar();
+
+const contentClasses = computed(() =>
+  cn(
+    "w-full grow shrink-0",
+    frontmatter.value.layout === "home"
+      ? "mt-[var(--vp-layout-top-height,0px)] max-w-none"
+      : "mt-[var(--vp-layout-top-height,0px)]",
+    !hasSidebar.value && "min-[960px]:pt-[var(--vp-nav-height)]",
+    hasSidebar.value
+    && "m-0 min-[960px]:mt-[var(--vp-layout-top-height,0px)] min-[960px]:pl-[var(--vp-sidebar-width)] min-[1440px]:pr-[calc((100vw_-_var(--vp-layout-max-width))_/_2)] min-[1440px]:pl-[calc((100vw_-_var(--vp-layout-max-width))_/_2_+_var(--vp-sidebar-width))]",
+  ),
+);
 </script>
 
 <template>
-  <div class="VPContent" id="VPContent" :class="{
-    'has-sidebar': hasSidebar,
-    'is-home': frontmatter.layout === 'home'
-  }">
-    <slot name="not-found" v-if="page.isNotFound">
+  <div id="VPContent" :class="contentClasses">
+    <slot v-if="page.isNotFound" name="not-found">
       <NotFound />
     </slot>
 
@@ -67,14 +77,14 @@ const { hasSidebar } = useSidebar()
         <slot name="back-top" />
       </template>
     </TimeLine>
-    <Blog v-else-if="frontmatter.layout === 'blog'"></Blog>
+    <Blog v-else-if="frontmatter.layout === 'blog'" />
     <FilterBlog
-      v-else-if="frontmatter.layout === 'category' || frontmatter.layout === 'tag' || frontmatter.layout === 'filter'">
-    </FilterBlog>
-    <Memo v-else-if="frontmatter.layout === 'memo'"></Memo>
-    <component v-else-if="frontmatter.layout && frontmatter.layout !== 'doc'" :is="frontmatter.layout" />
+      v-else-if="frontmatter.layout === 'category' || frontmatter.layout === 'tag' || frontmatter.layout === 'filter'"
+    />
+    <Memo v-else-if="frontmatter.layout === 'memo'" />
+    <component :is="frontmatter.layout" v-else-if="frontmatter.layout && frontmatter.layout !== 'doc'" />
 
-    <VPDoc v-else>
+    <Doc v-else>
       <template #doc-top>
         <slot name="doc-top" />
       </template>
@@ -116,42 +126,6 @@ const { hasSidebar } = useSidebar()
       <template #back-top>
         <slot name="back-top" />
       </template>
-    </VPDoc>
+    </Doc>
   </div>
 </template>
-
-<style scoped>
-  .VPContent {
-    flex-grow: 1;
-    flex-shrink: 0;
-    margin: var(--vp-layout-top-height, 0px) auto 0;
-    width: 100%;
-  }
-
-  .VPContent.is-home {
-    width: 100%;
-    max-width: 100%;
-  }
-
-  .VPContent.has-sidebar {
-    margin: 0;
-  }
-
-  @media (min-width: 960px) {
-    .VPContent {
-      padding-top: var(--vp-nav-height);
-    }
-
-    .VPContent.has-sidebar {
-      margin: var(--vp-layout-top-height, 0px) 0 0;
-      padding-left: var(--vp-sidebar-width);
-    }
-  }
-
-  @media (min-width: 1440px) {
-    .VPContent.has-sidebar {
-      padding-right: calc((100vw - var(--vp-layout-max-width)) / 2);
-      padding-left: calc((100vw - var(--vp-layout-max-width)) / 2 + var(--vp-sidebar-width));
-    }
-  }
-</style>

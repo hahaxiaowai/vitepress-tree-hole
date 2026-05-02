@@ -1,4 +1,8 @@
 <script setup lang="ts">
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Card } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
+
 const props = defineProps<{
   author?: string;
   authorImage?: string;
@@ -9,73 +13,46 @@ const props = defineProps<{
 </script>
 
 <template>
-  <div class="author-box">
-    <div v-if="props.authorImage" class="author-image">
-      <img :src="props.authorImage" alt="" srcset="">
-    </div>
-    <div v-if="props.author" class="author">
+  <section class="flex flex-col items-center gap-5 px-5 py-6">
+    <Avatar
+      v-if="props.authorImage || props.author"
+      size="base"
+      class="size-24 border-4 border-white/60 shadow-[var(--vp-shadow)]"
+    >
+      <AvatarImage v-if="props.authorImage" :src="props.authorImage" :alt="props.author || '作者头像'" />
+      <AvatarFallback class="bg-[var(--nt-theme-color-soft)] text-[var(--nt-theme-color-1)]">
+        {{ props.author?.slice(0, 1) || "NT" }}
+      </AvatarFallback>
+    </Avatar>
+    <div v-if="props.author" class="text-2xl font-semibold text-[var(--vp-c-text-1)]">
       {{ props.author }}
     </div>
-    <div class="flex-count">
-      <div v-if="props.docCount" class="count-box">
-        {{ props.docCount || 0 }} <br> 文章
-      </div>
-      <div class="right-border" />
-      <div v-if="props.tagCount" class="count-box">
-        {{ props.tagCount || 0 }} <br> 标签
-      </div>
-      <div class="right-border" />
-      <div v-if="props.categoryCount" class="count-box">
-        {{ props.categoryCount || 0 }} <br> 分类
-      </div>
+    <div class="grid w-full grid-cols-3 gap-3 text-center">
+      <Card class="rounded-2xl border-0 bg-[var(--vp-c-bg-soft)] px-3 py-4 shadow-none">
+        <div class="text-xl font-semibold text-[var(--nt-theme-color-1)]">
+          {{ props.docCount || 0 }}
+        </div>
+        <div class="mt-1 text-xs tracking-[0.2em] text-[var(--vp-c-text-2)]">
+          文章
+        </div>
+      </Card>
+      <Card class="rounded-2xl border-0 bg-[var(--vp-c-bg-soft)] px-3 py-4 shadow-none">
+        <div class="text-xl font-semibold text-[var(--nt-theme-color-1)]">
+          {{ props.tagCount || 0 }}
+        </div>
+        <div class="mt-1 text-xs tracking-[0.2em] text-[var(--vp-c-text-2)]">
+          标签
+        </div>
+      </Card>
+      <Card class="rounded-2xl border-0 bg-[var(--vp-c-bg-soft)] px-3 py-4 shadow-none">
+        <div class="text-xl font-semibold text-[var(--nt-theme-color-1)]">
+          {{ props.categoryCount || 0 }}
+        </div>
+        <div class="mt-1 text-xs tracking-[0.2em] text-[var(--vp-c-text-2)]">
+          分类
+        </div>
+      </Card>
     </div>
-    <div class="bottom-border" />
-  </div>
+    <Separator class="opacity-60" />
+  </section>
 </template>
-
-<style scoped>
-.author-box {
-  /* width: 100%; */
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 1rem;
-
-  .author-image {
-    width: 100px;
-    height: 100px;
-
-    img {
-      border-radius: 50%;
-    }
-  }
-
-  .author {
-    padding-top: 1rem;
-    font-size: 1.5rem;
-  }
-
-  .flex-count {
-    width: 70%;
-    padding-top: 1rem;
-    display: flex;
-    justify-content: space-between;
-
-    .count-box {
-      padding: 0rem 1rem;
-      text-align: center;
-      font-size: 1.1rem;
-      border-right: 1px solid var();
-    }
-    .right-border {
-      border-right: 1px solid var(--vp-c-gray-3);
-    }
-  }
-  .bottom-border{
-      padding-top: 1rem;
-      width: 90%;
-      border-bottom: 1px solid var(--vp-c-gray-3);
-    }
-}
-</style>

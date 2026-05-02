@@ -1,7 +1,7 @@
-import { URL, fileURLToPath } from "node:url";
 import type { RawConfigExports } from "vitepress";
-import UnoCSS from "unocss/vite";
 import type { ThemeConfig } from ".";
+import { fileURLToPath, URL } from "node:url";
+import tailwindcss from "@tailwindcss/vite";
 
 // const isEnv = process.env.NODE_ENV !== "production";
 const baseConfig = {
@@ -13,26 +13,32 @@ const baseConfig = {
     resolve: {
       alias: [
         {
+          find: "@",
+          replacement: fileURLToPath(
+            new URL("./", import.meta.url),
+          ),
+        },
+        {
           find: /^.*\/VPDoc\.vue$/,
           replacement: fileURLToPath(
-            new URL("./components/Doc.vue", import.meta.url)
+            new URL("./components/Doc.vue", import.meta.url),
           ),
         },
         {
           find: /^.*\/VPContent\.vue$/,
           replacement: fileURLToPath(
-            new URL("./components/Content.vue", import.meta.url)
+            new URL("./components/Content.vue", import.meta.url),
           ),
         },
         {
           find: /^.*\/Layout\.vue$/,
           replacement: fileURLToPath(
-            new URL("./components/Layout.vue", import.meta.url)
+            new URL("./components/Layout.vue", import.meta.url),
           ),
         },
       ],
     },
-    plugins: [UnoCSS()],
+    plugins: [tailwindcss()],
   },
   markdown: {
     container: {
@@ -100,10 +106,10 @@ const baseConfig = {
       reactionsEnabled: "1",
     },
     route: {
-      category: 'category',
-      filter: 'filter',
-      tag: 'tag'
-    }
+      category: "category",
+      filter: "filter",
+      tag: "tag",
+    },
   },
 } as RawConfigExports<ThemeConfig>;
 export default baseConfig;

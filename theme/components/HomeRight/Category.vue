@@ -1,87 +1,44 @@
 <script setup lang="ts">
 import { useData, useRouter } from "vitepress";
-import { getRandomThemeColor } from "../../utils/common";
+import { computed } from "vue";
+import { Card } from "@/components/ui/card";
+import { getThemeColorByIndex } from "../../utils/common";
 import Empty from "../Empty.vue";
+
 const props = defineProps<{
-  everyCategoryCount: object;
+  everyCategoryCount: Record<string, number>;
   count: number;
 }>();
+
 const { theme } = useData();
 const router = useRouter();
+
+const entries = computed(() => Object.entries(props.everyCategoryCount));
+
 function toCategory(value: string) {
-  router.go(`/${theme.value.route.tag}?category=${value}`);
+  router.go(`/${theme.value.route.category}?category=${value}`);
 }
 </script>
 
 <template>
-  <div class="category-box">
-    <div class="title">
+  <section class="flex flex-col gap-4 px-5 py-2">
+    <div class="text-sm font-semibold tracking-[0.25em] text-[var(--vp-c-text-2)]">
       分类
     </div>
-    <div v-if="props.count !== 0" v-for="(value, key) in props.everyCategoryCount" :key="key" class="flex"
-      @click="toCategory(key)">
-      <div class="name">
-        {{ key }}
-      </div>
-      <div class="count" :style="{ backgroundColor: getRandomThemeColor() }">
-        {{ value }}
-      </div>
+    <div v-if="props.count !== 0" class="space-y-3">
+      <Card
+        v-for="([key, value], index) in entries"
+        :key="key"
+        class="flex cursor-pointer items-center justify-between gap-4 rounded-2xl bg-[var(--vp-c-bg)] px-3 py-3 shadow-[var(--vp-shadow)] [transition-property:transform,box-shadow,background-color] duration-200 hover:-translate-y-0.5 hover:bg-[var(--vp-c-bg-elv)] hover:shadow-[var(--vp-shadow-hover)]"
+        @click="toCategory(key)"
+      >
+        <span class="truncate text-sm font-medium text-[var(--vp-c-text-1)]">{{ key }}</span>
+        <span
+          class="inline-flex size-8 shrink-0 items-center justify-center rounded-full text-sm font-semibold text-white"
+          :style="{ backgroundColor: getThemeColorByIndex(index) }"
+        >{{ value }}</span>
+      </Card>
     </div>
-    <empty class="scale-50" v-else />
-  </div>
+    <Empty v-else class="min-h-28 scale-90" />
+  </section>
 </template>
-
-<style scoped>
-  .category-box {
-    /* width: 100%; */
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 1rem;
-
-    .title {
-      width: 90%;
-      text-align: left;
-      font-size: 1.2rem;
-    }
-
-    .flex {
-      width: 100%;
-      display: flex;
-      margin: 8px auto 8px;
-      justify-content: space-between;
-      font-size: 1.1rem;
-      line-height: 2.5rem;
-      overflow: hidden;
-      border-radius: 0.25rem;
-      box-shadow: var(--vp-shadow);
-      box-sizing: border-box;
-      transition: all 0.3s;
-      background-color: var(--vp-c-bg);
-      border: 1px solid var(--vp-c-bg);
-      cursor: pointer;
-
-      .name {
-        padding: 0rem 1rem;
-      }
-
-      .count {
-        margin-top: 0.45rem;
-        margin-right: 1rem;
-        text-align: center;
-        width: 1.6rem;
-        height: 1.6rem;
-        line-height: 1.6rem;
-        border-radius: 0.25rem;
-        background: #4bbd8d;
-      }
-    }
-
-    .flex:hover {
-      box-shadow: var(--vp-shadow-hover);
-      border: 1px solid var(--nt-theme-color-1);
-    }
-
-  }
-</style>

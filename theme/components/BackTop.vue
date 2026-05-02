@@ -1,33 +1,55 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { computed, onBeforeUnmount, onMounted, ref } from "vue";
+import { Button } from "@/components/ui/button";
+import { cn } from "../lib/cn";
 
 const show = ref(false);
 const active = ref(false);
+
+function updateVisibility() {
+  show.value = window.scrollY > window.innerHeight * 0.9;
+}
+
 function backTop() {
   active.value = true;
-  scrollTo({
+  window.scrollTo({
     top: 0,
     behavior: "smooth",
   });
-  setTimeout(() => {
+  window.setTimeout(() => {
     active.value = false;
   }, 1000);
 }
-window.addEventListener("scrollend", () => {
-  if (window.scrollY > (window.innerHeight * 0.9)) {
-    show.value = true;
-  }
-  else {
-    show.value = false;
-  }
+
+const classes = computed(() =>
+  cn(
+    "fixed bottom-[5vh] right-[5vw] z-40 size-14 rounded-full bg-[var(--nt-theme-color-1)] p-1 text-white shadow-[var(--vp-shadow)] transition duration-200 hover:scale-110 hover:shadow-[var(--vp-shadow-hover)]",
+    active.value && "animate-[nt-backtop-out_1s_ease-in-out]",
+  ),
+);
+
+onMounted(() => {
+  updateVisibility();
+  window.addEventListener("scroll", updateVisibility, { passive: true });
+});
+
+onBeforeUnmount(() => {
+  window.removeEventListener("scroll", updateVisibility);
 });
 </script>
 
 <template>
-  <div v-if="show" :class="active ? 'btn active' : 'btn'" @click="backTop">
+  <Button
+    v-if="show"
+    type="button"
+    size="icon-lg"
+    :class="classes"
+    aria-label="返回顶部"
+    @click="backTop"
+  >
     <svg
-      t="1722062582377" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"
-      p-id="4821" width="50" height="50"
+      t="1722062582377" class="size-12" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"
+      p-id="4821"
     >
       <path
         d="M662.72 462.784l136.448 169.408v173.248l-136.448-48.32zM342.72 457.344L206.272 626.816v173.248l136.448-48.384z"
@@ -50,80 +72,5 @@ window.addEventListener("scrollend", () => {
         fill="#3A7EB9" p-id="4826"
       />
     </svg>
-  </div>
+  </Button>
 </template>
-
-<style scoped>
-  .tinUpOut {
-    -webkit-animation-name: tinUpOut;
-    animation-name: tinUpOut;
-  }
-
-  @-webkit-keyframes tinUpOut {
-
-    0%,
-    20%,
-    40%,
-    50% {
-      opacity: 1;
-      -webkit-transform: scale(1, 1) translateY(0);
-      transform: scale(1, 1) translateY(0);
-    }
-
-    10%,
-    30% {
-      opacity: 1;
-      -webkit-transform: scale(1.1, 1.1) translateY(0);
-      transform: scale(1.1, 1.1) translateY(0);
-    }
-
-    100% {
-      opacity: 0;
-      -webkit-transform: scale(1, 1) translateY(-900%);
-      transform: scale(1, 1) translateY(-900%);
-    }
-  }
-
-  @keyframes tinUpOut {
-
-    0%,
-    20%,
-    40%,
-    50% {
-      opacity: 1;
-      -webkit-transform: scale(1, 1) translateY(0);
-      transform: scale(1, 1) translateY(0);
-    }
-
-    10%,
-    30% {
-      opacity: 1;
-      -webkit-transform: scale(1.1, 1.1) translateY(0);
-      transform: scale(1.1, 1.1) translateY(0);
-    }
-
-    100% {
-      opacity: 0;
-      -webkit-transform: scale(1, 1) translateY(-900%);
-      transform: scale(1, 1) translateY(-900%);
-    }
-  }
-
-  .btn {
-    position: fixed;
-    bottom: 5vh;
-    right: 5vw;
-    background-color: var(--nt-theme-color-1);
-    padding: 0.25rem;
-    border-radius: 2.5rem;
-    cursor: pointer;
-  }
-
-  .btn:hover {
-    transform: scale(1.1, 1.1)
-  }
-
-  .active {
-    animation: tinUpOut 1s;
-  }
-</style>

@@ -1,58 +1,24 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@source "./**/*.{ts,vue}";
+
 /**
  * Customize default theme styling by overriding CSS variables:
  * https://github.com/vuejs/vitepress/blob/main/src/client/theme-default/styles/vars.css
  */
 
-/**
- * Colors
- *
- * Each colors have exact same color scale system with 3 levels of solid
- * colors with different brightness, and 1 soft color.
- *
- * - `XXX-1`: The most solid color used mainly for colored text. It must
- *   satisfy the contrast ratio against when used on top of `XXX-soft`.
- *
- * - `XXX-2`: The color used mainly for hover state of the button.
- *
- * - `XXX-3`: The color for solid background, such as bg color of the button.
- *   It must satisfy the contrast ratio with pure white (#ffffff) text on
- *   top of it.
- *
- * - `XXX-soft`: The color used for subtle background such as custom container
- *   or badges. It must satisfy the contrast ratio when putting `XXX-1` colors
- *   on top of it.
- *
- *   The soft color must be semi transparent alpha channel. This is crucial
- *   because it allows adding multiple "soft" colors on top of each other
- *   to create a accent, such as when having inline code block inside
- *   custom containers.
- *
- * - `default`: The color used purely for subtle indication without any
- *   special meanings attched to it such as bg color for menu hover state.
- *
- * - `brand`: Used for primary brand colors, such as link text, button with
- *   brand theme, etc.
- *
- * - `tip`: Used to indicate useful information. The default theme uses the
- *   brand color for this by default.
- *
- * - `warning`: Used to indicate warning to the users. Used in custom
- *   container, badges, etc.
- *
- * - `danger`: Used to show error, or dangerous message to the users. Used
- *   in custom container, badges, etc.
- * -------------------------------------------------------------------------- */
-
 :root {
+  color-scheme: light;
   --vp-c-default-1: var(--vp-c-gray-1);
   --vp-c-default-2: var(--vp-c-gray-2);
   --vp-c-default-3: var(--vp-c-gray-3);
   --vp-c-default-soft: var(--vp-c-gray-soft);
 
-  --vp-c-brand-1: var(--nt-theme-color-1);
-  --vp-c-brand-2: var(--vp-c-indigo-2);
-  --vp-c-brand-3: var(--vp-c-indigo-3);
-  --vp-c-brand-soft: var(--vp-c-indigo-soft);
+  --vp-c-brand-1: #236e4a;
+  --vp-c-brand-2: #2f9464;
+  --vp-c-brand-3: #45b97d;
+  --vp-c-brand-soft: rgb(69 185 125 / 0.18);
 
   --vp-c-tip-1: var(--vp-c-brand-1);
   --vp-c-tip-2: var(--vp-c-brand-2);
@@ -68,13 +34,7 @@
   --vp-c-danger-2: var(--vp-c-red-2);
   --vp-c-danger-3: var(--vp-c-red-3);
   --vp-c-danger-soft: var(--vp-c-red-soft);
-}
 
-/**
- * Component: Button
- * -------------------------------------------------------------------------- */
-
-:root {
   --vp-button-brand-border: transparent;
   --vp-button-brand-text: var(--vp-c-white);
   --vp-button-brand-bg: var(--vp-c-brand-3);
@@ -84,22 +44,59 @@
   --vp-button-brand-active-border: transparent;
   --vp-button-brand-active-text: var(--vp-c-white);
   --vp-button-brand-active-bg: var(--vp-c-brand-1);
-}
 
-/**
- * Component: Home
- * -------------------------------------------------------------------------- */
-
-:root {
   --vp-home-hero-name-color: transparent;
-  --vp-home-hero-name-background: -webkit-linear-gradient(120deg,
-      #bd34fe 30%,
-      #41d1ff);
-
-  --vp-home-hero-image-background-image: linear-gradient(-45deg,
-      #bd34fe 50%,
-      #47caff 50%);
+  --vp-home-hero-name-background: -webkit-linear-gradient(120deg, #30a46c 30%, #41d1ff);
+  --vp-home-hero-image-background-image: linear-gradient(-45deg, #30a46c 50%, #47caff 50%);
   --vp-home-hero-image-filter: blur(44px);
+
+  --vp-custom-block-tip-border: transparent;
+  --vp-custom-block-tip-text: var(--vp-c-text-1);
+  --vp-custom-block-tip-bg: var(--vp-c-brand-soft);
+  --vp-custom-block-tip-code-bg: var(--vp-c-brand-soft);
+
+  --nt-theme-color-1: var(--vp-c-brand-2);
+  --nt-theme-color-soft: rgb(47 148 100 / 0.14);
+  --nt-card-radius: 1rem;
+  --nt-card-radius-lg: 1.5rem;
+
+  --vp-shadow: 0 1px 8px 0 rgb(200 200 200 / 0.6);
+  --vp-shadow-hover: 0 12px 30px -16px rgb(47 148 100 / 0.42);
+  --vp-c-bg: #ffffff;
+  --vp-c-bg-alt: #f6f6f7;
+  --vp-c-bg-elv: #ffffff;
+  --vp-c-bg-soft: #f6f6f7;
+  --vp-c-indigo-1: var(--vp-c-brand-1);
+  --vp-c-indigo-2: var(--vp-c-brand-2);
+  --vp-c-indigo-3: var(--vp-c-brand-3);
+  --vp-c-indigo-soft: var(--vp-c-brand-soft);
+  --nt-c-box: rgb(246 248 250);
+
+  --tm-rounded: 0.75rem;
+  --tm-textarea-bg: #fffffe;
+  --tm-tagBg: #eef3fe;
+  --tm-tagColor: #5783f7;
+
+  --background: var(--vp-c-bg);
+  --foreground: var(--vp-c-text-1);
+  --card: var(--vp-c-bg);
+  --card-foreground: var(--vp-c-text-1);
+  --popover: var(--vp-c-bg);
+  --popover-foreground: var(--vp-c-text-1);
+  --primary: var(--vp-c-brand-2);
+  --primary-foreground: #ffffff;
+  --secondary: var(--vp-c-bg-soft);
+  --secondary-foreground: var(--vp-c-text-1);
+  --muted: var(--vp-c-bg-soft);
+  --muted-foreground: var(--vp-c-text-2);
+  --accent: var(--vp-c-brand-soft);
+  --accent-foreground: var(--vp-c-brand-1);
+  --destructive: var(--vp-c-danger-1);
+  --destructive-foreground: #ffffff;
+  --border: var(--vp-c-divider);
+  --input: var(--vp-c-divider);
+  --ring: rgb(47 148 100 / 0.32);
+  --radius: 1rem;
 }
 
 @media (min-width: 640px) {
@@ -114,64 +111,68 @@
   }
 }
 
-/**
- * Component: Custom Block
- * -------------------------------------------------------------------------- */
+.dark {
+  color-scheme: dark;
+  --vp-shadow: 0 1px 8px 0 rgb(0 0 0 / 0.6);
+  --vp-c-bg: #181818;
+  --vp-c-bg-alt: #000000;
+  --vp-c-bg-elv: #202127;
+  --vp-c-bg-soft: #202127;
+  --vp-c-brand-1: #2d9f6d;
+  --vp-c-brand-2: #44c889;
+  --vp-c-brand-3: #64dea1;
+  --vp-c-brand-soft: rgb(68 200 137 / 0.18);
+  --nt-c-box: rgb(1 4 9);
+  --tm-textarea-bg: #1e1e1e;
+  --tm-tagBg: #3a4359;
+  --tm-tagColor: #2b88d8;
 
-:root {
-  --vp-custom-block-tip-border: transparent;
-  --vp-custom-block-tip-text: var(--vp-c-text-1);
-  --vp-custom-block-tip-bg: var(--vp-c-brand-soft);
-  --vp-custom-block-tip-code-bg: var(--vp-c-brand-soft);
+  --background: var(--vp-c-bg);
+  --foreground: var(--vp-c-text-1);
+  --card: var(--vp-c-bg-elv);
+  --card-foreground: var(--vp-c-text-1);
+  --popover: var(--vp-c-bg-elv);
+  --popover-foreground: var(--vp-c-text-1);
+  --primary: var(--vp-c-brand-2);
+  --primary-foreground: #04130b;
+  --secondary: var(--vp-c-bg-soft);
+  --secondary-foreground: var(--vp-c-text-1);
+  --muted: var(--vp-c-bg-soft);
+  --muted-foreground: var(--vp-c-text-2);
+  --accent: var(--vp-c-brand-soft);
+  --accent-foreground: var(--vp-c-brand-3);
+  --destructive: #ef4444;
+  --destructive-foreground: #ffffff;
+  --border: rgb(255 255 255 / 0.1);
+  --input: rgb(255 255 255 / 0.12);
+  --ring: rgb(68 200 137 / 0.35);
 }
-
-/**
- * Component: Algolia
- * -------------------------------------------------------------------------- */
 
 .DocSearch {
   --docsearch-primary-color: var(--vp-c-brand-1) !important;
 }
 
-
-/*
-* green theme
-*/
-:root {
-  /* theme color */
-  --nt-theme-color-1: #30a46c;
-  /* --nt-theme-color-1: #cc8700; */
-  /* bg */
-  --vp-shadow: 0 1px 8px 0 rgba(200, 200, 200, .6);
-  --vp-c-bg: #ffffff;
-  --vp-c-bg-alt: #f6f6f7;
-  --vp-c-bg-elv: #ffffff;
-  --vp-c-bg-soft: #f6f6f7;
-  /* select */
-  --vp-c-indigo-1: #30a46c;
-  --vp-c-indigo-2: #30a46c;
-  --vp-c-indigo-3: #30a46c;
-  --vp-c-indigo-soft: rgba(16, 185, 129, 0.14);
-  --nt-c-box: rgb(246, 248, 250);
-  --vp-shadow-hover: 0 1px 8px 0 var(--nt-theme-color-1);
-
-  --vp-home-hero-name-background: -webkit-linear-gradient(120deg,
-      #30a46c 30%,
-      #41d1ff);
-
-  --vp-home-hero-image-background-image: linear-gradient(-45deg,
-      #30a46c 50%,
-      #47caff 50%);
+html {
+  scroll-behavior: smooth;
 }
 
-.dark {
-  --vp-shadow: 0 1px 8px 0 rgba(0, 0, 0, .6);
-  --vp-c-bg: #181818;
-  --vp-c-bg-alt: #000000;
-  --vp-c-bg-elv: #202127;
-  --vp-c-bg-soft: #202127;
+body {
+  background: var(--vp-c-bg);
+}
 
-  --nt-c-box: rgb(1, 4, 9);
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 
 ::-webkit-scrollbar {
@@ -180,65 +181,67 @@
   background-color: var(--vp-c-bg);
 }
 
-/* 自定义滚动条的滑块（thumb） */
 ::-webkit-scrollbar-thumb {
+  border-radius: 999px;
   background-color: var(--nt-theme-color-1);
-  /* 滑块的背景颜色 */
-  border-radius: 3px;
-  /* 滑块的圆角 */
 }
 
-/* 当滑块悬停或活动时的样式 */
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--nt-theme-color-1);
-  /* 悬停或活动状态下滑块的背景颜色 */
+  background: var(--vp-c-brand-2);
 }
 
-/* @media screen and (width<768px) { */
-.VPNavScreen {
-  padding: 0 0 !important;
+@media (min-width: 960px) {
+  .VPNavBar .content-body {
+    position: relative;
+    justify-content: flex-end;
+  }
 
-  .container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+  .VPNavBar .menu {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .VPNavBar .VPNavBarMenu {
     align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
   }
 
-  .VPNavScreenMenu {
-    width: 90%;
-  }
-
-  .VPNavScreenAppearance {
-    width: 90%;
-  }
-
-  .VPSocialLink {
-    margin-bottom: 10px;
+  .VPNavBar .VPNavBarMenuLink,
+  .VPNavBar .VPNavBarMenuGroup {
+    padding-inline: 0.35rem;
   }
 }
 
-/* } */
-:root {
-  --tm-rounded: 0.5rem;
-  --tm-textarea-bg: #fffffe;
-  --tm-tagBg: #eef3fe;
-  --tm-tagColor: #5783f7;
+.VPNavScreen {
+  padding: 0 !important;
 }
 
-.dark {
-  --tm-textarea-bg: #1e1e1e;
-  --tm-tagBg: #3a4359;
-  --tm-tagColor: #2b88d8;
+.VPNavScreen .container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.VPNavScreen .VPNavScreenMenu,
+.VPNavScreen .VPNavScreenAppearance {
+  width: 90%;
+}
+
+.VPNavScreen .VPSocialLink {
+  margin-bottom: 10px;
 }
 
 .custom-tag {
+  padding: 1px 4px;
+  border-radius: 3px;
   background-color: var(--tm-tagBg);
   color: var(--tm-tagColor);
   font-size: 1rem;
   line-height: 1.8rem;
-  padding: 1px 4px;
-  border-radius: 3px;
 }
 
 .shiki,
@@ -259,7 +262,35 @@ html.dark .shiki span {
   --md-border-color: var(--tm-textarea-bg) !important;
   --md-bk-color: var(--tm-textarea-bg) !important;
   --md-theme-code-block-bg-color: var(--vp-c-bg-alt) !important;
-  font-size: 1.1rem !important;
   min-height: 200px !important;
-  /* height: auto !important; */
+  font-size: 1.1rem !important;
+}
+
+.md-editor-preview {
+  background: transparent !important;
+}
+
+.md-editor-preview-wrapper {
+  padding: 0 !important;
+}
+
+@keyframes nt-backtop-out {
+  0%,
+  20%,
+  40%,
+  50% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+
+  10%,
+  30% {
+    opacity: 1;
+    transform: scale(1.08) translateY(0);
+  }
+
+  100% {
+    opacity: 0;
+    transform: scale(1) translateY(-900%);
+  }
 }
