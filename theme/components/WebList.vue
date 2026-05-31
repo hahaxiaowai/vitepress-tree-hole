@@ -43,7 +43,7 @@ function jumpTo(website: string) {
       <div class="flex items-start gap-4">
         <div
           v-if="item.icon"
-          class="flex size-12 shrink-0 items-center justify-center rounded-2xl bg-[var(--vp-c-default-soft)] text-2xl text-[var(--nt-theme-color-1)]"
+          class="flex size-12 shrink-0 items-center justify-center rounded-2xl bg-[var(--vp-c-default-soft)] text-2xl text-[var(--vp-c-text-1)]"
         >
           <DefaultSvg v-if="defaultIcon(item.icon)" :name="item.icon" />
           <img v-else :src="item.icon" alt="" class="size-8">

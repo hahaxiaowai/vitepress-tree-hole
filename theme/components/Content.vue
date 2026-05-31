@@ -23,7 +23,7 @@ const contentClasses = computed(() =>
       : "mt-[var(--vp-layout-top-height,0px)]",
     !hasSidebar.value && "min-[960px]:pt-[var(--vp-nav-height)]",
     hasSidebar.value
-    && "m-0 min-[960px]:mt-[var(--vp-layout-top-height,0px)] min-[960px]:pl-[var(--vp-sidebar-width)] min-[1440px]:pr-[calc((100vw_-_var(--vp-layout-max-width))_/_2)] min-[1440px]:pl-[calc((100vw_-_var(--vp-layout-max-width))_/_2_+_var(--vp-sidebar-width))]",
+    && "m-0 min-[960px]:mt-[var(--vp-layout-top-height,0px)] min-[960px]:pt-[var(--vp-nav-height)] min-[960px]:pl-[var(--vp-sidebar-width)] min-[1440px]:pr-[calc((100vw_-_var(--vp-layout-max-width))_/_2)] min-[1440px]:pl-[calc((100vw_-_var(--vp-layout-max-width))_/_2_+_var(--vp-sidebar-width))]",
   ),
 );
 </script>

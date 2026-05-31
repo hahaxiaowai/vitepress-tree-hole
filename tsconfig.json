@@ -1,5 +1,5 @@
 {
-  "extends": "../../tsconfig.base.json",
+  "extends": "./tsconfig.base.json",
   "compilerOptions": {
     "paths": {
       "@/*": [
@@ -12,5 +12,9 @@
     "index.ts",
     "theme/**/*"
   ],
-  "exclude": ["dist", "node_modules", "scripts"]
+  "exclude": [
+    "dist",
+    "node_modules",
+    "scripts"
+  ]
 }

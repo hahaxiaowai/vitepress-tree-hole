@@ -15,7 +15,7 @@
   --vp-c-indigo-soft: rgba(100, 108, 255, 0.14);
   --vp-shadow-hover: 0 1px 8px 0 var(--vp-c-indigo-1);
 
-  --vp-home-hero-name-background: -webkit-linear-gradient(
+  --vp-home-hero-name-background: linear-gradient(
     120deg,
     rgb(90,44,151) 30%,
     #41d1ff

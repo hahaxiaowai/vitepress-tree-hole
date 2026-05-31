@@ -28,8 +28,14 @@ const resolvedHref = computed(() => (props.href ? withBase(props.href) : undefin
 const themeColor = computed(() => getThemeColorByIndex(props.index));
 
 const visualStyle = computed(() => {
+  const spacing = {
+    paddingBlock: "0.375rem",
+    paddingInline: "0.75rem",
+  };
+
   if (props.variant === "solid") {
     return {
+      ...spacing,
       background: `linear-gradient(135deg, ${hexToRgba(themeColor.value, props.active ? 0.96 : 0.88)} 0%, ${hexToRgba(themeColor.value, props.active ? 0.78 : 0.68)} 100%)`,
       borderColor: hexToRgba(themeColor.value, 0.22),
       color: getContrastingTextColor(themeColor.value),
@@ -41,6 +47,7 @@ const visualStyle = computed(() => {
 
   if (props.variant === "contrast") {
     return {
+      ...spacing,
       background: props.active
         ? "linear-gradient(135deg, rgb(255 255 255 / 0.26) 0%, rgb(255 255 255 / 0.12) 100%)"
         : "linear-gradient(135deg, rgb(255 255 255 / 0.16) 0%, rgb(255 255 255 / 0.06) 100%)",
@@ -51,6 +58,7 @@ const visualStyle = computed(() => {
   }
 
   return {
+    ...spacing,
     background: `linear-gradient(135deg, ${hexToRgba(themeColor.value, props.active ? 0.22 : 0.14)} 0%, ${hexToRgba(themeColor.value, props.active ? 0.08 : 0.04)} 100%)`,
     borderColor: hexToRgba(themeColor.value, props.active ? 0.34 : 0.18),
     color: themeColor.value,

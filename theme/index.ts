@@ -1,3 +1,4 @@
+import type { SakuraFallImage } from "@night-tea/sakura-fall";
 import type { DefaultTheme, Theme } from "vitepress";
 import theme from "vitepress/theme";
 // https://vitepress.dev/guide/custom-theme
@@ -45,7 +46,7 @@ export interface ThemeConfig extends DefaultTheme.Config {
     reactionsEnabled?: "1" | "0";
   };
   fall?: {
-    image: "season" | "leaf" | "pop" | "sakura" | "snow";
+    image: SakuraFallImage;
     count?: number;
   };
   /**

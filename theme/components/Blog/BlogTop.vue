@@ -24,11 +24,15 @@ const style = computed(() =>
 const descriptionClasses = computed(() =>
   hasCoverImage.value ? "text-white/88" : "text-[var(--vp-c-text-2)]",
 );
+
+const titleStyle = {
+  backgroundImage: "var(--vp-home-hero-name-background)",
+};
 </script>
 
 <template>
   <section class="mx-auto flex min-h-[30vh] w-[min(92rem,100%-2rem)] flex-col items-center justify-center gap-5 overflow-hidden rounded-[2rem] border border-[color:var(--vp-c-divider)] px-6 py-10 text-center shadow-[var(--vp-shadow)] min-[768px]:px-10" :style="style">
-    <div class="max-w-4xl bg-[var(--vp-home-hero-name-background)] bg-clip-text text-4xl font-semibold tracking-tight text-transparent min-[768px]:text-6xl">
+    <div class="max-w-4xl bg-clip-text text-4xl font-semibold tracking-tight text-transparent min-[768px]:text-6xl" :style="titleStyle">
       {{ theme.title || title }}
     </div>
     <p class="max-w-xl text-base font-medium leading-7 [text-wrap:balance] min-[768px]:text-xl min-[768px]:leading-8" :class="descriptionClasses">
